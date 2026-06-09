@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xoni Tools • Mlbb Injector</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Myanmar:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Material Design 3 Color System */
+        :root {
+            --md-sys-color-primary: #6750A4;
+            --md-sys-color-on-primary: #FFFFFF;
+            --md-sys-color-primary-container: #EADDFF;
+            --md-sys-color-on-primary-container: #21005D;
+            --md-sys-color-secondary: #625B71;
+            --md-sys-color-on-secondary: #FFFFFF;
+            --md-sys-color-secondary-container: #E8DEF8;
+            --md-sys-color-surface: #FFFBFE;
+            --md-sys-color-surface-variant: #E7E0EC;
+            --md-sys-color-on-surface: #1C1B1F;
+            --md-sys-color-on-surface-variant: #49454F;
+            --md-sys-color-outline: #79747E;
+            --md-sys-color-error: #B3261E;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', 'Noto Sans Myanmar', sans-serif;
+            background-color: var(--md-sys-color-surface);
+            color: var(--md-sys-color-on-surface);
+            line-height: 1.6;
+        }
+
+        /* App Bar */
+        .app-bar {
+            background-color: var(--md-sys-color-surface);
+            padding: 16px 24px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            border-bottom: 1px solid var(--md-sys-color-outline);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .app-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .app-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .app-info h1 {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--md-sys-color-on-surface);
+        }
+
+        .app-info .version {
+            font-size: 14px;
+            color: var(--md-sys-color-on-surface-variant);
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+
+        /* Rating Section */
+        .rating-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 24px 0;
+            padding: 16px;
+            background: var(--md-sys-color-surface-variant);
+            border-radius: 16px;
+        }
+
+        .rating-score {
+            font-size: 48px;
+            font-weight: 700;
+            color: var(--md-sys-color-primary);
+        }
+
+        .rating-details {
+            flex: 1;
+        }
+
+        .stars {
+            color: #FFB300;
+            font-size: 20px;
+            letter-spacing: 2px;
+        }
+
+        .rating-count {
+            font-size: 14px;
+            color: var(--md-sys-color-on-surface-variant);
+            margin-top: 4px;
+        }
+
+        /* Download Button */
+        .download-section {
+            margin: 32px 0;
+            text-align: center;
+        }
+
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 32px;
+            background-color: var(--md-sys-color-primary);
+            color: var(--md-sys-color-on-primary);
+            border: none;
+            border-radius: 100px;
+            font-size: 16px;
+            font-weight: 500;
+            font-family: inherit;
+            cursor: pointer;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .download-btn:hover {
+            box-shadow: 0 4px 8px rgba(103, 80, 164, 0.3);
+            transform: translateY(-1px);
+        }
+
+        .download-btn:active {
+            transform: translateY(0);
+        }
+
+        .file-info {
+            margin-top: 12px;
+            font-size: 13px;
+            color: var(--md-sys-color-on-surface-variant);
+        }
+
+        /* Screenshots Section */
+        .screenshots-section {
+            margin: 32px 0;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 16px;
+            color: var(--md-sys-color-on-surface);
+        }
+
+        .screenshots-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 16px;
+        }
+
+        .screenshot-card {
+            aspect-ratio: 9/16;
+            background: var(--md-sys-color-surface-variant);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid var(--md-sys-color-outline);
+        }
+
+        .screenshot-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Changelog */
+        .changelog {
+            margin: 32px 0;
+            padding: 20px;
+            background: var(--md-sys-color-primary-container);
+            border-radius: 16px;
+        }
+
+        .changelog h3 {
+            color: var(--md-sys-color-on-primary-container);
+            margin-bottom: 12px;
+            font-size: 16px;
+        }
+
+        .changelog ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .changelog li {
+            padding: 6px 0;
+            color: var(--md-sys-color-on-primary-container);
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .changelog li::before {
+            content: "•";
+            color: var(--md-sys-color-primary);
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 48px;
+            padding: 24px;
+            text-align: center;
+            border-top: 1px solid var(--md-sys-color-outline);
+            color: var(--md-sys-color-on-surface-variant);
+            font-size: 13px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-top: 12px;
+        }
+
+        .footer-links a {
+            color: var(--md-sys-color-primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 16px;
+            }
+            .screenshots-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+            .rating-score {
+                font-size: 36px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-bar">
+        <div class="app-icon">
+            <img src="https://i.ibb.co/3YY1dsct/a5f7a906b890.jpg" alt="Xoni Tools">
+        </div>
+        <div class="app-info">
+            <h1>Xoni Tools</h1>
+            <div class="version">Version 2.4</div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="rating-section">
+            <div class="rating-score">4.8</div>
+            <div class="rating-details">
+                <div class="stars">★★★★★</div>
+                <div class="rating-count">2,341 reviews</div>
+            </div>
+        </div>
+
+        <div class="download-section">
+            <a href="https://www.mediafire.com/file/6mt9x90njnxmidy/Xoni_Tools_v2.4.apk/file" class="download-btn">
+                <span>Download APK</span>
+            </a>
+            <div class="file-info">v2.4 • 18.2 MB • Android 7.0+</div>
+        </div>
+
+        <div class="screenshots-section">
+            <h2 class="section-title">Review Screenshots</h2>
+            <div class="screenshots-grid">
+                <div class="screenshot-card">
+                    <img src="https://i.ibb.co/6JD6LNgJ/c304e6805da0.jpg" alt="Screenshot1">
+                </div>
+                <div class="screenshot-card">
+                    <img src="https://i.ibb.co/Tx1YBJRR/179dd829436e.jpg" alt="Screenshot2">
+                </div>
+                <div class="screenshot-card">
+                    <img src="https://i.ibb.co/x8PrMK94/8a4b85732246.jpg" alt="Screenshot3">
+                </div>
+                <div class="screenshot-card">
+                    <img src="https://i.ibb.co/PvgkCtLQ/d329ab20f42e.jpg" alt="Screenshot4">
+                </div>
+            </div>
+        </div>
+
+        <div class="changelog">
+            <h3>What's New in v2.4</h3>
+            <ul>
+                <li>Improved performance and stability</li>
+                <li>New UI components added</li>
+                <li>Bug fixes and optimizations</li>
+                <li>Android 14 compatibility</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div>Xoni Tools. All rights reserved.</div>
+        <div class="footer-links">
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+            <a href="#">Contact</a>
+        </div>
+    </div>
+
+</body>
+</html>
