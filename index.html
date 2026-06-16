@@ -3,251 +3,289 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
 <title>Xoni Tools</title>
-
 <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap" rel="stylesheet">
-
 <style>
 
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Google Sans',sans-serif;
-}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Google Sans',sans-serif;}
 
-/* hide vertical scrollbar */
-html,
-body{
-scrollbar-width:none;
--ms-overflow-style:none;
-}
+html,body{scrollbar-width:none;-ms-overflow-style:none;background:#0e0e0e;color:#f0f0f0;}
+html::-webkit-scrollbar,body::-webkit-scrollbar{display:none;}
 
-html::-webkit-scrollbar,
-body::-webkit-scrollbar{
-display:none;
-}
+body{overflow-y:scroll;min-height:100vh;}
 
-body{
-background:#121212;
-color:white;
-overflow-y:scroll;
-}
-
+/* ── HEADER ── */
 .header{
-padding:20px;
-display:flex;
-align-items:center;
-gap:15px;
+  padding:28px 20px 16px;
+  display:flex;
+  align-items:center;
+  gap:18px;
 }
 
 .app-icon{
-width:90px;
-height:90px;
-border-radius:22px;
-object-fit:cover;
-
-/* blue stroke */
-border:1px solid #03A9F5;
-
-/* premium effect */
-padding:2px;
-background:#121212;
-box-shadow:0 0 12px rgba(3,169,245,0.35);
-}
-
-.app-info{
-display:flex;
-flex-direction:column;
-justify-content:center;
+  width:84px;
+  height:84px;
+  border-radius:20px;
+  object-fit:cover;
+  border:1.5px solid rgba(3,169,245,0.55);
+  box-shadow:0 0 20px rgba(3,169,245,0.25);
+  flex-shrink:0;
 }
 
 .app-info h1{
-font-size:28px;
-font-weight:700;
-line-height:1.2;
+  font-size:24px;
+  font-weight:700;
+  letter-spacing:-0.3px;
 }
+
+.app-info .sub{
+  font-size:13px;
+  color:#777;
+  margin-top:3px;
+}
+
+/* ── DOWNLOAD BUTTON ── */
+.dl-wrap{padding:4px 20px 20px;}
 
 .install-btn{
-margin-top:14px;
-display:inline-block;
-background:#03A9F5;
-color:white;
-text-decoration:none;
-padding:13px 28px;
-border-radius:50px;
-font-weight:700;
-font-size:15px;
-width:max-content;
-transition:0.2s;
-border:none;
-cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:9px;
+  width:100%;
+  background:#03A9F5;
+  color:#fff;
+  border:none;
+  padding:15px 24px;
+  border-radius:14px;
+  font-weight:700;
+  font-size:15px;
+  cursor:pointer;
+  transition:background 0.15s,transform 0.12s;
+  position:relative;
+  overflow:hidden;
 }
 
-.install-btn:active{
-transform:scale(0.97);
+.install-btn:active{transform:scale(0.98);}
+.install-btn.loading{background:#0284c7;pointer-events:none;}
+
+.install-btn svg{flex-shrink:0;}
+
+/* progress bar */
+.install-btn::after{
+  content:'';
+  position:absolute;
+  left:0;top:0;height:100%;width:0;
+  background:rgba(255,255,255,0.12);
+  transition:width 0.9s ease;
+}
+.install-btn.loading::after{width:100%;}
+
+/* ── STATS ── */
+.stats{
+  margin:0 20px 20px;
+  background:#181818;
+  border-radius:16px;
+  display:flex;
+  overflow:hidden;
 }
 
-.section{
-padding:20px;
+.stat{
+  flex:1;
+  padding:14px 8px;
+  text-align:center;
+  position:relative;
 }
 
-.section-title{
-font-size:18px;
-font-weight:700;
-margin-bottom:15px;
+.stat+.stat::before{
+  content:'';
+  position:absolute;left:0;top:20%;height:60%;
+  width:1px;background:#2a2a2a;
 }
 
-.description{
-color:#cfcfcf;
-line-height:1.7;
-font-size:15px;
-}
+.stat h2{font-size:17px;font-weight:700;}
+.stat p{font-size:12px;color:#666;margin-top:4px;}
 
+/* ── SECTION ── */
+.section{padding:0 20px 24px;}
+.section-title{font-size:15px;font-weight:700;color:#aaa;letter-spacing:0.5px;text-transform:uppercase;margin-bottom:12px;}
+
+/* ── DESCRIPTION ── */
+.description{color:#b0b0b0;line-height:1.75;font-size:14.5px;}
+
+/* ── SCREENSHOTS ── */
 .screenshots{
-display:flex;
-gap:12px;
-overflow-x:auto;
-padding-bottom:5px;
-scrollbar-width:none;
--ms-overflow-style:none;
+  display:flex;
+  gap:10px;
+  overflow-x:auto;
+  padding-bottom:4px;
+  scrollbar-width:none;
 }
-
-.screenshots::-webkit-scrollbar{
-display:none;
-}
+.screenshots::-webkit-scrollbar{display:none;}
 
 .screenshots img{
-width:220px;
-height:430px;
-object-fit:cover;
-border-radius:20px;
-flex-shrink:0;
+  width:180px;
+  height:360px;
+  object-fit:cover;
+  border-radius:16px;
+  flex-shrink:0;
+  border:1px solid #222;
 }
 
-.info-box{
-background:#1e1e1e;
-border-radius:18px;
-padding:18px;
-display:flex;
-justify-content:space-between;
-text-align:center;
+/* ── TAGS ── */
+.tags{display:flex;flex-wrap:wrap;gap:8px;}
+.tag{
+  background:#1c1c1c;
+  border:1px solid #2c2c2c;
+  border-radius:8px;
+  padding:7px 13px;
+  font-size:13px;
+  color:#999;
 }
 
-.info-box div{
-flex:1;
-}
-
-.info-box h2{
-font-size:18px;
-}
-
-.info-box p{
-font-size:13px;
-color:#9e9e9e;
-margin-top:5px;
-}
-
+/* ── FOOTER ── */
 .footer{
-padding:20px;
-text-align:center;
-color:#777;
-font-size:13px;
+  padding:24px 20px;
+  text-align:center;
+  color:#444;
+  font-size:12px;
+  border-top:1px solid #1a1a1a;
 }
+
+/* ── TOAST ── */
+.toast{
+  position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(20px);
+  background:#1e1e1e;border:1px solid #2a2a2a;
+  color:#f0f0f0;padding:12px 20px;border-radius:12px;
+  font-size:14px;opacity:0;transition:all 0.3s;pointer-events:none;
+  white-space:nowrap;box-shadow:0 8px 24px rgba(0,0,0,0.5);
+  z-index:99;
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 
 </style>
 </head>
-
 <body>
 
+<!-- HEADER -->
 <div class="header">
-
-<img class="app-icon" src="https://i.ibb.co/3YY1dsct/a5f7a906b890.jpg">
-
-<div class="app-info">
-
-<h1>Xoni Tools</h1>
-
-<button class="install-btn" id="downloadBtn">
-Download APK
-</button>
-
-</div>
+  <img class="app-icon" src="https://i.ibb.co/3YY1dsct/a5f7a906b890.jpg" alt="Xoni Tools icon">
+  <div class="app-info">
+    <h1>Xoni Tools</h1>
+    <div class="sub">MLBB Injector &amp; Customizer</div>
+  </div>
 </div>
 
+<!-- DOWNLOAD -->
+<div class="dl-wrap">
+  <button class="install-btn" id="downloadBtn">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+      <polyline points="7 10 12 15 17 10"/>
+      <line x1="12" y1="15" x2="12" y2="3"/>
+    </svg>
+    Download APK — v2.6
+  </button>
+</div>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat">
+    <h2>1.8★</h2>
+    <p>Rating</p>
+  </div>
+  <div class="stat">
+    <h2>8.12 MB</h2>
+    <p>Size</p>
+  </div>
+  <div class="stat">
+    <h2>1K+</h2>
+    <p>Downloads</p>
+  </div>
+</div>
+
+<!-- ABOUT -->
 <div class="section">
-
-<div class="info-box">
-
-<div>
-<h2>1.8★</h2>
-<p>Rating</p>
+  <div class="section-title">About</div>
+  <p class="description">
+    Upgrade your MLBB gaming experience with Xoni Tools — a free injector and customization app for enhanced gameplay. Unlock visual features and custom skins with ease.
+  </p>
 </div>
 
-<div>
-<h2>8.12MB</h2>
-<p>Size</p>
-</div>
-
-<div>
-<h2>1K+</h2>
-<p>Downloads</p>
-</div>
-
-</div>
-
-</div>
-
+<!-- SCREENSHOTS -->
 <div class="section">
-
-<h2 class="section-title">About this app</h2>
-
-<p class="description">
-Upgrade your MLBB gaming experience with Xoni Tools MLBB Injector! Enjoy free, cool feature for an enhanced gameplay experience.
-</p>
-
+  <div class="section-title">Screenshots</div>
+  <div class="screenshots">
+    <img src="https://i.ibb.co/6JD6LNgJ/c304e6805da0.jpg" alt="screenshot 1">
+    <img src="https://i.ibb.co/Tx1YBJRR/179dd829436e.jpg" alt="screenshot 2">
+    <img src="https://i.ibb.co/x8PrMK94/8a4b85732246.jpg" alt="screenshot 3">
+    <img src="https://i.ibb.co/PvgkCtLQ/d329ab20f42e.jpg" alt="screenshot 4">
+  </div>
 </div>
 
+<!-- TAGS -->
 <div class="section">
-
-<h2 class="section-title">Screenshots</h2>
-
-<div class="screenshots">
-
-<img src="https://i.ibb.co/6JD6LNgJ/c304e6805da0.jpg">
-
-<img src="https://i.ibb.co/Tx1YBJRR/179dd829436e.jpg">
-
-<img src="https://i.ibb.co/x8PrMK94/8a4b85732246.jpg">
-
-<img src="https://i.ibb.co/PvgkCtLQ/d329ab20f42e.jpg">
-
+  <div class="section-title">Features</div>
+  <div class="tags">
+    <span class="tag">Skin Injector</span>
+    <span class="tag">Battle Effect</span>
+    <span class="tag">Recall Effect</span>
+    <span class="tag">Drone View</span>
+    <span class="tag">Free</span>
+    <span class="tag">No Root</span>
+  </div>
 </div>
 
-</div>
+<!-- FOOTER -->
+<div class="footer">© 2026 Xoni Tools. Not affiliated with Moonton.</div>
 
-<div class="footer">
-© 2026 Xonin Tools
-</div>
+<!-- TOAST -->
+<div class="toast" id="toast">Download starting…</div>
 
 <script>
+const APK_URL = "https://github.com/tt5746624-jpg/My_Web/raw/refs/heads/main/Xoni%20Tools%20v2.6.apk";
 
-const downloadBtn = document.getElementById("downloadBtn");
+const btn = document.getElementById("downloadBtn");
+const toast = document.getElementById("toast");
 
-downloadBtn.addEventListener("click", function() {
+function showToast(msg, duration = 2800) {
+  toast.textContent = msg;
+  toast.classList.add("show");
+  setTimeout(() => toast.classList.remove("show"), duration);
+}
 
-downloadBtn.innerText = "Download is starting...";
+btn.addEventListener("click", function () {
+  if (btn.classList.contains("loading")) return;
 
-setTimeout(() => {
+  btn.classList.add("loading");
+  btn.innerHTML = `
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+      <polyline points="7 10 12 15 17 10"/>
+      <line x1="12" y1="15" x2="12" y2="3"/>
+    </svg>
+    Preparing download…`;
 
-window.location.href = "https://github.com/tt5746624-jpg/My_Web/raw/refs/heads/main/Xoni%20Tools%20v2.6.apk";
+  showToast("⬇ Download is starting…");
 
-}, 1000);
+  setTimeout(() => {
+    const a = document.createElement("a");
+    a.href = APK_URL;
+    a.download = "XoniTools_v2.6.apk";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
 
+    btn.classList.remove("loading");
+    btn.innerHTML = `
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+        <polyline points="7 10 12 15 17 10"/>
+        <line x1="12" y1="15" x2="12" y2="3"/>
+      </svg>
+      Download APK — v2.6`;
+  }, 1000);
 });
-
 </script>
-
 </body>
 </html>
