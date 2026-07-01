@@ -413,7 +413,7 @@ body::before{
       <polyline points="7 10 12 15 17 10"/>
       <line x1="12" y1="15" x2="12" y2="3"/>
     </svg>
-    <span id="btnLabel">Download APK — v2.13</span>
+    <span id="btnLabel">Download APK — v2.17</span>
   </button>
   <div class="meta-row">
     <span>20.39 MB</span>
@@ -505,7 +505,7 @@ body::before{
 </div>
 
 <!-- FOOTER -->
-<div class="footer">© 2026 XONI · v2.13</div>
+<div class="footer">© 2026 XONI · v2.17</div>
 
 <!-- TOAST -->
 <div class="toast" id="toast"><span class="dot"></span><span id="toastMsg">Download starting…</span></div>
@@ -537,13 +537,13 @@ btn.addEventListener("click", function () {
   setTimeout(() => {
     const a = document.createElement("a");
     a.href = APK_URL;
-    a.download = "XoniTools_v2.13.apk";
+    a.download = "XoniTools_v2.17.apk";
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
 
     btn.classList.remove("loading");
-    btnLabel.textContent = "Download APK — v2.13";
+    btnLabel.textContent = "Download APK — v2.17";
   }, 1000);
 });
 
