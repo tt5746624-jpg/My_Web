@@ -4,87 +4,198 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Xoni Tools</title>
-<link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
 <style>
 
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Google Sans',sans-serif;}
-
-html,body{scrollbar-width:none;-ms-overflow-style:none;background:#0e0e0e;color:#f0f0f0;}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{scrollbar-width:none;-ms-overflow-style:none;}
 html::-webkit-scrollbar,body::-webkit-scrollbar{display:none;}
 
-body{overflow-y:scroll;min-height:100vh;}
+:root{
+  --bg:#0a0b0e;
+  --surface:#15171c;
+  --surface-2:#1c1f26;
+  --line:#242730;
+  --cyan:#03c4f5;
+  --violet:#8b6bf7;
+  --text:#eef0f3;
+  --muted:#82868f;
+  --muted-2:#565a63;
+  --amber:#ffb74d;
+  --body-font:'Inter',sans-serif;
+  --display-font:'Rajdhani',sans-serif;
+  --mono-font:'JetBrains Mono',monospace;
+}
+
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--body-font);
+  min-height:100vh;
+  overflow-y:scroll;
+  position:relative;
+}
+
+/* ambient hex texture across the whole page, faint */
+body::before{
+  content:'';
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  background-image:
+    linear-gradient(30deg, rgba(3,196,245,0.035) 12%, transparent 12.5%, transparent 87%, rgba(3,196,245,0.035) 87.5%, rgba(3,196,245,0.035)),
+    linear-gradient(150deg, rgba(3,196,245,0.035) 12%, transparent 12.5%, transparent 87%, rgba(3,196,245,0.035) 87.5%, rgba(3,196,245,0.035)),
+    linear-gradient(30deg, rgba(3,196,245,0.035) 12%, transparent 12.5%, transparent 87%, rgba(3,196,245,0.035) 87.5%, rgba(3,196,245,0.035)),
+    linear-gradient(150deg, rgba(3,196,245,0.035) 12%, transparent 12.5%, transparent 87%, rgba(3,196,245,0.035) 87.5%, rgba(3,196,245,0.035));
+  background-size:44px 76px;
+  background-position:0 0, 0 0, 22px 38px, 22px 38px;
+  z-index:0;
+  opacity:0.6;
+}
+
+.page{position:relative;z-index:1;max-width:640px;margin:0 auto;}
 
 /* ── HEADER ── */
 .header{
-  padding:28px 20px 16px;
+  padding:32px 20px 18px;
   display:flex;
   align-items:center;
-  gap:18px;
+  gap:20px;
 }
 
-.app-icon{
-  width:84px;
-  height:84px;
-  border-radius:20px;
-  object-fit:cover;
-  border:1.5px solid rgba(3,169,245,0.55);
-  box-shadow:0 0 20px rgba(3,169,245,0.25);
+.icon-wrap{
+  position:relative;
+  width:88px;
+  height:88px;
   flex-shrink:0;
 }
 
+.icon-wrap::before{
+  content:'';
+  position:absolute;
+  inset:-10px;
+  background:conic-gradient(from 0deg, var(--cyan), var(--violet), var(--cyan));
+  clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);
+  opacity:0.35;
+  animation:spin 8s linear infinite;
+  filter:blur(6px);
+}
+
+@keyframes spin{to{transform:rotate(360deg);}}
+
+.app-icon{
+  position:relative;
+  width:88px;
+  height:88px;
+  border-radius:22px;
+  object-fit:cover;
+  display:block;
+  border:1.5px solid rgba(3,196,245,0.5);
+  box-shadow:0 0 24px rgba(3,196,245,0.28), inset 0 0 0 1px rgba(255,255,255,0.03);
+}
+
+.app-info{min-width:0;}
+
 .app-info h1{
-  font-size:24px;
+  font-family:var(--display-font);
+  font-size:27px;
   font-weight:700;
-  letter-spacing:-0.3px;
+  letter-spacing:0.2px;
+  line-height:1.1;
 }
 
 .app-info .sub{
   font-size:13px;
-  color:#777;
-  margin-top:3px;
+  color:var(--muted);
+  margin-top:5px;
+  display:flex;
+  align-items:center;
+  gap:6px;
 }
 
-/* ── DOWNLOAD BUTTON ── */
-.dl-wrap{padding:4px 20px 20px;}
+.badge-unofficial{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  margin-top:9px;
+  font-size:11px;
+  font-weight:600;
+  color:var(--amber);
+  background:rgba(255,183,77,0.1);
+  border:1px solid rgba(255,183,77,0.25);
+  padding:4px 9px;
+  border-radius:7px;
+  letter-spacing:0.3px;
+}
+
+/* ── DOWNLOAD ── */
+.dl-wrap{padding:6px 20px 22px;}
 
 .install-btn{
+  position:relative;
   display:flex;
   align-items:center;
   justify-content:center;
-  gap:9px;
+  gap:10px;
   width:100%;
-  background:#03A9F5;
-  color:#fff;
+  background:linear-gradient(135deg, var(--cyan), #0288c7);
+  color:#031218;
   border:none;
-  padding:15px 24px;
+  padding:16px 24px;
   border-radius:14px;
+  font-family:var(--display-font);
   font-weight:700;
-  font-size:15px;
+  font-size:17px;
+  letter-spacing:0.3px;
   cursor:pointer;
-  transition:background 0.15s,transform 0.12s;
-  position:relative;
+  transition:transform 0.12s, box-shadow 0.2s;
   overflow:hidden;
+  box-shadow:0 8px 24px rgba(3,196,245,0.22);
 }
 
 .install-btn:active{transform:scale(0.98);}
-.install-btn.loading{background:#0284c7;pointer-events:none;}
+.install-btn.loading{pointer-events:none;background:linear-gradient(135deg,#0284c7,#01618f);}
 
 .install-btn svg{flex-shrink:0;}
 
-/* progress bar */
+/* diamond corner accents referencing in-game currency */
+.install-btn::before,
 .install-btn::after{
   content:'';
   position:absolute;
+  width:9px;height:9px;
+  background:rgba(3,18,24,0.5);
+  transform:rotate(45deg);
+  top:50%;
+  margin-top:-4.5px;
+}
+.install-btn::before{left:14px;}
+.install-btn::after{right:14px;}
+
+.progress-fill{
+  position:absolute;
   left:0;top:0;height:100%;width:0;
-  background:rgba(255,255,255,0.12);
+  background:rgba(255,255,255,0.18);
   transition:width 0.9s ease;
 }
-.install-btn.loading::after{width:100%;}
+.install-btn.loading .progress-fill{width:100%;}
+
+.meta-row{
+  display:flex;
+  justify-content:space-between;
+  margin-top:10px;
+  font-size:11.5px;
+  color:var(--muted-2);
+  font-family:var(--mono-font);
+  padding:0 2px;
+}
 
 /* ── STATS ── */
 .stats{
-  margin:0 20px 20px;
-  background:#181818;
+  margin:0 20px 26px;
+  background:var(--surface);
+  border:1px solid var(--line);
   border-radius:16px;
   display:flex;
   overflow:hidden;
@@ -92,106 +203,229 @@ body{overflow-y:scroll;min-height:100vh;}
 
 .stat{
   flex:1;
-  padding:14px 8px;
+  padding:16px 8px;
   text-align:center;
   position:relative;
 }
 
 .stat+.stat::before{
   content:'';
-  position:absolute;left:0;top:20%;height:60%;
-  width:1px;background:#2a2a2a;
+  position:absolute;left:0;top:22%;height:56%;
+  width:1px;background:var(--line);
 }
 
-.stat h2{font-size:17px;font-weight:700;}
-.stat p{font-size:12px;color:#666;margin-top:4px;}
+.stat h2{
+  font-family:var(--mono-font);
+  font-size:16px;
+  font-weight:600;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:4px;
+}
+
+.stat h2 .star{color:var(--amber);font-size:13px;}
+
+.stat p{font-size:11px;color:var(--muted);margin-top:5px;letter-spacing:0.2px;text-transform:uppercase;}
 
 /* ── SECTION ── */
-.section{padding:0 20px 24px;}
-.section-title{font-size:15px;font-weight:700;color:#aaa;letter-spacing:0.5px;text-transform:uppercase;margin-bottom:12px;}
+.section{padding:0 20px 26px;}
+.section-title{
+  font-family:var(--display-font);
+  font-size:15px;
+  font-weight:700;
+  color:#c4c7cd;
+  letter-spacing:0.6px;
+  text-transform:uppercase;
+  margin-bottom:13px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
 
 /* ── DESCRIPTION ── */
-.description{color:#b0b0b0;line-height:1.75;font-size:14.5px;}
+.description{color:#a8abb2;line-height:1.75;font-size:14.5px;}
+.description strong{color:var(--text);font-weight:600;}
 
 /* ── SCREENSHOTS ── */
 .screenshots{
   display:flex;
-  gap:10px;
+  gap:11px;
   overflow-x:auto;
   padding-bottom:4px;
-  scrollbar-width:none;
+  scroll-snap-type:x proximity;
 }
 .screenshots::-webkit-scrollbar{display:none;}
 
 .screenshots img{
-  width:180px;
-  height:360px;
+  width:172px;
+  height:344px;
   object-fit:cover;
   border-radius:16px;
   flex-shrink:0;
-  border:1px solid #222;
+  border:1px solid var(--line);
+  scroll-snap-align:start;
+  cursor:pointer;
+  transition:transform 0.15s, border-color 0.15s;
 }
+.screenshots img:active{transform:scale(0.97);}
 
 /* ── TAGS ── */
-.tags{display:flex;flex-wrap:wrap;gap:8px;}
+.tags{display:flex;flex-wrap:wrap;gap:9px;}
 .tag{
-  background:#1c1c1c;
-  border:1px solid #2c2c2c;
-  border-radius:8px;
-  padding:7px 13px;
-  font-size:13px;
-  color:#999;
+  display:flex;
+  align-items:center;
+  gap:6px;
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:9px;
+  padding:8px 13px;
+  font-size:12.5px;
+  color:#b7bac0;
+  font-weight:500;
+}
+.tag svg{width:13px;height:13px;color:var(--cyan);flex-shrink:0;}
+
+/* ── INFO TABLE ── */
+.info-table{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:14px;
+  overflow:hidden;
+}
+.info-row{
+  display:flex;
+  justify-content:space-between;
+  padding:13px 16px;
+  font-size:13.5px;
+}
+.info-row+.info-row{border-top:1px solid var(--line);}
+.info-row span:first-child{color:var(--muted);}
+.info-row span:last-child{color:var(--text);font-family:var(--mono-font);font-size:13px;font-weight:500;}
+
+/* ── PERMISSIONS ── */
+.perm-toggle{
+  width:100%;
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:14px 16px;
+  color:var(--text);
+  font-size:13.5px;
+  font-weight:500;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  cursor:pointer;
+  font-family:var(--body-font);
+}
+.perm-toggle svg{transition:transform 0.2s;color:var(--muted);}
+.perm-toggle.open svg{transform:rotate(180deg);}
+
+.perm-body{
+  max-height:0;
+  overflow:hidden;
+  transition:max-height 0.25s ease;
+}
+.perm-body.open{max-height:200px;}
+.perm-list{padding:14px 16px 4px;color:var(--muted);font-size:13px;line-height:2;}
+.perm-list li{list-style:none;padding-left:16px;position:relative;}
+.perm-list li::before{
+  content:'';
+  position:absolute;left:0;top:9px;
+  width:5px;height:5px;
+  background:var(--cyan);
+  transform:rotate(45deg);
+}
+
+/* ── DISCLAIMER ── */
+.disclaimer{
+  margin:0 20px 26px;
+  padding:14px 16px;
+  background:rgba(255,183,77,0.06);
+  border:1px solid rgba(255,183,77,0.18);
+  border-radius:12px;
+  font-size:12.5px;
+  color:#c9a877;
+  line-height:1.65;
 }
 
 /* ── FOOTER ── */
 .footer{
-  padding:24px 20px;
+  padding:26px 20px 40px;
   text-align:center;
-  color:#444;
-  font-size:12px;
-  border-top:1px solid #1a1a1a;
+  color:var(--muted-2);
+  font-size:11.5px;
+  border-top:1px solid var(--line);
+  font-family:var(--mono-font);
 }
 
 /* ── TOAST ── */
 .toast{
   position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(20px);
-  background:#1e1e1e;border:1px solid #2a2a2a;
-  color:#f0f0f0;padding:12px 20px;border-radius:12px;
-  font-size:14px;opacity:0;transition:all 0.3s;pointer-events:none;
-  white-space:nowrap;box-shadow:0 8px 24px rgba(0,0,0,0.5);
+  background:var(--surface-2);border:1px solid var(--line);
+  color:var(--text);padding:12px 20px;border-radius:12px;
+  font-size:13.5px;opacity:0;transition:all 0.3s;pointer-events:none;
+  white-space:nowrap;box-shadow:0 8px 28px rgba(0,0,0,0.5);
   z-index:99;
+  display:flex;align-items:center;gap:8px;
 }
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+.toast .dot{width:6px;height:6px;border-radius:50%;background:var(--cyan);flex-shrink:0;}
+
+/* ── LIGHTBOX ── */
+.lightbox{
+  position:fixed;inset:0;background:rgba(4,5,7,0.92);
+  display:flex;align-items:center;justify-content:center;
+  z-index:100;opacity:0;pointer-events:none;transition:opacity 0.2s;
+  padding:24px;
+}
+.lightbox.show{opacity:1;pointer-events:auto;}
+.lightbox img{max-width:100%;max-height:88vh;border-radius:14px;border:1px solid var(--line);}
 
 </style>
 </head>
 <body>
 
+<div class="page">
+
 <!-- HEADER -->
 <div class="header">
-  <img class="app-icon" src="https://i.ibb.co/3YY1dsct/a5f7a906b890.jpg" alt="Xoni Tools icon">
+  <div class="icon-wrap">
+    <img class="app-icon" src="https://i.ibb.co/3YY1dsct/a5f7a906b890.jpg" alt="Xoni Tools icon">
+  </div>
   <div class="app-info">
     <h1>Xoni Tools</h1>
     <div class="sub">MLBB Injector &amp; Customizer</div>
+    <div class="badge-unofficial">
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 9v4M12 17h.01M10.29 3.86l-8.18 14.18A2 2 0 0 0 3.82 21h16.36a2 2 0 0 0 1.71-3.03L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
+      Unofficial · Not affiliated with Moonton
+    </div>
   </div>
 </div>
 
 <!-- DOWNLOAD -->
 <div class="dl-wrap">
   <button class="install-btn" id="downloadBtn">
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <div class="progress-fill"></div>
+    <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
       <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
       <polyline points="7 10 12 15 17 10"/>
       <line x1="12" y1="15" x2="12" y2="3"/>
     </svg>
-    Download APK — v2.13
+    <span id="btnLabel">Download APK — v2.13</span>
   </button>
+  <div class="meta-row">
+    <span>20.39 MB</span>
+    <span>Android 6.0+</span>
+    <span>No root</span>
+  </div>
 </div>
 
 <!-- STATS -->
 <div class="stats">
   <div class="stat">
-    <h2>1.8★</h2>
+    <h2><span class="star">★</span>1.8</h2>
     <p>Rating</p>
   </div>
   <div class="stat">
@@ -208,14 +442,14 @@ body{overflow-y:scroll;min-height:100vh;}
 <div class="section">
   <div class="section-title">About</div>
   <p class="description">
-    Upgrade your MLBB gaming experience with Xoni Tools — a free injector and customization app for enhanced gameplay. Unlock visual features and custom skins with ease.
+    Upgrade your MLBB experience with <strong>Xoni Tools</strong> — a free injector and customization app for enhanced gameplay. Browse a growing library of skins and effects and apply them locally, no root required.
   </p>
 </div>
 
 <!-- SCREENSHOTS -->
 <div class="section">
   <div class="section-title">Screenshots</div>
-  <div class="screenshots">
+  <div class="screenshots" id="screenshots">
     <img src="https://i.ibb.co/6JD6LNgJ/c304e6805da0.jpg" alt="screenshot 1">
     <img src="https://i.ibb.co/Tx1YBJRR/179dd829436e.jpg" alt="screenshot 2">
     <img src="https://i.ibb.co/x8PrMK94/8a4b85732246.jpg" alt="screenshot 3">
@@ -223,33 +457,72 @@ body{overflow-y:scroll;min-height:100vh;}
   </div>
 </div>
 
-<!-- TAGS -->
+<!-- FEATURES -->
 <div class="section">
   <div class="section-title">Features</div>
   <div class="tags">
-    <span class="tag">Skin Injector</span>
-    <span class="tag">Battle Effect</span>
-    <span class="tag">Recall Effect</span>
-    <span class="tag">Drone View</span>
-    <span class="tag">Free</span>
-    <span class="tag">No Root</span>
+    <span class="tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2l3 7h7l-5.5 4.5L18.5 21 12 16.5 5.5 21l2-7.5L2 9h7z"/></svg>Skin Injector</span>
+    <span class="tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M13 2L3 14h7l-1 8 10-12h-7z"/></svg>Battle Effect</span>
+    <span class="tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>Recall Effect</span>
+    <span class="tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M2 12h4l3-9 4 18 3-9h6"/></svg>Drone View</span>
+    <span class="tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="4"/></svg>Free</span>
+    <span class="tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></svg>No Root</span>
   </div>
 </div>
 
+<!-- ADDITIONAL INFO -->
+<div class="section">
+  <div class="section-title">Additional Info</div>
+  <div class="info-table">
+    <div class="info-row"><span>Updated</span><span>Jun 28, 2026</span></div>
+    <div class="info-row"><span>Current version</span><span>2.13</span></div>
+    <div class="info-row"><span>Requires Android</span><span>6.0+</span></div>
+    <div class="info-row"><span>Package size</span><span>20.39 MB</span></div>
+    <div class="info-row"><span>Category</span><span>Tools</span></div>
+  </div>
+</div>
+
+<!-- PERMISSIONS -->
+<div class="section">
+  <button class="perm-toggle" id="permToggle">
+    App permissions
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+  </button>
+  <div class="perm-body" id="permBody">
+    <ul class="perm-list">
+      <li>Storage — read and apply local asset files</li>
+      <li>Network — fetch skin and effect data</li>
+      <li>No access to contacts, camera, or microphone</li>
+    </ul>
+  </div>
+</div>
+
+</div><!-- /.page -->
+
+<!-- DISCLAIMER -->
+<div class="disclaimer">
+  Xoni Tools is a fan-made customization utility. It is not affiliated with, endorsed by, or connected to Moonton or Mobile Legends: Bang Bang. Use is at your own discretion and risk.
+</div>
+
 <!-- FOOTER -->
-<div class="footer">© 2026 Xoni Tools. Not affiliated with Moonton.</div>
+<div class="footer">© 2026 XONI · v2.13</div>
 
 <!-- TOAST -->
-<div class="toast" id="toast">Download starting…</div>
+<div class="toast" id="toast"><span class="dot"></span><span id="toastMsg">Download starting…</span></div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox"><img id="lightboxImg" src="" alt=""></div>
 
 <script>
 const APK_URL = "https://www.mediafire.com/file/wpt9bcmf42t3977/Xoni_Tools_V2.13.apk/file";
 
 const btn = document.getElementById("downloadBtn");
+const btnLabel = document.getElementById("btnLabel");
 const toast = document.getElementById("toast");
+const toastMsg = document.getElementById("toastMsg");
 
 function showToast(msg, duration = 2800) {
-  toast.textContent = msg;
+  toastMsg.textContent = msg;
   toast.classList.add("show");
   setTimeout(() => toast.classList.remove("show"), duration);
 }
@@ -258,14 +531,7 @@ btn.addEventListener("click", function () {
   if (btn.classList.contains("loading")) return;
 
   btn.classList.add("loading");
-  btn.innerHTML = `
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-      <polyline points="7 10 12 15 17 10"/>
-      <line x1="12" y1="15" x2="12" y2="3"/>
-    </svg>
-    Preparing download…`;
-
+  btnLabel.textContent = "Preparing download…";
   showToast("⬇ Download is starting…");
 
   setTimeout(() => {
@@ -277,15 +543,28 @@ btn.addEventListener("click", function () {
     document.body.removeChild(a);
 
     btn.classList.remove("loading");
-    btn.innerHTML = `
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-        <polyline points="7 10 12 15 17 10"/>
-        <line x1="12" y1="15" x2="12" y2="3"/>
-      </svg>
-      Download APK — v2.13`;
+    btnLabel.textContent = "Download APK — v2.13";
   }, 1000);
 });
+
+// permissions toggle
+const permToggle = document.getElementById("permToggle");
+const permBody = document.getElementById("permBody");
+permToggle.addEventListener("click", () => {
+  permToggle.classList.toggle("open");
+  permBody.classList.toggle("open");
+});
+
+// screenshot lightbox
+const lightbox = document.getElementById("lightbox");
+const lightboxImg = document.getElementById("lightboxImg");
+document.querySelectorAll(".screenshots img").forEach(img => {
+  img.addEventListener("click", () => {
+    lightboxImg.src = img.src;
+    lightbox.classList.add("show");
+  });
+});
+lightbox.addEventListener("click", () => lightbox.classList.remove("show"));
 </script>
 </body>
 </html>
