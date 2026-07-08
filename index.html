@@ -413,7 +413,7 @@ body::before{
       <polyline points="7 10 12 15 17 10"/>
       <line x1="12" y1="15" x2="12" y2="3"/>
     </svg>
-    <span id="btnLabel">Download APK — v2.18</span>
+    <span id="btnLabel">Download APK — v2.20</span>
   </button>
   <div class="meta-row">
     <span>20.39 MB</span>
@@ -474,8 +474,8 @@ body::before{
 <div class="section">
   <div class="section-title">Additional Info</div>
   <div class="info-table">
-    <div class="info-row"><span>Updated</span><span>July 4, 2026</span></div>
-    <div class="info-row"><span>Current version</span><span>2.18</span></div>
+    <div class="info-row"><span>Updated</span><span>July 8, 2026</span></div>
+    <div class="info-row"><span>Current version</span><span>2.20</span></div>
     <div class="info-row"><span>Requires Android</span><span>6.0+</span></div>
     <div class="info-row"><span>Package size</span><span>20.39 MB</span></div>
     <div class="info-row"><span>Category</span><span>Tools</span></div>
@@ -505,7 +505,7 @@ body::before{
 </div>
 
 <!-- FOOTER -->
-<div class="footer">© 2026 XONI · v2.18</div>
+<div class="footer">© 2026 XONI · v2.20</div>
 
 <!-- TOAST -->
 <div class="toast" id="toast"><span class="dot"></span><span id="toastMsg">Download starting…</span></div>
@@ -514,7 +514,7 @@ body::before{
 <div class="lightbox" id="lightbox"><img id="lightboxImg" src="" alt=""></div>
 
 <script>
-const APK_URL = "https://raw.githubusercontent.com/xoni-developer-mlb/dvving/main/XoniToolsv2.18.apk";
+const APK_URL = "https://github.com/tt5746624-jpg/your_repository_name/raw/refs/heads/main/XONI_TOOLS_release.apk";
 
 const btn = document.getElementById("downloadBtn");
 const btnLabel = document.getElementById("btnLabel");
@@ -537,13 +537,13 @@ btn.addEventListener("click", function () {
   setTimeout(() => {
     const a = document.createElement("a");
     a.href = APK_URL;
-    a.download = "XoniTools_v2.18.apk";
+    a.download = "XoniTools_v2.20.apk";
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
 
     btn.classList.remove("loading");
-    btnLabel.textContent = "Download APK — v2.18";
+    btnLabel.textContent = "Download APK — v2.20";
   }, 1000);
 });
 
