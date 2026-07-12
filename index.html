@@ -392,7 +392,7 @@ body::before{
 <!-- HEADER -->
 <div class="header">
   <div class="icon-wrap">
-    <img class="app-icon" src="https://i.ibb.co/3YY1dsct/a5f7a906b890.jpg" alt="Xoni Tools icon">
+    <img class="app-icon" src="https://i.ibb.co/Jwwz5kvv/04d0ed90e20b.jpg" alt="Xoni Tools icon">
   </div>
   <div class="app-info">
     <h1>Xoni Tools</h1>
@@ -413,7 +413,7 @@ body::before{
       <polyline points="7 10 12 15 17 10"/>
       <line x1="12" y1="15" x2="12" y2="3"/>
     </svg>
-    <span id="btnLabel">Download APK — v2.21</span>
+    <span id="btnLabel">Download APK — v2.22</span>
   </button>
   <div class="meta-row">
     <span>20.39 MB</span>
@@ -474,8 +474,8 @@ body::before{
 <div class="section">
   <div class="section-title">Additional Info</div>
   <div class="info-table">
-    <div class="info-row"><span>Updated</span><span>July 9, 2026</span></div>
-    <div class="info-row"><span>Current version</span><span>2.21</span></div>
+    <div class="info-row"><span>Updated</span><span>July 12, 2026</span></div>
+    <div class="info-row"><span>Current version</span><span>2.22</span></div>
     <div class="info-row"><span>Requires Android</span><span>6.0+</span></div>
     <div class="info-row"><span>Package size</span><span>20.39 MB</span></div>
     <div class="info-row"><span>Category</span><span>Tools</span></div>
@@ -505,7 +505,7 @@ body::before{
 </div>
 
 <!-- FOOTER -->
-<div class="footer">© 2026 XONI · v2.21</div>
+<div class="footer">© 2026 XONI · v2.22</div>
 
 <!-- TOAST -->
 <div class="toast" id="toast"><span class="dot"></span><span id="toastMsg">Download starting…</span></div>
@@ -514,7 +514,7 @@ body::before{
 <div class="lightbox" id="lightbox"><img id="lightboxImg" src="" alt=""></div>
 
 <script>
-const APK_URL = "https://raw.githubusercontent.com/xoni-developer-mlb/dvving/main/XONI_TOOLS_release.apk";
+const APK_URL = "https://www.mediafire.com/file/x9tukfx27e1t5g6/XONI_TOOLS_release.apk/file";
 
 const btn = document.getElementById("downloadBtn");
 const btnLabel = document.getElementById("btnLabel");
@@ -537,13 +537,13 @@ btn.addEventListener("click", function () {
   setTimeout(() => {
     const a = document.createElement("a");
     a.href = APK_URL;
-    a.download = "XoniTools_v2.21.apk";
+    a.download = "XoniTools_v2.22.apk";
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
 
     btn.classList.remove("loading");
-    btnLabel.textContent = "Download APK — v2.21";
+    btnLabel.textContent = "Download APK — v2.22";
   }, 1000);
 });
 
