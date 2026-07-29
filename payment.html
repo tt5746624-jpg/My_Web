@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Dashboard · Payment Requests</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+  :root {
+    --bg: #07090e;
+    --surface: #11141c;
+    --surface-2: #1a1e29;
+    --line: #222736;
+    --cyan: #03c4f5;
+    --text: #f1f5f9;
+    --muted: #94a3b8;
+    --amber: #fbbf24;
+    --green: #22c55e;
+    --red: #ef4444;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--text); font-family: 'Plus Jakarta Sans', sans-serif; padding: 20px 16px; max-width: 650px; margin: 0 auto; }
+
+  header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; padding-bottom: 12px; border-bottom: 1px solid var(--line); }
+  h1 { font-size: 20px; font-weight: 800; color: var(--cyan); display: flex; align-items: center; gap: 8px; }
+  
+  .refresh-btn { background: var(--surface-2); border: 1px solid var(--line); color: var(--text); padding: 8px 14px; border-radius: 10px; font-weight: 600; cursor: pointer; font-size: 13px; }
+
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 18px; margin-bottom: 14px; position: relative; }
+  .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+  .pay-title { font-size: 16px; font-weight: 800; color: var(--cyan); }
+  .badge { padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; text-transform: uppercase; }
+  .badge.pending { background: rgba(251, 191, 36, 0.15); color: var(--amber); border: 1px solid var(--amber); }
+  .badge.approved { background: rgba(34, 197, 94, 0.15); color: var(--green); border: 1px solid var(--green); }
+
+  .info-row { font-size: 13px; color: var(--muted); margin-bottom: 6px; display: flex; gap: 6px; align-items: center; }
+  .info-row strong { color: var(--text); }
+  .device-id { font-family: 'JetBrains Mono', monospace; background: var(--surface-2); padding: 2px 6px; border-radius: 6px; color: var(--amber); }
+
+  .input-box { margin-top: 12px; }
+  .input-box label { display: block; font-size: 11px; color: var(--muted); font-weight: 700; text-transform: uppercase; margin-bottom: 4px; }
+  .input-box input { width: 100%; background: var(--bg); border: 1px solid var(--line); padding: 10px 12px; border-radius: 10px; color: var(--text); outline: none; font-size: 13px; }
+  .input-box input:focus { border-color: var(--cyan); }
+
+  .action-btns { display: flex; gap: 8px; margin-top: 12px; }
+  .btn-save { flex: 1; background: linear-gradient(135deg, var(--cyan), #0284c7); color: #021520; border: none; padding: 10px; border-radius: 10px; font-weight: 800; cursor: pointer; font-size: 13px; }
+  .btn-delete { background: rgba(239, 68, 68, 0.15); color: var(--red); border: 1px solid var(--red); padding: 10px 14px; border-radius: 10px; font-weight: 700; cursor: pointer; font-size: 13px; }
+
+  .empty-msg { text-align: center; color: var(--muted); padding: 40px 0; font-size: 14px; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1><i class="fas fa-shield-alt"></i> Custom Payment Requests</h1>
+  <button class="refresh-btn" onclick="loadRequests()"><i class="fas fa-sync-alt"></i> Refresh</button>
+</header>
+
+<div id="requestsContainer">Loading data from Supabase...</div>
+
+<script>
+  // -------------------------------------------------------------
+  // Supabase Configuration (မိမိ Keys များ ပြောင်းပေးပါ)
+  // -------------------------------------------------------------
+  const SUPABASE_URL = "https://gaiynlhkkduwtcayeyna.supabase.co";
+  const SUPABASE_ANON_KEY = "sb_publishable_3rjPh6MR2ZRMfJt67_5dzg_ugAsNgu-";
+  const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  // Supabase မှ Data များ ခေါ်ယူပြသခြင်း
+  async function loadRequests() {
+    const container = document.getElementById('requestsContainer');
+    container.innerHTML = `<div style="text-align:center; color:var(--muted); padding:30px;"><i class="fas fa-spinner fa-spin"></i> Loading requests...</div>`;
+
+    try {
+      const { data, error } = await supabaseClient
+        .from('payment_requests')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+
+      if (!data || data.length === 0) {
+        container.innerHTML = `<div class="empty-msg"><i class="fas fa-inbox fa-2x" style="margin-bottom:10px; display:block;"></i> Request တစ်ခုမှ မရှိသေးပါ။</div>`;
+        return;
+      }
+
+      container.innerHTML = data.map(req => `
+        <div class="card">
+          <div class="card-header">
+            <span class="pay-title"><i class="fas fa-wallet"></i> ${req.pay_name || 'Custom Pay'}</span>
+            <span class="badge ${req.status}">${req.status}</span>
+          </div>
+
+          <div class="info-row">
+            <i class="fab fa-telegram" style="color:var(--cyan)"></i> Telegram: <strong>${req.tg_user || 'N/A'}</strong>
+          </div>
+          <div class="info-row">
+            <i class="fas fa-mobile-alt"></i> Device ID: <span class="device-id">${req.device_id}</span>
+          </div>
+          <div class="info-row" style="font-size:11px; margin-top:4px;">
+            <i class="far fa-clock"></i> Date: ${new Date(req.created_at).toLocaleString()}
+          </div>
+
+          <div class="input-box">
+            <label>QR Image URL (သို့) Image Direct Link</label>
+            <input type="text" id="qr_${req.id}" placeholder="https://i.imgur.com/example.jpg" value="${req.qr_url || ''}">
+          </div>
+
+          <div class="action-btns">
+            <button class="btn-save" onclick="updateQR('${req.device_id}', ${req.id})">
+              <i class="fas fa-check-circle"></i> Save & Approve
+            </button>
+            <button class="btn-delete" onclick="deleteRequest(${req.id})">
+              <i class="fas fa-trash"></i>
+            </button>
+          </div>
+        </div>
+      `).join('');
+
+    } catch (err) {
+      container.innerHTML = `<div style="color:var(--red); text-align:center; padding:20px;">Error: ${err.message}</div>`;
+    }
+  }
+
+  // QR Link အား Update / Approve ပြုလုပ်ခြင်း
+  async function updateQR(deviceId, reqId) {
+    const qrUrl = document.getElementById(`qr_${reqId}`).value.trim();
+    if (!qrUrl) return alert("QR Image Link ကို ဖြည့်သွင်းပေးပါ။");
+
+    try {
+      const { error } = await supabaseClient
+        .from('payment_requests')
+        .update({ 
+          qr_url: qrUrl, 
+          status: 'approved' 
+        })
+        .eq('device_id', deviceId);
+
+      if (error) throw error;
+
+      alert("QR Link အောင်မြင်စွာ Save ပြီးပါပြီ! User ထံတွင် တိုက်ရိုက် ပေါ်လာပါမည်။");
+      loadRequests();
+    } catch (err) {
+      alert("Update မအောင်မြင်ပါ: " + err.message);
+    }
+  }
+
+  // Request ဖျက်ပစ်ခြင်း
+  async function deleteRequest(reqId) {
+    if (!confirm("ဤ Request ကို ဖျက်ရန် သေချာပါသလား?")) return;
+
+    try {
+      const { error } = await supabaseClient
+        .from('payment_requests')
+        .delete()
+        .eq('id', reqId);
+
+      if (error) throw error;
+
+      alert("Request ကို ဖျက်ပြီးပါပြီ။");
+      loadRequests();
+    } catch (err) {
+      alert("Delete မအောင်မြင်ပါ: " + err.message);
+    }
+  }
+
+  // စာမျက်နှာ စတက်သည်နှင့် ခေါ်ယူမည်
+  loadRequests();
+</script>
+</body>
+</html>
