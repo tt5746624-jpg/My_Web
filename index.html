@@ -207,9 +207,9 @@
 <script>
   const API_URL = '/api/send-order'; 
 
-  // Supabase Configuration
+  // Supabase Configuration (Key အပိုပါနေသည်ကို ပြင်ဆင်ပြီး)
   const SUPABASE_URL = "https://ygaiynlhkkduwtcayeyna.supabase.co";
-  const SUPABASE_ANON_KEY = "sb_publishable_3rjPh6MR2ZRMfJt67_5dzg_ugAsNgu-";
+  const SUPABASE_ANON_KEY = "sb_publishable_3rjPh6MR2ZRMfJt67_5dzg_ugAsNgu";
   const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
   let appData = {};
@@ -222,6 +222,7 @@
       appData = await res.json();
       renderApp();
       checkRequestStatus();
+      initRealtimeListener();
     } catch (e) { console.error("Config load error", e); }
   }
 
@@ -386,6 +387,7 @@
 
         closeModal('reqModal');
         checkRequestStatus();
+        initRealtimeListener();
         alert("Payment Request ပို့ဆောင်ပြီးပါပြီ!");
       } else {
         alert("Request ပို့၍ မရပါ: " + (data.description || data.error));
@@ -417,16 +419,16 @@
         .eq('device_id', savedReq.deviceId)
         .maybeSingle();
 
-      if (data && data.qr_url) {
+      if (data && data.qr_url && data.status === 'approved') {
         container.innerHTML = `
           <div class="req-status-box">
             <div style="display:flex; justify-content:space-between; align-items:center;">
-              <span style="font-weight:700; color:var(--cyan); font-size:14px;">${data.pay_name} QR Ready</span>
+              <span style="font-weight:700; color:var(--cyan); font-size:14px;">${data.pay_name || savedReq.payName} QR Ready</span>
               <span style="background:rgba(34,197,94,0.15); color:var(--green); border:1px solid var(--green); padding:2px 8px; border-radius:20px; font-size:10px; font-weight:700;">Approved</span>
             </div>
             <p style="font-size:11px; color:var(--muted); margin-top:6px;">Admin မှ QR Link ထည့်ပေးပြီးပါပြီ။ ငွေချေရန် Scan ဖတ်ပါ။</p>
             <div style="text-align:center; margin-top:10px;">
-              <img src="${data.qr_url}" style="width:150px; height:150px; border-radius:12px; border:1px solid var(--line);">
+              <img src="${data.qr_url}" style="width:150px; height:150px; border-radius:12px; border:1px solid var(--line); object-fit:cover;">
             </div>
           </div>`;
       } else {
@@ -442,6 +444,25 @@
     } catch (err) {
       console.error("Status fetch error", err);
     }
+  }
+
+  // Supabase Realtime Listener (Admin ဘက်မှ Save နှိပ်လျှင် Auto Update ဖြစ်စေရန်)
+  function initRealtimeListener() {
+    const savedReq = JSON.parse(localStorage.getItem('xoni_pay_req') || 'null');
+    if (!savedReq) return;
+
+    supabaseClient
+      .channel('payment_updates_' + savedReq.deviceId)
+      .on('postgres_changes', {
+        event: '*',
+        schema: 'public',
+        table: 'payment_requests',
+        filter: `device_id=eq.${savedReq.deviceId}`
+      }, (payload) => {
+        console.log('Realtime Status Update:', payload);
+        checkRequestStatus();
+      })
+      .subscribe();
   }
 
   document.getElementById('openPremium').onclick = () => openModal('modalOverlay');
@@ -467,6 +488,7 @@
   function closeModal(id) { document.getElementById(id).classList.remove('active'); }
 
   loadConfig();
+  setInterval(checkRequestStatus, 4000); // 4 Sec တစ်ကြိမ် Auto polling စစ်ဆေးမည်
 </script>
 </body>
 </html>
