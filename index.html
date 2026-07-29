@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
   :root {
@@ -37,61 +38,21 @@
   .app-icon { width: 100%; height: 100%; border-radius: 18px; object-fit: cover; display: block; background: var(--surface-2); }
   .app-info h1 { font-size: 24px; font-weight: 800; }
   .app-info .sub { font-size: 13px; color: var(--muted); margin-top: 2px; }
-  .badge-unofficial { display: inline-flex; align-items: center; gap: 6px; margin-top: 8px; font-size: 11px; font-weight: 600; color: var(--amber); background: rgba(251, 191, 36, 0.08); border: 1px solid rgba(251, 191, 36, 0.2); padding: 4px 10px; border-radius: 20px; }
 
   /* Buttons & Cards */
-  .install-btn { width: 100%; padding: 15px; border-radius: 16px; border: none; background: linear-gradient(135deg, #03c4f5, #0284c7); color: #021520; font-weight: 800; font-size: 15px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 8px 25px var(--cyan-glow); }
-  .admin-btn { width: 100%; margin-top: 10px; padding: 12px; border-radius: 14px; border: 1px solid var(--line); background: var(--surface); color: var(--text); font-weight: 600; font-size: 13px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none; }
-
-  .meta-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 16px; }
-  .meta-item { background: var(--surface-glass); backdrop-filter: blur(10px); border: 1px solid var(--line); border-radius: 16px; padding: 12px 6px; text-align: center; }
-  .meta-item .value { font-family: var(--font-mono); font-size: 14px; font-weight: 600; }
-  .meta-item .label { font-size: 10px; color: var(--muted-2); font-weight: 700; text-transform: uppercase; margin-top: 2px; }
-
-  .section { margin-bottom: 22px; }
-  .section-title { font-size: 12px; font-weight: 700; text-transform: uppercase; color: var(--muted-2); letter-spacing: 1px; margin-bottom: 10px; }
-
-  .premium-card { background: linear-gradient(135deg, rgba(139, 107, 247, 0.1) 0%, rgba(3, 196, 245, 0.05) 100%); border: 1px solid rgba(139, 107, 247, 0.25); border-radius: 20px; padding: 16px 18px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; }
-  .premium-info { display: flex; align-items: center; gap: 12px; }
-  .premium-icon { width: 42px; height: 42px; border-radius: 12px; background: rgba(3, 196, 245, 0.12); color: var(--cyan); display: flex; align-items: center; justify-content: center; font-size: 18px; }
-
+  .install-btn { width: 100%; padding: 15px; border-radius: 16px; border: none; background: linear-gradient(135deg, #03c4f5, #0284c7); color: #021520; font-weight: 800; font-size: 15px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; }
   .req-status-box { background: var(--surface-2); border: 1px solid var(--line); border-radius: 18px; padding: 16px; margin-bottom: 20px; }
   .req-btn-trigger { width: 100%; background: rgba(3, 196, 245, 0.08); border: 1px dashed var(--cyan); color: var(--cyan); padding: 12px; border-radius: 14px; font-weight: 700; font-size: 13px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; }
-
-  .screenshots { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 6px; }
-  .screenshots img { width: 150px; border-radius: 14px; border: 1px solid var(--line); flex-shrink: 0; object-fit: cover; }
-
-  .info-list { background: var(--surface); border-radius: 18px; border: 1px solid var(--line); overflow: hidden; }
-  .info-row { display: flex; justify-content: space-between; padding: 12px 16px; border-bottom: 1px solid var(--line); font-size: 13px; }
-
-  .fab-btn { position: fixed; bottom: 20px; right: 20px; z-index: 900; width: 54px; height: 54px; border-radius: 50%; background: linear-gradient(135deg, var(--cyan), #0284c7); color: #021520; border: none; font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 25px var(--cyan-glow); }
 
   /* Modals */
   .modal-overlay { position: fixed; inset: 0; background: rgba(3, 5, 9, 0.85); backdrop-filter: blur(12px); z-index: 1000; opacity: 0; pointer-events: none; transition: 0.25s; display: flex; align-items: center; justify-content: center; padding: 16px; }
   .modal-overlay.active { opacity: 1; pointer-events: auto; }
-  .modal { background: var(--surface); border: 1px solid var(--line); border-radius: 24px; width: 100%; max-width: 450px; max-height: 88vh; overflow-y: auto; position: relative; padding: 22px; }
+  .modal { background: var(--surface); border: 1px solid var(--line); border-radius: 24px; width: 100%; max-width: 450px; padding: 22px; position: relative; }
   .modal-close { position: absolute; top: 18px; right: 18px; background: var(--surface-2); border: none; color: var(--muted); width: 30px; height: 30px; border-radius: 50%; cursor: pointer; }
-
-  .plan-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 12px 0; }
-  .plan-card { background: var(--bg); border: 1px solid var(--line); border-radius: 14px; padding: 10px; text-align: center; cursor: pointer; }
-  .plan-card.active { border-color: var(--cyan); background: var(--cyan-glow); }
-  .plan-card .price { font-size: 13px; font-weight: 800; color: var(--cyan); margin-top: 2px; }
-
-  .pay-grid { display: grid; grid-template-columns: 1fr; gap: 8px; margin-top: 8px; }
-  .pay-item { background: var(--surface-2); border: 1px solid var(--line); border-radius: 12px; padding: 10px; display: flex; align-items: center; gap: 10px; cursor: pointer; position: relative; }
-  .pay-item.active { border-color: var(--cyan); background: rgba(3, 196, 245, 0.08); }
-  .pay-method-icon { width: 32px; height: 32px; border-radius: 8px; object-fit: contain; background: white; padding: 2px; }
-
-  .copy-btn { background: rgba(3, 196, 245, 0.15); color: var(--cyan); border: none; padding: 4px 8px; border-radius: 6px; font-size: 11px; font-weight: 700; cursor: pointer; margin-left: 6px; }
-  .qr-view-btn { background: var(--surface); border: 1px solid var(--line); color: var(--text); padding: 5px 10px; border-radius: 8px; font-size: 11px; cursor: pointer; }
 
   .input-group { margin-bottom: 12px; }
   .input-group label { display: block; font-size: 12px; color: var(--muted); margin-bottom: 4px; font-weight: 600; }
   .input-group input { width: 100%; background: var(--bg); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; color: var(--text); outline: none; }
-  .input-group input:focus { border-color: var(--cyan); }
-
-  .file-label { display: flex; align-items: center; justify-content: center; gap: 8px; background: var(--bg); border: 1px dashed var(--line); border-radius: 10px; padding: 12px; color: var(--muted); cursor: pointer; font-size: 12px; }
-  .reset-link { color: var(--muted-2); font-size: 11px; cursor: pointer; text-decoration: underline; margin-top: 8px; display: inline-block; }
 </style>
 </head>
 <body>
@@ -100,86 +61,12 @@
   <header class="header">
     <div class="icon-wrap"><img src="" id="appIcon" class="app-icon"></div>
     <div class="app-info">
-      <h1 id="appName">Loading...</h1>
-      <p class="sub" id="appSub">...</p>
-      <div class="badge-unofficial"><i class="fas fa-shield-alt"></i> Official Store</div>
+      <h1 id="appName">Xoni Tool</h1>
+      <p class="sub">Dashboard</p>
     </div>
   </header>
 
-  <div style="margin-bottom: 20px;">
-    <button class="install-btn" id="dlBtn"><i class="fas fa-download"></i> <span id="dlLabel">Download APK</span></button>
-    <a href="#" id="adminBtn" target="_blank" class="admin-btn"><i class="fab fa-telegram"></i> Contact Admin</a>
-    
-    <div class="meta-grid">
-      <div class="meta-item"><span class="value" id="appSize">--</span><span class="label">Size</span></div>
-      <div class="meta-item"><span class="value" id="appVersion">--</span><span class="label">Version</span></div>
-      <div class="meta-item"><span class="value" id="appAndroid">--</span><span class="label">Android</span></div>
-    </div>
-  </div>
-
   <div id="requestProgressSection"></div>
-
-  <section class="section">
-    <div class="premium-card" id="openPremium">
-      <div class="premium-info">
-        <div class="premium-icon"><i class="fas fa-crown"></i></div>
-        <div><h3 style="font-size:15px; font-weight:700;">Buy Premium Access</h3><p style="font-size:12px; color:var(--muted)">Unlock all features & Keys</p></div>
-      </div>
-      <i class="fas fa-chevron-right" style="color: var(--muted-2)"></i>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="section-title">Screenshots</div>
-    <div class="screenshots" id="screenshotContainer"></div>
-  </section>
-
-  <section class="section">
-    <div class="section-title">Information</div>
-    <div class="info-list">
-      <div class="info-row"><span style="color:var(--muted)">Updated</span><span id="infoUpdated" style="font-family:var(--font-mono)">--</span></div>
-      <div class="info-row"><span style="color:var(--muted)">Category</span><span id="infoCategory" style="font-family:var(--font-mono)">--</span></div>
-    </div>
-  </section>
-</div>
-
-<button class="fab-btn" id="openHistory"><i class="fas fa-history"></i></button>
-
-<div class="modal-overlay" id="modalOverlay">
-  <div class="modal">
-    <button class="modal-close" onclick="closeModal('modalOverlay')"><i class="fas fa-times"></i></button>
-    <h2 style="font-size: 18px; font-weight: 800;">Get Premium Access</h2>
-    
-    <p style="color: var(--muted); font-size: 12px; margin-top: 12px; font-weight:700;">1. Select Payment Method</p>
-    <div class="pay-grid" id="payGrid"></div>
-
-    <p style="color: var(--muted); font-size: 12px; margin-top: 12px; font-weight:700;">2. Select Subscription Plan</p>
-    <div class="plan-grid" id="planGrid"></div>
-
-    <div class="input-group">
-      <label>Telegram Username / ID</label>
-      <input type="text" id="tgUser" placeholder="@username">
-    </div>
-    <div class="input-group">
-      <label>Device ID</label>
-      <input type="text" id="deviceId" placeholder="Device ID ဖြည့်ပါ">
-    </div>
-    <div class="input-group">
-      <label>Payment Receipt Image (ပြေစာပုံ)</label>
-      <input type="file" id="receiptFile" accept="image/*" style="display:none">
-      <label for="receiptFile" class="file-label"><i class="fas fa-image"></i> <span id="fileNameText">Upload Receipt File</span></label>
-    </div>
-
-    <button class="install-btn" id="submitOrderBtn" style="margin-top:14px;">Submit Order</button>
-  </div>
-</div>
-
-<div class="modal-overlay" id="qrModal">
-  <div class="modal" style="text-align: center;">
-    <button class="modal-close" onclick="closeModal('qrModal')"><i class="fas fa-times"></i></button>
-    <h3 style="font-size:16px; font-weight:800; margin-bottom:12px;" id="qrTitle">Payment QR Code</h3>
-    <img id="qrImageDisplay" src="" style="width: 100%; max-width:280px; border-radius:16px; border:1px solid var(--line);">
-  </div>
 </div>
 
 <div class="modal-overlay" id="reqModal">
@@ -196,162 +83,14 @@
   </div>
 </div>
 
-<div class="modal-overlay" id="historyOverlay">
-  <div class="modal">
-    <button class="modal-close" onclick="closeModal('historyOverlay')"><i class="fas fa-times"></i></button>
-    <h3 style="font-size:18px; font-weight:800; margin-bottom:12px;">Purchase History</h3>
-    <div id="historyList"></div>
-  </div>
-</div>
-
 <script>
-  const API_URL = '/api/send-order'; 
+  // ⚠️ Supabase Dashboard > Project Settings > API မ်ှ eyJ... ဖြစ်သော anon key အမှန်ကို ထည့်ပါ
+  const SUPABASE_URL = "https://ygaiynlhkkduwtcayeyna.supabase.co";
+  const SUPABASE_ANON_KEY = "sb_publishable_3rjPh6MR2ZRMfJt67_5dzg_ugAsNgu-"; 
 
-  let appData = {};
-  let selectedPayment = null;
-  let selectedPlan = null;
+  const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-  async function loadConfig() {
-    try {
-      const res = await fetch('config.json');
-      appData = await res.json();
-      renderApp();
-      checkRequestStatus();
-    } catch (e) { console.error("Config load error", e); }
-  }
-
-  function copyText(text) {
-    navigator.clipboard.writeText(text);
-    alert(`Copied: ${text}`);
-  }
-
-  function viewQR(qrUrl, name) {
-    document.getElementById('qrTitle').innerText = `${name} QR Code`;
-    document.getElementById('qrImageDisplay').src = qrUrl;
-    openModal('qrModal');
-  }
-
-  function renderApp() {
-    const info = appData.app_info || {};
-    document.getElementById('appName').innerText = info.name || 'Xoni Tool';
-    document.getElementById('appSub').innerText = info.subtitle || '';
-    document.getElementById('appIcon').src = info.icon_url || '';
-    document.getElementById('dlLabel').innerText = `Download APK — v${info.version || '1.0'}`;
-    document.getElementById('appSize').innerText = info.size || '--';
-    document.getElementById('appVersion').innerText = `v${info.version || '1.0'}`;
-    document.getElementById('appAndroid').innerText = info.android_version || '6.0+';
-    document.getElementById('infoUpdated').innerText = info.updated_date || '--';
-    document.getElementById('infoCategory').innerText = info.category || 'Tools';
-
-    if(appData.admin_url) document.getElementById('adminBtn').href = appData.admin_url;
-
-    const screenCont = document.getElementById('screenshotContainer');
-    screenCont.innerHTML = '';
-    (appData.screenshots || []).forEach(src => {
-      const img = document.createElement('img');
-      img.src = src;
-      screenCont.appendChild(img);
-    });
-
-    const payGrid = document.getElementById('payGrid');
-    payGrid.innerHTML = '';
-    if(appData.payment_methods?.length) selectPaymentMethod(appData.payment_methods[0]);
-
-    (appData.payment_methods || []).forEach((pay, idx) => {
-      const item = document.createElement('div');
-      item.className = `pay-item ${idx === 0 ? 'active' : ''}`;
-      item.onclick = () => {
-        document.querySelectorAll('.pay-item').forEach(p => p.classList.remove('active'));
-        item.classList.add('active');
-        selectPaymentMethod(pay);
-      };
-      
-      item.innerHTML = `
-        <img src="${pay.icon_url}" class="pay-method-icon">
-        <div style="flex:1">
-          <div style="font-weight:700; font-size:13px">${pay.name}</div>
-          <div style="color:var(--cyan); font-family:var(--font-mono); font-size:11px; display:flex; align-items:center; gap:4px; margin-top:2px;">
-            <span>${pay.account_number}</span>
-            <button class="copy-btn" onclick="event.stopPropagation(); copyText('${pay.account_number}')"><i class="fas fa-copy"></i> Copy</button>
-          </div>
-        </div>
-        ${pay.qr_url ? `<button class="qr-view-btn" onclick="event.stopPropagation(); viewQR('${pay.qr_url}', '${pay.name}')"><i class="fas fa-qrcode"></i> QR</button>` : ''}
-      `;
-      payGrid.appendChild(item);
-    });
-  }
-
-  function selectPaymentMethod(payMethod) {
-    selectedPayment = payMethod;
-    const planGrid = document.getElementById('planGrid');
-    planGrid.innerHTML = '';
-    const plans = payMethod.plans || [];
-    if(plans.length) selectedPlan = plans[0];
-
-    plans.forEach((plan, idx) => {
-      const card = document.createElement('div');
-      card.className = `plan-card ${idx === 0 ? 'active' : ''}`;
-      card.innerHTML = `<div style="font-size:12px; color:var(--muted);">${plan.label}</div><div class="price">${plan.price} ${plan.currency || ''}</div>`;
-      card.onclick = () => {
-        document.querySelectorAll('.plan-card').forEach(c => c.classList.remove('active'));
-        card.classList.add('active');
-        selectedPlan = plan;
-      };
-      planGrid.appendChild(card);
-    });
-  }
-
-  document.getElementById('receiptFile').onchange = (e) => {
-    if(e.target.files.length) {
-      document.getElementById('fileNameText').innerText = e.target.files[0].name;
-    }
-  };
-
-  // Submit Order
-  document.getElementById('submitOrderBtn').onclick = async function() {
-    const tgUser = document.getElementById('tgUser').value.trim();
-    const deviceId = document.getElementById('deviceId').value.trim();
-    const receiptFile = document.getElementById('receiptFile').files[0];
-
-    if(!tgUser || !deviceId || !receiptFile) {
-      return alert("အချက်အလက်များနှင့် ပြေစာပုံအားလုံး ထည့်သွင်းပေးပါ။");
-    }
-
-    this.disabled = true;
-    this.innerText = "Submitting Order...";
-
-    const formData = new FormData();
-    formData.append('tgUser', tgUser);
-    formData.append('deviceId', deviceId);
-    formData.append('payment', selectedPayment?.name || '');
-    formData.append('plan', `${selectedPlan?.label} (${selectedPlan?.price} ${selectedPlan?.currency || ''})`);
-    formData.append('photo', receiptFile);
-
-    try {
-      const res = await fetch(API_URL, { method: 'POST', body: formData });
-      const data = await res.json();
-
-      this.disabled = false;
-      this.innerText = "Submit Order";
-
-      if (data.ok) {
-        const orders = JSON.parse(localStorage.getItem('xoni_orders') || '[]');
-        orders.push({ payment: selectedPayment?.name, plan: selectedPlan?.label, deviceId, date: new Date().toLocaleDateString() });
-        localStorage.setItem('xoni_orders', JSON.stringify(orders));
-
-        closeModal('modalOverlay');
-        alert("Order အောင်မြင်စွာ ပို့ဆောင်ပြီးပါပြီ!");
-      } else {
-        alert("Order ပို့ဆောင်၍ မရပါ: " + (data.description || data.error));
-      }
-    } catch (e) {
-      this.disabled = false;
-      this.innerText = "Submit Order";
-      alert("Server Connection Error: " + e.message);
-    }
-  };
-
-  // Custom Payment Request
+  // Send Request
   document.getElementById('submitReqBtn').onclick = async function() {
     const deviceId = document.getElementById('reqDeviceId').value.trim();
     const tgUser = document.getElementById('reqTgUser').value.trim();
@@ -360,51 +99,29 @@
     if(!deviceId || !tgUser || !payName) return alert("အချက်အလက် အားလုံး ဖြည့်ပါ");
 
     this.disabled = true;
-    this.innerText = "Sending Request...";
 
-    const formData = new FormData();
-    formData.append('type', 'custom_request');
-    formData.append('deviceId', deviceId);
-    formData.append('tgUser', tgUser);
-    formData.append('payName', payName);
+    const { data, error } = await supabaseClient
+      .from('payment_requests')
+      .insert([{ device_id: deviceId, tg_user: tgUser, pay_name: payName, status: 'pending' }]);
 
-    try {
-      const res = await fetch(API_URL, { method: 'POST', body: formData });
-      const data = await res.json();
+    this.disabled = false;
 
-      this.disabled = false;
-      this.innerText = "Send Request to Admin";
-
-      if (data.ok) {
-        const reqData = { deviceId, tgUser, payName, status: 'pending', date: new Date().toLocaleDateString() };
-        localStorage.setItem('xoni_pay_req', JSON.stringify(reqData));
-
-        closeModal('reqModal');
-        checkRequestStatus();
-        alert("Payment Request ပို့ဆောင်ပြီးပါပြီ!");
-      } else {
-        alert("Request ပို့၍ မရပါ: " + (data.description || data.error));
-      }
-    } catch (e) {
-      this.disabled = false;
-      this.innerText = "Send Request to Admin";
-      alert("Server Connection Error: " + e.message);
+    if (error) {
+      alert("Error: " + error.message);
+    } else {
+      localStorage.setItem('xoni_pay_req', JSON.stringify({ deviceId, payName }));
+      closeModal('reqModal');
+      checkRequestStatus();
+      alert("Request အောင်မြင်စွာ ပို့ဆောင်ပြီးပါပြီ!");
     }
   };
 
-  function resetRequest() {
-    localStorage.removeItem('xoni_pay_req');
-    checkRequestStatus();
-  }
-
-  // Request Status UI
-  function checkRequestStatus() {
+  // Check Status Logic
+  async function checkRequestStatus() {
     const container = document.getElementById('requestProgressSection');
-    if (!container) return;
-
     const savedReq = JSON.parse(localStorage.getItem('xoni_pay_req') || 'null');
 
-    if(!savedReq) {
+    if(!savedReq || !savedReq.deviceId) {
       container.innerHTML = `
         <button class="req-btn-trigger" onclick="openModal('reqModal')">
           <i class="fas fa-plus-circle"></i> Request Custom Payment Method
@@ -412,18 +129,39 @@
       return;
     }
 
-    if (savedReq.qr_url) {
+    const { data, error } = await supabaseClient
+      .from('payment_requests')
+      .select('*')
+      .eq('device_id', savedReq.deviceId.trim())
+      .order('created_at', { ascending: false })
+      .limit(1)
+      .maybeSingle();
+
+    if (error || !data) {
       container.innerHTML = `
         <div class="req-status-box">
           <div style="display:flex; justify-content:space-between; align-items:center;">
-            <span style="font-weight:700; color:var(--cyan); font-size:14px;">${savedReq.payName} QR Ready</span>
+            <span style="font-weight:700; font-size:14px;">${savedReq.payName} Request</span>
+            <span style="background:rgba(251,191,36,0.15); color:var(--amber); border:1px solid var(--amber); padding:2px 8px; border-radius:20px; font-size:10px; font-weight:700;"><i class="fas fa-spinner fa-spin"></i> Pending Admin QR</span>
+          </div>
+          <p style="font-size:11px; color:var(--muted); margin-top:6px;">Admin သို့ Request ရောက်ရှိသွားပါပြီ။ Admin မှ QR ထည့်ပေးလျှင် ဤနေရာတွင် ပေါ်လာပါမည်။</p>
+          <div style="text-align:center; margin-top:8px;"><a href="#" onclick="localStorage.removeItem('xoni_pay_req'); checkRequestStatus();" style="color:var(--muted); font-size:11px;">Cancel Request</a></div>
+        </div>`;
+      return;
+    }
+
+    if (data.status === 'approved' && data.qr_url) {
+      container.innerHTML = `
+        <div class="req-status-box">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span style="font-weight:700; color:var(--cyan); font-size:14px;">${data.pay_name || savedReq.payName} QR Ready</span>
             <span style="background:rgba(34,197,94,0.15); color:var(--green); border:1px solid var(--green); padding:2px 8px; border-radius:20px; font-size:10px; font-weight:700;">Approved</span>
           </div>
           <p style="font-size:11px; color:var(--muted); margin-top:6px;">Admin မှ QR Link ထည့်ပေးပြီးပါပြီ။ ငွေချေရန် Scan ဖတ်ပါ။</p>
           <div style="text-align:center; margin-top:10px;">
-            <img src="${savedReq.qr_url}" style="width:150px; height:150px; border-radius:12px; border:1px solid var(--line); object-fit:cover;">
+            <img src="${data.qr_url}" style="width:160px; height:160px; border-radius:12px; border:1px solid var(--line); object-fit:cover;">
           </div>
-          <div style="text-align:center;"><span class="reset-link" onclick="resetRequest()">Request အသစ် ပြန်လုပ်မည်</span></div>
+          <div style="text-align:center; margin-top:8px;"><a href="#" onclick="localStorage.removeItem('xoni_pay_req'); checkRequestStatus();" style="color:var(--muted); font-size:11px;">Request အသစ်လုပ်မည်</a></div>
         </div>`;
     } else {
       container.innerHTML = `
@@ -433,34 +171,17 @@
             <span style="background:rgba(251,191,36,0.15); color:var(--amber); border:1px solid var(--amber); padding:2px 8px; border-radius:20px; font-size:10px; font-weight:700;"><i class="fas fa-spinner fa-spin"></i> Pending Admin QR</span>
           </div>
           <p style="font-size:11px; color:var(--muted); margin-top:6px;">Admin သို့ Request ရောက်ရှိသွားပါပြီ။ Admin မှ QR ထည့်ပေးလျှင် ဤနေရာတွင် ပေါ်လာပါမည်။</p>
-          <div style="text-align:center;"><span class="reset-link" onclick="resetRequest()">Request ပယ်ဖျက်မည်</span></div>
+          <div style="text-align:center; margin-top:8px;"><a href="#" onclick="localStorage.removeItem('xoni_pay_req'); checkRequestStatus();" style="color:var(--muted); font-size:11px;">Cancel Request</a></div>
         </div>`;
     }
-  }
-
-  document.getElementById('openPremium').onclick = () => openModal('modalOverlay');
-  document.getElementById('openHistory').onclick = () => { renderHistory(); openModal('historyOverlay'); };
-  document.getElementById('dlBtn').onclick = () => { if(appData.app_info?.download_url) window.open(appData.app_info.download_url, '_blank'); };
-
-  function renderHistory() {
-    const historyList = document.getElementById('historyList');
-    const orders = JSON.parse(localStorage.getItem('xoni_orders') || '[]');
-    if(!orders.length) {
-      historyList.innerHTML = `<div style="text-align:center; color:var(--muted); padding:16px 0; font-size:12px;">ဝယ်ယူထားသော မှတ်တမ်း မရှိသေးပါ။</div>`;
-      return;
-    }
-    historyList.innerHTML = orders.map(item => `
-      <div style="background:var(--surface-2); border:1px solid var(--line); border-radius:12px; padding:10px; margin-bottom:8px; font-size:12px;">
-        <div style="font-weight:700; color:var(--cyan);">${item.plan} (${item.payment})</div>
-        <div style="color:var(--muted); margin-top:2px;">ID: ${item.deviceId} · ${item.date}</div>
-      </div>
-    `).join('');
   }
 
   function openModal(id) { document.getElementById(id).classList.add('active'); }
   function closeModal(id) { document.getElementById(id).classList.remove('active'); }
 
-  loadConfig();
+  checkRequestStatus();
+  // ၃ စက္ကန့်တစ်ကြိမ် Auto စစ်ပေးမည်
+  setInterval(checkRequestStatus, 3000);
 </script>
 </body>
 </html>
