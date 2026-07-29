@@ -131,17 +131,17 @@
         {
           "label": "15days",
           "price": "150B",
-          "currency": "MMK"
+          "currency": ""
         },
         {
           "label": "1 Month",
           "price": "250B",
-          "currency": "MMK"
+          "currency": ""
         },
         {
           "label": "Lifetime",
           "price": "450B",
-          "currency": "MMK"
+          "currency": ""
         }
       ]
     }
