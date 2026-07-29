@@ -1,4 +1,3 @@
-// api/send-order.js
 import formidable from 'formidable';
 import fs from 'fs';
 import FormData from 'form-data';
@@ -6,28 +5,42 @@ import fetch from 'node-fetch';
 
 export const config = {
   api: {
-    bodyParser: false, // File Upload လက်ခံနိုင်ရန်
+    bodyParser: false,
   },
 };
 
 export default async function handler(req, res) {
+  // CORS Headers (Cross-Origin Error မဖြစ်စေရန်)
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
+  res.setHeader(
+    'Access-Control-Allow-Headers',
+    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
+  );
+
+  if (req.method === 'OPTIONS') {
+    res.status(200).end();
+    return;
+  }
+
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  // Server Environment Variables ထဲမှ Token ကို ယူသုံးမည်
-  const BOT_TOKEN = process.env.BOT_TOKEN; 
+  const BOT_TOKEN = process.env.BOT_TOKEN;
   const CHAT_ID = process.env.CHAT_ID;
 
   if (!BOT_TOKEN || !CHAT_ID) {
-    return res.status(500).json({ error: 'Server Configuration Error' });
+    return res.status(500).json({ error: 'Server Environment Variables (BOT_TOKEN / CHAT_ID) Missing' });
   }
 
-  const form = formidable({});
+  const form = formidable({ keepExtensions: true });
 
   form.parse(req, async (err, fields, files) => {
     if (err) {
-      return res.status(500).json({ error: 'Form parsing failed' });
+      console.error("Form Parse Error:", err);
+      return res.status(500).json({ error: 'Failed to process file upload' });
     }
 
     try {
@@ -40,7 +53,6 @@ export default async function handler(req, res) {
         return res.status(400).json({ error: 'Photo is required' });
       }
 
-      // Safe HTML String Escaping
       const safeTgUser = (tgUser || '').replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
       const safeDeviceId = (deviceId || '').replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
       const safePlan = (plan || 'N/A').replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
@@ -70,6 +82,7 @@ export default async function handler(req, res) {
         return res.status(400).json({ ok: false, description: tgData.description });
       }
     } catch (e) {
+      console.error("Server Error:", e);
       return res.status(500).json({ error: e.message });
     }
   });
