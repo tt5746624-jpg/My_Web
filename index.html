@@ -469,7 +469,7 @@
     }, 200);
   };
 
-    // Send Order to Telegram Bot
+  // Send Order to Telegram Bot
   document.getElementById('submitOrderBtn').onclick = async function() {
     const tgUser = document.getElementById('tgUser').value.trim();
     const deviceId = document.getElementById('deviceId').value.trim();
@@ -492,7 +492,6 @@
     const botToken = appData.telegram_config?.bot_token;
     const chatId = appData.telegram_config?.chat_id;
 
-    // Developer / Config Check (Console တွင်သာ error ပြမည်၊ User ထံ မပြပါ)
     if (!botToken || botToken === "YOUR_BOT_TOKEN_HERE" || !chatId || chatId === "YOUR_CHAT_ID_HERE") {
       console.error("Configuration Error: Bot Token or Chat ID is missing/invalid.");
       alert("စနစ်ပြင်ဆင်မှု ခေတ္တလိုအပ်နေပါသဖြင့် အော်ဒါပေးပို့၍ မရသေးပါ။ ခဏစောင့်ပြီးမှ ပြန်လည်ကြိုးစားပေးပါ။");
@@ -531,41 +530,12 @@
         document.getElementById('receiptFile').value = '';
         document.getElementById('fileNameText').innerText = 'Upload Receipt Image';
       } else {
-        // Response မအောင်မြင်ပါက Console တွင် အကြောင်းအရင်းအပြည့်အစုံထုတ်ပြပြီး User ကို အဆင်ပြေမည့် စာပြမည်
         console.error("Telegram API Error Result:", result);
         alert("အော်ဒါ ပို့ဆောင်ရာတွင် အဆင်မပြေဖြစ်နေပါသည်။ ခဏစောင့်၍ ပြန်လည်ကြိုးစားပေးပါ သို့မဟုတ် Admin ထံ တိုက်ရိုက် ဆက်သွယ်ပေးပါ။");
       }
     } catch (err) {
       console.error("Network or Fetch Error:", err);
       alert("လိုင်း မကောင်းမှု/ကွန်ရက် အခက်အခဲကြောင့် ပို့ဆောင်၍ မရပါ။ ကျေးဇူးပြု၍ ခဏစောင့်ပြီး ပြန်လည် ကြိုးစားပေးပါ။");
-    } finally {
-      btn.disabled = false;
-      btn.innerText = "Submit Order";
-    }
-  };
-
-
-    try {
-      const response = await fetch(`https://api.telegram.org/bot${botToken}/sendPhoto`, {
-        method: 'POST',
-        body: formData
-      });
-
-      const result = await response.json();
-
-      if (result.ok) {
-        alert("အော်ဒါ အောင်မြင်စွာ ပို့ဆောင်ပြီးပါပြီ! 10-15 မိနစ်အတွင်း အကြောင်းကြားပေးပါမည်။");
-        modal.classList.remove('active');
-        document.getElementById('tgUser').value = '';
-        document.getElementById('deviceId').value = '';
-        document.getElementById('receiptFile').value = '';
-        document.getElementById('fileNameText').innerText = 'Upload Receipt Image';
-      } else {
-        alert("အော်ဒါ ပို့ဆောင်ရာတွင် အမှားအယွင်းရှိနေပါသည်။ Telegram Bot Token/Chat ID ကို စစ်ဆေးပေးပါ။");
-      }
-    } catch (err) {
-      console.error(err);
-      alert("ကွန်ရက် အခက်အခဲကြောင့် ပို့ဆောင်၍ မရပါ။ ပြန်လည် ကြိုးစားကြည့်ပါ။");
     } finally {
       btn.disabled = false;
       btn.innerText = "Submit Order";
