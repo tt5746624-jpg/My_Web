@@ -24,7 +24,13 @@
       "icon_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663480007387/jSkZbTLVXTWayEUr.webp",
       "account_number": "09661776881",
       "account_name": "Tin Koko",
-      "qr_url": "https://i.ibb.co/whCLGv05/b4a1585dae56.jpg"
+      "qr_url": "https://i.ibb.co/whCLGv05/b4a1585dae56.jpg",
+      "plans": [
+        { "id": "7d", "label": "7 days", "price": "5,000", "currency": "MMK" },
+        { "id": "15d", "label": "15 days", "price": "15,000", "currency": "MMK" },
+        { "id": "30d", "label": "30 days", "price": "25,000", "currency": "MMK" },
+        { "id": "lifetime", "label": "Lifetime", "price": "35,000", "currency": "MMK" }
+      ]
     },
     {
       "id": "wavepay",
@@ -32,7 +38,13 @@
       "icon_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663480007387/DqqDJcJUMFcjvJut.jpg",
       "account_number": "09448616514",
       "account_name": "Nan Kham Yone",
-      "qr_url": "https://i.ibb.co/27SSz2ZQ/f1c5ae11f508.jpg"
+      "qr_url": "https://i.ibb.co/27SSz2ZQ/f1c5ae11f508.jpg",
+      "plans": [
+        { "id": "7d", "label": "7 days", "price": "5,000", "currency": "MMK" },
+        { "id": "15d", "label": "15 days", "price": "15,000", "currency": "MMK" },
+        { "id": "30d", "label": "30 days", "price": "25,000", "currency": "MMK" },
+        { "id": "lifetime", "label": "Lifetime", "price": "35,000", "currency": "MMK" }
+      ]
     },
     {
       "id": "binance",
@@ -40,37 +52,13 @@
       "icon_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663480007387/FkKaCTwDWtXOFmub.png",
       "account_number": "917174338",
       "account_name": "User-c3fbe",
-      "qr_url": "https://i.ibb.co/spJNM6Hd/7049eafab0c5.jpg"
-    }
-  ],
-  "premium_plans": [
-    {
-      "id": "7d",
-      "label": "7 days",
-      "price": "5,000",
-      "currency": "MMK",
-      "usd": "100 THB / $10"
-    },
-    {
-      "id": "15d",
-      "label": "15 days",
-      "price": "15,000",
-      "currency": "MMK",
-      "usd": "250 THB / $11"
-    },
-    {
-      "id": "30d",
-      "label": "30 days",
-      "price": "25,000",
-      "currency": "MMK",
-      "usd": "400 THB / $12"
-    },
-    {
-      "id": "lifetime",
-      "label": "Lifetime",
-      "price": "35,000",
-      "currency": "MMK",
-      "usd": "550 THB / $12"
+      "qr_url": "https://i.ibb.co/spJNM6Hd/7049eafab0c5.jpg",
+      "plans": [
+        { "id": "7d", "label": "7 days", "price": "100 THB / $10", "currency": "" },
+        { "id": "15d", "label": "15 days", "price": "250 THB / $11", "currency": "" },
+        { "id": "30d", "label": "30 days", "price": "400 THB / $12", "currency": "" },
+        { "id": "lifetime", "label": "Lifetime", "price": "550 THB / $12", "currency": "" }
+      ]
     }
   ]
 }

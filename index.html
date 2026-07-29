@@ -5,23 +5,25 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Xoni Tools · Dashboard</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 <style>
   :root {
-    --bg: #0a0b0e;
-    --surface: #15171c;
-    --surface-2: #1c1f26;
-    --line: #242730;
+    --bg: #07090e;
+    --surface: #11141c;
+    --surface-glass: rgba(17, 20, 28, 0.7);
+    --surface-2: #1a1e29;
+    --line: #222736;
+    --line-glow: rgba(3, 196, 245, 0.3);
     --cyan: #03c4f5;
+    --cyan-glow: rgba(3, 196, 245, 0.15);
     --violet: #8b6bf7;
-    --text: #eef0f3;
-    --muted: #82868f;
-    --muted-2: #565a63;
-    --amber: #ffb74d;
-    --body-font: 'Inter', sans-serif;
-    --display-font: 'Rajdhani', sans-serif;
-    --mono-font: 'JetBrains Mono', monospace;
+    --text: #f1f5f9;
+    --muted: #94a3b8;
+    --muted-2: #64748b;
+    --amber: #fbbf24;
+    --font-main: 'Plus Jakarta Sans', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -31,151 +33,181 @@
   body {
     background: var(--bg);
     color: var(--text);
-    font-family: var(--body-font);
+    font-family: var(--font-main);
     min-height: 100vh;
     overflow-y: scroll;
     position: relative;
+    padding-bottom: 80px;
   }
 
   body::before {
     content: '';
     position: fixed;
-    inset: 0;
+    top: -100px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 600px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(3, 196, 245, 0.12) 0%, rgba(139, 107, 247, 0.05) 50%, transparent 80%);
     pointer-events: none;
-    background-image: 
-      radial-gradient(circle at 50% 0%, rgba(3, 196, 245, 0.08) 0%, transparent 70%),
-      linear-gradient(30deg, rgba(3,196,245,0.02) 12%, transparent 12.5%, transparent 87%, rgba(3,196,245,0.02) 87.5%, rgba(3,196,245,0.02)),
-      linear-gradient(150deg, rgba(3,196,245,0.02) 12%, transparent 12.5%, transparent 87%, rgba(3,196,245,0.02) 87.5%, rgba(3,196,245,0.02));
-    background-size: 100% 100%, 44px 76px, 44px 76px;
     z-index: 0;
   }
 
-  .page { position: relative; z-index: 1; max-width: 640px; margin: 0 auto; padding-bottom: 60px; }
+  .page { position: relative; z-index: 1; max-width: 520px; margin: 0 auto; padding: 0 16px; }
 
-  .header { padding: 40px 20px 24px; display: flex; align-items: center; gap: 24px; }
+  /* Header */
+  .header { padding: 32px 4px 20px; display: flex; align-items: center; gap: 20px; }
   .icon-wrap {
-    position: relative; width: 96px; height: 96px; flex-shrink: 0;
+    position: relative; width: 84px; height: 84px; flex-shrink: 0;
+    border-radius: 22px;
     background: linear-gradient(135deg, var(--cyan), var(--violet));
-    padding: 2px; border-radius: 24px;
-    box-shadow: 0 10px 30px rgba(3, 196, 245, 0.3);
+    padding: 2px;
+    box-shadow: 0 12px 30px var(--cyan-glow);
   }
-  .app-icon { width: 100%; height: 100%; border-radius: 22px; object-fit: cover; display: block; }
-  .app-info h1 { font-family: var(--display-font); font-size: 32px; font-weight: 700; line-height: 1; }
-  .app-info .sub { font-size: 14px; color: var(--muted); margin-top: 6px; }
+  .app-icon { width: 100%; height: 100%; border-radius: 20px; object-fit: cover; display: block; background: var(--surface-2); }
+  .app-info h1 { font-size: 26px; font-weight: 800; letter-spacing: -0.5px; line-height: 1.2; }
+  .app-info .sub { font-size: 13px; color: var(--muted); margin-top: 4px; font-weight: 500; }
   .badge-unofficial {
-    display: inline-flex; align-items: center; gap: 6px; margin-top: 12px;
+    display: inline-flex; align-items: center; gap: 6px; margin-top: 10px;
     font-size: 11px; font-weight: 600; color: var(--amber);
-    background: rgba(255, 183, 77, 0.1); border: 1px solid rgba(255, 183, 77, 0.2);
-    padding: 4px 10px; border-radius: 8px;
+    background: rgba(251, 191, 36, 0.08); border: 1px solid rgba(251, 191, 36, 0.2);
+    padding: 4px 10px; border-radius: 20px;
   }
 
-  .action-area { padding: 0 20px 28px; }
+  /* Actions */
+  .action-area { margin-bottom: 24px; }
   .install-btn {
-    width: 100%; padding: 18px; border-radius: 16px; border: none;
-    background: linear-gradient(135deg, var(--cyan), #0288c7);
-    color: #031218; font-family: var(--display-font); font-weight: 700; font-size: 18px;
-    cursor: pointer; transition: 0.2s; position: relative; overflow: hidden;
-    box-shadow: 0 8px 20px rgba(3, 196, 245, 0.25);
-    display: flex; align-items: center; justify-content: center; gap: 12px;
+    width: 100%; padding: 16px; border-radius: 16px; border: none;
+    background: linear-gradient(135deg, #03c4f5, #0284c7);
+    color: #021520; font-family: var(--font-main); font-weight: 800; font-size: 16px;
+    cursor: pointer; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 8px 25px var(--cyan-glow);
+    display: flex; align-items: center; justify-content: center; gap: 10px;
   }
-  .install-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 24px rgba(3, 196, 245, 0.35); }
+  .install-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(3, 196, 245, 0.3); }
 
   .admin-btn {
-    width: 100%; margin-top: 12px; padding: 14px; border-radius: 14px;
+    width: 100%; margin-top: 10px; padding: 12px; border-radius: 14px;
     border: 1px solid var(--line); background: var(--surface);
-    color: var(--text); font-family: var(--body-font); font-weight: 600; font-size: 15px;
-    cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 10px;
+    color: var(--text); font-weight: 600; font-size: 14px;
+    cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px;
     text-decoration: none;
   }
-  .admin-btn:hover { background: var(--surface-2); border-color: var(--cyan); }
+  .admin-btn:hover { background: var(--surface-2); border-color: var(--line-glow); color: var(--cyan); }
 
-  .meta-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 24px; }
+  .meta-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 16px; }
   .meta-item {
-    background: var(--surface); border: 1px solid var(--line); border-radius: 16px;
-    padding: 16px 8px; text-align: center;
+    background: var(--surface-glass); backdrop-filter: blur(10px);
+    border: 1px solid var(--line); border-radius: 16px;
+    padding: 14px 8px; text-align: center;
   }
-  .meta-item .value { display: block; font-family: var(--mono-font); font-size: 16px; font-weight: 600; color: var(--text); }
-  .meta-item .label { display: block; font-size: 11px; color: var(--muted); text-transform: uppercase; margin-top: 4px; letter-spacing: 0.5px; }
+  .meta-item .value { display: block; font-family: var(--font-mono); font-size: 15px; font-weight: 600; color: var(--text); }
+  .meta-item .label { display: block; font-size: 10px; color: var(--muted-2); font-weight: 700; text-transform: uppercase; margin-top: 4px; letter-spacing: 0.5px; }
 
-  .section { padding: 0 20px 32px; }
-  .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
-  .section-title { font-family: var(--display-font); font-size: 16px; font-weight: 700; text-transform: uppercase; color: var(--muted); letter-spacing: 1px; }
+  .section { margin-bottom: 24px; }
+  .section-title { font-size: 12px; font-weight: 700; text-transform: uppercase; color: var(--muted-2); letter-spacing: 1px; margin-bottom: 12px; }
   
   .premium-card {
-    background: linear-gradient(135deg, #1c1f26 0%, #15171c 100%);
-    border: 1px solid var(--line); border-radius: 20px; padding: 20px;
-    display: flex; align-items: center; justify-content: space-between; cursor: pointer;
-    transition: 0.3s;
+    background: linear-gradient(135deg, rgba(139, 107, 247, 0.1) 0%, rgba(3, 196, 245, 0.05) 100%);
+    border: 1px solid rgba(139, 107, 247, 0.25); border-radius: 20px; padding: 18px 20px;
+    display: flex; align-items: center; justify-content: space-between; cursor: pointer; transition: 0.25s ease;
   }
-  .premium-card:hover { border-color: var(--cyan); background: #1e222b; }
-  .premium-info { display: flex; align-items: center; gap: 16px; }
-  .premium-icon { width: 48px; height: 48px; border-radius: 12px; background: rgba(3, 196, 245, 0.1); color: var(--cyan); display: flex; align-items: center; justify-content: center; font-size: 20px; }
-  .premium-text h3 { font-size: 16px; font-weight: 600; }
-  .premium-text p { font-size: 13px; color: var(--muted); }
+  .premium-card:hover { border-color: var(--cyan); transform: scale(1.01); }
+  .premium-info { display: flex; align-items: center; gap: 14px; }
+  .premium-icon { width: 44px; height: 44px; border-radius: 14px; background: rgba(3, 196, 245, 0.12); color: var(--cyan); display: flex; align-items: center; justify-content: center; font-size: 18px; }
+  .premium-text h3 { font-size: 15px; font-weight: 700; }
+  .premium-text p { font-size: 12px; color: var(--muted); margin-top: 2px; }
 
-  .screenshots { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 8px; scroll-snap-type: x mandatory; }
-  .screenshots img { width: 180px; border-radius: 16px; border: 1px solid var(--line); scroll-snap-align: start; }
+  .screenshots { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 6px; scroll-snap-type: x mandatory; }
+  .screenshots img { width: 160px; border-radius: 16px; border: 1px solid var(--line); scroll-snap-align: start; flex-shrink: 0; object-fit: cover; }
 
   .info-list { background: var(--surface); border-radius: 20px; border: 1px solid var(--line); overflow: hidden; }
-  .info-row { display: flex; justify-content: space-between; padding: 16px 20px; border-bottom: 1px solid var(--line); font-size: 14px; }
+  .info-row { display: flex; justify-content: space-between; padding: 14px 18px; border-bottom: 1px solid var(--line); font-size: 13px; }
   .info-row:last-child { border-bottom: none; }
   .info-row .key { color: var(--muted); }
-  .info-row .val { font-family: var(--mono-font); font-weight: 500; }
+  .info-row .val { font-family: var(--font-mono); font-weight: 600; color: var(--text); }
+
+  .fab-btn {
+    position: fixed; bottom: 24px; right: 24px; z-index: 900;
+    width: 56px; height: 56px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--cyan), #0284c7);
+    color: #021520; border: none; font-size: 20px;
+    box-shadow: 0 10px 25px var(--cyan-glow);
+    cursor: pointer; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .fab-btn:hover { transform: scale(1.08); }
 
   /* Modal */
   .modal-overlay {
-    position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px);
-    z-index: 1000; display: none; align-items: center; justify-content: center; padding: 20px;
+    position: fixed; inset: 0; background: rgba(3, 5, 9, 0.85); backdrop-filter: blur(12px);
+    z-index: 1000; opacity: 0; pointer-events: none; transition: opacity 0.25s ease;
+    display: flex; align-items: center; justify-content: center; padding: 16px;
   }
-  .modal-overlay.active { display: flex; }
-  .modal {
-    background: var(--surface); border: 1px solid var(--line); border-radius: 32px;
-    width: 100%; max-width: 500px; max-height: 90vh; overflow-y: auto;
-    position: relative; padding: 32px;
-  }
-  .modal-close { position: absolute; top: 20px; right: 20px; background: var(--surface-2); border: none; color: var(--text); width: 36px; height: 36px; border-radius: 50%; cursor: pointer; }
+  .modal-overlay.active { opacity: 1; pointer-events: auto; }
   
-  .plan-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 24px 0; }
-  .plan-card {
-    background: var(--bg); border: 1px solid var(--line); border-radius: 20px;
-    padding: 20px 12px; text-align: center; cursor: pointer; transition: 0.2s;
+  .modal {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 28px;
+    width: 100%; max-width: 460px; max-height: 88vh; overflow-y: auto;
+    position: relative; padding: 24px; box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+    transform: translateY(20px); transition: transform 0.25s ease;
   }
-  .plan-card.active { border-color: var(--cyan); background: rgba(3, 196, 245, 0.05); }
-  .plan-card .price { display: block; font-size: 20px; font-weight: 700; color: var(--cyan); margin: 4px 0; }
+  .modal-overlay.active .modal { transform: translateY(0); }
+  .modal-close { position: absolute; top: 20px; right: 20px; background: var(--surface-2); border: none; color: var(--muted); width: 32px; height: 32px; border-radius: 50%; cursor: pointer; }
 
-  .pay-grid { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 16px; }
-  .pay-item {
-    background: var(--surface-2); border: 1px solid var(--line); border-radius: 20px;
-    padding: 16px; display: flex; align-items: center; gap: 12px;
+  .plan-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 18px 0; }
+  .plan-card {
+    background: var(--bg); border: 1px solid var(--line); border-radius: 16px;
+    padding: 14px 10px; text-align: center; cursor: pointer; transition: 0.2s;
   }
-  .pay-method-icon { width: 44px; height: 44px; border-radius: 10px; object-fit: contain; background: white; padding: 4px; }
+  .plan-card.active { border-color: var(--cyan); background: var(--cyan-glow); }
+  .plan-card .price { display: block; font-size: 15px; font-weight: 800; color: var(--cyan); margin-top: 4px; }
+  .plan-card .duration { font-size: 13px; font-weight: 600; color: var(--muted); }
+
+  .pay-grid { display: grid; grid-template-columns: 1fr; gap: 10px; margin-top: 10px; }
+  .pay-item {
+    background: var(--surface-2); border: 1px solid var(--line); border-radius: 16px;
+    padding: 12px 14px; display: flex; align-items: center; gap: 12px; cursor: pointer; transition: 0.2s;
+  }
+  .pay-item.active { border-color: var(--cyan); background: rgba(3, 196, 245, 0.08); }
+  .pay-method-icon { width: 38px; height: 38px; border-radius: 10px; object-fit: contain; background: white; padding: 4px; }
   .pay-details { flex: 1; }
   .pay-actions { display: flex; gap: 6px; }
-  .btn-action { background: var(--surface); border: 1px solid var(--line); color: var(--text); padding: 6px 10px; border-radius: 8px; font-size: 11px; cursor: pointer; display: flex; align-items: center; gap: 4px; }
+  .btn-action { background: var(--surface); border: 1px solid var(--line); color: var(--text); padding: 6px 10px; border-radius: 8px; font-size: 11px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 4px; }
 
-  .input-group { margin-bottom: 16px; }
+  .input-group { margin-bottom: 14px; }
   .input-group label { display: block; font-size: 12px; color: var(--muted); margin-bottom: 6px; font-weight: 600; }
-  .input-group input { width: 100%; background: var(--bg); border: 1px solid var(--line); border-radius: 12px; padding: 12px 16px; color: var(--text); outline: none; }
+  .input-group input { width: 100%; background: var(--bg); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; color: var(--text); outline: none; font-family: var(--font-main); }
+  .input-group input:focus { border-color: var(--cyan); }
 
   .file-input { display: none; }
   .file-label {
-    display: flex; align-items: center; justify-content: center; gap: 10px;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
     background: var(--bg); border: 1px dashed var(--line); border-radius: 12px;
-    padding: 14px; color: var(--muted); cursor: pointer; font-size: 13px;
+    padding: 14px; color: var(--muted); cursor: pointer; font-size: 13px; font-weight: 500;
   }
 
+  .history-item {
+    background: var(--surface-2); border: 1px solid var(--line);
+    border-radius: 16px; padding: 14px; margin-bottom: 10px;
+  }
+  .history-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+  .history-plan { font-weight: 700; font-size: 14px; color: var(--cyan); }
+  .history-date { font-size: 11px; color: var(--muted-2); font-family: var(--font-mono); }
+  .history-detail { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
   .toast {
-    position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px);
-    background: var(--surface-2); border: 1px solid var(--line); padding: 12px 24px;
-    border-radius: 100px; color: var(--text); font-size: 14px; transition: 0.4s;
+    position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(100px);
+    background: var(--surface-2); border: 1px solid var(--cyan); padding: 10px 20px;
+    border-radius: 100px; color: var(--text); font-size: 13px; font-weight: 600; transition: 0.3s;
     z-index: 2000; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
   }
   .toast.active { transform: translateX(-50%) translateY(0); }
 
   .qr-modal { text-align: center; }
-  .qr-modal img { width: 220px; height: 220px; border-radius: 16px; border: 1px solid var(--line); margin: 16px 0; }
-
-  .footer { text-align: center; padding: 40px 20px; color: var(--muted-2); font-size: 12px; font-family: var(--mono-font); }
+  .qr-modal img { width: 200px; height: 200px; border-radius: 16px; border: 1px solid var(--line); margin: 16px 0; }
+  .footer { text-align: center; padding: 24px 0; color: var(--muted-2); font-size: 11px; font-family: var(--font-mono); }
 </style>
 </head>
 <body>
@@ -197,7 +229,7 @@
     <div class="meta-grid">
       <div class="meta-item"><span class="value" id="appSize">--</span><span class="label">Size</span></div>
       <div class="meta-item"><span class="value" id="appVersion">--</span><span class="label">Version</span></div>
-      <div class="meta-item"><span class="value">Android</span><span class="label" id="appAndroid">--</span></div>
+      <div class="meta-item"><span class="value" id="appAndroid">--</span><span class="label">Android</span></div>
     </div>
   </div>
 
@@ -212,12 +244,12 @@
   </section>
 
   <section class="section">
-    <div class="section-header"><h2 class="section-title">Screenshots</h2></div>
+    <div class="section-title">Screenshots</div>
     <div class="screenshots" id="screenshotContainer"></div>
   </section>
 
   <section class="section">
-    <div class="section-header"><h2 class="section-title">Information</h2></div>
+    <div class="section-title">Information</div>
     <div class="info-list">
       <div class="info-row"><span class="key">Updated</span><span class="val" id="infoUpdated">--</span></div>
       <div class="info-row"><span class="key">Category</span><span class="val" id="infoCategory">--</span></div>
@@ -228,12 +260,17 @@
   <footer class="footer">&copy; 2026 XONI TOOLS · <span id="footerVersion">v0.0</span></footer>
 </div>
 
+<button class="fab-btn" id="openHistory" title="Buy History"><i class="fas fa-history"></i></button>
+
 <div class="modal-overlay" id="modalOverlay">
   <div class="modal">
     <button class="modal-close" id="closeModal"><i class="fas fa-times"></i></button>
-    <h2 style="font-family: var(--display-font); font-size: 24px;">Premium Plans</h2>
-    <p style="color: var(--muted); font-size: 14px; margin-bottom: 20px;">Choose a plan to upgrade</p>
+    <h2 style="font-size: 20px; font-weight: 800;">Get Premium Access</h2>
+    <p style="color: var(--muted); font-size: 13px; margin-top: 2px;">1. Choose Payment Method</p>
     
+    <div class="pay-grid" id="payGrid"></div>
+
+    <p style="color: var(--muted); font-size: 13px; margin-top: 18px;">2. Choose Subscription Plan</p>
     <div class="plan-grid" id="planGrid"></div>
 
     <div class="input-group">
@@ -242,30 +279,34 @@
     </div>
     <div class="input-group">
       <label>Device ID</label>
-      <input type="text" id="deviceId" placeholder="Paste from App">
+      <input type="text" id="deviceId" placeholder="Paste ID from App">
     </div>
 
     <div class="input-group">
       <label>Payment Receipt (ပြေစာပုံ)</label>
       <input type="file" id="receiptFile" accept="image/*" class="file-input">
       <label for="receiptFile" class="file-label">
-        <i class="fas fa-upload"></i> <span id="fileNameText">Upload Receipt Image</span>
+        <i class="fas fa-image"></i> <span id="fileNameText">Upload Receipt Image</span>
       </label>
     </div>
 
-    <div class="payment-section">
-      <h3 class="section-title" style="font-size: 12px; margin-bottom: 12px;">Payment Methods</h3>
-      <div class="pay-grid" id="payGrid"></div>
-    </div>
+    <button class="install-btn" id="submitOrderBtn" style="margin-top: 20px; border-radius: 14px;">Submit Order</button>
+  </div>
+</div>
 
-    <button class="install-btn" id="submitOrderBtn" style="margin-top: 24px; border-radius: 12px;">Submit Order</button>
+<div class="modal-overlay" id="historyOverlay">
+  <div class="modal">
+    <button class="modal-close" id="closeHistoryModal"><i class="fas fa-times"></i></button>
+    <h2 style="font-size: 20px; font-weight: 800;">Purchase History</h2>
+    <p style="color: var(--muted); font-size: 13px; margin-top: 2px; margin-bottom: 16px;">သင့်ဝယ်ယူခဲ့သော မှတ်တမ်းများ</p>
+    <div id="historyList"></div>
   </div>
 </div>
 
 <div class="modal-overlay" id="qrOverlay">
   <div class="modal qr-modal">
     <button class="modal-close" id="closeQrModal"><i class="fas fa-times"></i></button>
-    <h3 id="qrTitle">Payment QR</h3>
+    <h3 id="qrTitle" style="font-size: 18px; font-weight: 700;">Payment QR</h3>
     <img src="" id="qrImg" alt="Payment QR">
     <p style="color:var(--muted); font-size:12px;">Scan with Payment App to Pay</p>
   </div>
@@ -275,6 +316,7 @@
 
 <script>
   let appData = {};
+  let selectedPayment = null;
   let selectedPlan = null;
 
   async function loadConfig() {
@@ -288,61 +330,78 @@
   }
 
   function renderApp() {
-    const info = appData.app_info;
-    document.getElementById('appName').innerText = info.name;
-    document.getElementById('appSub').innerText = info.subtitle;
-    document.getElementById('appIcon').src = info.icon_url;
-    document.getElementById('dlLabel').innerText = `Download APK — v${info.version}`;
-    document.getElementById('appSize').innerText = info.size;
-    document.getElementById('appVersion').innerText = `v${info.version}`;
-    document.getElementById('appAndroid').innerText = info.android_version;
-    document.getElementById('infoUpdated').innerText = info.updated_date;
-    document.getElementById('infoCategory').innerText = info.category;
-    document.getElementById('footerVersion').innerText = `v${info.version}`;
+    const info = appData.app_info || {};
+    document.getElementById('appName').innerText = info.name || 'Xoni Tool';
+    document.getElementById('appSub').innerText = info.subtitle || '';
+    document.getElementById('appIcon').src = info.icon_url || '';
+    document.getElementById('dlLabel').innerText = `Download APK — v${info.version || '1.0'}`;
+    document.getElementById('appSize').innerText = info.size || '--';
+    document.getElementById('appVersion').innerText = `v${info.version || '1.0'}`;
+    document.getElementById('appAndroid').innerText = info.android_version || '6.0+';
+    document.getElementById('infoUpdated').innerText = info.updated_date || '--';
+    document.getElementById('infoCategory').innerText = info.category || 'Tools';
+    document.getElementById('footerVersion').innerText = `v${info.version || '1.0'}`;
 
-    // Admin Telegram Link
-    if(appData.admin_url) {
-      document.getElementById('adminBtn').href = appData.admin_url;
-    }
+    if(appData.admin_url) document.getElementById('adminBtn').href = appData.admin_url;
 
     const screenCont = document.getElementById('screenshotContainer');
-    appData.screenshots.forEach(src => {
+    screenCont.innerHTML = '';
+    (appData.screenshots || []).forEach(src => {
       const img = document.createElement('img');
       img.src = src;
       screenCont.appendChild(img);
     });
 
+    // Render Payment Methods First
+    const payGrid = document.getElementById('payGrid');
+    payGrid.innerHTML = '';
+    
+    if(appData.payment_methods?.length) {
+      selectPaymentMethod(appData.payment_methods[0], 0);
+    }
+
+    (appData.payment_methods || []).forEach((pay, idx) => {
+      const item = document.createElement('div');
+      item.className = `pay-item ${idx === 0 ? 'active' : ''}`;
+      item.onclick = () => {
+        document.querySelectorAll('.pay-item').forEach(p => p.classList.remove('active'));
+        item.classList.add('active');
+        selectPaymentMethod(pay, idx);
+      };
+      item.innerHTML = `
+        <img src="${pay.icon_url}" class="pay-method-icon">
+        <div class="pay-details">
+          <div style="font-weight:700; font-size:13px">${pay.name}</div>
+          <div style="color:var(--cyan); font-family:var(--font-mono); font-size:12px">${pay.account_number}</div>
+          <div style="font-size:10px; color:var(--muted-2)">${pay.account_name}</div>
+        </div>
+        <div class="pay-actions">
+          ${pay.qr_url ? `<button class="btn-action" onclick="event.stopPropagation(); showQR('${pay.name}', '${pay.qr_url}')"><i class="fas fa-qrcode"></i></button>` : ''}
+          <button class="btn-action" onclick="event.stopPropagation(); copyText('${pay.account_number}')"><i class="fas fa-copy"></i></button>
+        </div>
+      `;
+      payGrid.appendChild(item);
+    });
+  }
+
+  function selectPaymentMethod(payMethod) {
+    selectedPayment = payMethod;
     const planGrid = document.getElementById('planGrid');
-    if(appData.premium_plans?.length) selectedPlan = appData.premium_plans[0];
-    appData.premium_plans.forEach((plan, idx) => {
+    planGrid.innerHTML = '';
+
+    const plans = payMethod.plans || [];
+    if(plans.length) selectedPlan = plans[0];
+
+    plans.forEach((plan, idx) => {
       const card = document.createElement('div');
       card.className = `plan-card ${idx === 0 ? 'active' : ''}`;
-      card.innerHTML = `<span class="duration">${plan.label}</span><span class="price">${plan.price} ${plan.currency}</span>`;
+      card.innerHTML = `<div class="duration">${plan.label}</div><div class="price">${plan.price} ${plan.currency || ''}</div>`;
       card.onclick = () => {
         document.querySelectorAll('.plan-card').forEach(c => c.classList.remove('active'));
         card.classList.add('active');
         selectedPlan = plan;
       };
       planGrid.appendChild(card);
-    });
-
-    const payGrid = document.getElementById('payGrid');
-    appData.payment_methods.forEach(pay => {
-      const item = document.createElement('div');
-      item.className = 'pay-item';
-      item.innerHTML = `
-        <img src="${pay.icon_url}" class="pay-method-icon">
-        <div class="pay-details">
-          <div style="font-weight:600">${pay.name}</div>
-          <div style="color:var(--cyan); font-family:var(--mono-font); font-size:13px">${pay.account_number}</div>
-          <div style="font-size:10px; color:var(--muted-2)">${pay.account_name}</div>
-        </div>
-        <div class="pay-actions">
-          ${pay.qr_url ? `<button class="btn-action" onclick="showQR('${pay.name}', '${pay.qr_url}')"><i class="fas fa-qrcode"></i> QR</button>` : ''}
-          <button class="btn-action" onclick="copyText('${pay.account_number}')"><i class="fas fa-copy"></i> Copy</button>
-        </div>
-      `;
-      payGrid.appendChild(item);
     });
   }
 
@@ -359,26 +418,37 @@
     document.getElementById('qrOverlay').classList.add('active');
   }
 
-  document.getElementById('closeQrModal').onclick = () => {
-    document.getElementById('qrOverlay').classList.remove('active');
-  };
-
-  document.getElementById('dlBtn').onclick = function() {
-    const url = appData.app_info?.download_url;
-    if(url && url !== '#') window.open(url, '_blank');
-  };
-
-  document.getElementById('receiptFile').onchange = function(e) {
-    if(e.target.files.length > 0) {
-      document.getElementById('fileNameText').innerText = e.target.files[0].name;
-    }
-  };
+  document.getElementById('closeQrModal').onclick = () => document.getElementById('qrOverlay').classList.remove('active');
+  document.getElementById('dlBtn').onclick = () => { if(appData.app_info?.download_url) window.open(appData.app_info.download_url, '_blank'); };
+  document.getElementById('receiptFile').onchange = (e) => { if(e.target.files.length) document.getElementById('fileNameText').innerText = e.target.files[0].name; };
 
   const modal = document.getElementById('modalOverlay');
   document.getElementById('openPremium').onclick = () => modal.classList.add('active');
   document.getElementById('closeModal').onclick = () => modal.classList.remove('active');
 
-  // Submit Order Logic
+  const historyModal = document.getElementById('historyOverlay');
+  document.getElementById('openHistory').onclick = () => { renderHistory(); historyModal.classList.add('active'); };
+  document.getElementById('closeHistoryModal').onclick = () => historyModal.classList.remove('active');
+
+  function renderHistory() {
+    const historyList = document.getElementById('historyList');
+    const orders = JSON.parse(localStorage.getItem('xoni_orders') || '[]');
+    if(!orders.length) {
+      historyList.innerHTML = `<div style="text-align:center; color:var(--muted); padding:20px 0; font-size:13px;">ဝယ်ယူထားသော မှတ်တမ်း မရှိသေးပါ။</div>`;
+      return;
+    }
+    historyList.innerHTML = orders.map(item => `
+      <div class="history-item">
+        <div class="history-header">
+          <span class="history-plan">${item.plan} (${item.payment})</span>
+          <span class="history-date">${item.date}</span>
+        </div>
+        <div class="history-detail"><i class="fab fa-telegram"></i> ${item.tgUser}</div>
+        <div class="history-detail"><i class="fas fa-mobile-alt"></i> ${item.deviceId}</div>
+      </div>
+    `).join('');
+  }
+
   document.getElementById('submitOrderBtn').onclick = async function() {
     const tgUser = document.getElementById('tgUser').value.trim();
     const deviceId = document.getElementById('deviceId').value.trim();
@@ -390,23 +460,32 @@
       return;
     }
 
+    const planText = selectedPlan ? `${selectedPlan.label} (${selectedPlan.price} ${selectedPlan.currency || ''})` : 'N/A';
+
     const formData = new FormData();
     formData.append('tgUser', tgUser);
     formData.append('deviceId', deviceId);
-    formData.append('plan', selectedPlan ? `${selectedPlan.label} (${selectedPlan.price} ${selectedPlan.currency})` : 'N/A');
+    formData.append('paymentMethod', selectedPayment ? selectedPayment.name : 'N/A');
+    formData.append('plan', planText);
     formData.append('photo', receiptInput.files[0]);
 
     btn.disabled = true;
     btn.innerText = "Submitting Order...";
 
     try {
-      const res = await fetch('/api/send-order', {
-        method: 'POST',
-        body: formData
-      });
+      const res = await fetch('/api/send-order', { method: 'POST', body: formData });
       const data = await res.json();
 
       if (res.ok && data.ok) {
+        const localOrders = JSON.parse(localStorage.getItem('xoni_orders') || '[]');
+        localOrders.unshift({
+          plan: planText,
+          payment: selectedPayment ? selectedPayment.name : 'N/A',
+          tgUser, deviceId,
+          date: new Date().toLocaleDateString('en-GB')
+        });
+        localStorage.setItem('xoni_orders', JSON.stringify(localOrders));
+
         alert("အော်ဒါ အောင်မြင်စွာ ပို့ဆောင်ပြီးပါပြီ!");
         modal.classList.remove('active');
       } else {
