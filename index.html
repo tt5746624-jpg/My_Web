@@ -77,9 +77,13 @@
   .plan-card .price { font-size: 13px; font-weight: 800; color: var(--cyan); margin-top: 2px; }
 
   .pay-grid { display: grid; grid-template-columns: 1fr; gap: 8px; margin-top: 8px; }
-  .pay-item { background: var(--surface-2); border: 1px solid var(--line); border-radius: 12px; padding: 10px; display: flex; align-items: center; gap: 10px; cursor: pointer; }
+  .pay-item { background: var(--surface-2); border: 1px solid var(--line); border-radius: 12px; padding: 10px; display: flex; align-items: center; gap: 10px; cursor: pointer; position: relative; }
   .pay-item.active { border-color: var(--cyan); background: rgba(3, 196, 245, 0.08); }
   .pay-method-icon { width: 32px; height: 32px; border-radius: 8px; object-fit: contain; background: white; padding: 2px; }
+
+  /* Copy ID & QR Button Styling */
+  .copy-btn { background: rgba(3, 196, 245, 0.15); color: var(--cyan); border: none; padding: 4px 8px; border-radius: 6px; font-size: 11px; font-weight: 700; cursor: pointer; margin-left: 6px; }
+  .qr-view-btn { background: var(--surface); border: 1px solid var(--line); color: var(--text); padding: 5px 10px; border-radius: 8px; font-size: 11px; cursor: pointer; }
 
   .input-group { margin-bottom: 12px; }
   .input-group label { display: block; font-size: 12px; color: var(--muted); margin-bottom: 4px; font-weight: 600; }
@@ -169,6 +173,14 @@
   </div>
 </div>
 
+<div class="modal-overlay" id="qrModal">
+  <div class="modal" style="text-align: center;">
+    <button class="modal-close" onclick="closeModal('qrModal')"><i class="fas fa-times"></i></button>
+    <h3 style="font-size:16px; font-weight:800; margin-bottom:12px;" id="qrTitle">Payment QR Code</h3>
+    <img id="qrImageDisplay" src="" style="width: 100%; max-width:280px; border-radius:16px; border:1px solid var(--line);">
+  </div>
+</div>
+
 <div class="modal-overlay" id="reqModal">
   <div class="modal">
     <button class="modal-close" onclick="closeModal('reqModal')"><i class="fas fa-times"></i></button>
@@ -192,7 +204,6 @@
 </div>
 
 <script>
-  // Backend API URL (Vercel)
   const API_URL = '/api/send-order'; 
 
   let appData = {};
@@ -206,6 +217,17 @@
       renderApp();
       checkRequestStatus();
     } catch (e) { console.error("Config load error", e); }
+  }
+
+  function copyText(text) {
+    navigator.clipboard.writeText(text);
+    alert(`Copied: ${text}`);
+  }
+
+  function viewQR(qrUrl, name) {
+    document.getElementById('qrTitle').innerText = `${name} QR Code`;
+    document.getElementById('qrImageDisplay').src = qrUrl;
+    openModal('qrModal');
   }
 
   function renderApp() {
@@ -242,12 +264,17 @@
         item.classList.add('active');
         selectPaymentMethod(pay);
       };
+      
       item.innerHTML = `
         <img src="${pay.icon_url}" class="pay-method-icon">
         <div style="flex:1">
           <div style="font-weight:700; font-size:13px">${pay.name}</div>
-          <div style="color:var(--cyan); font-family:var(--font-mono); font-size:11px">${pay.account_number} (${pay.account_name || ''})</div>
+          <div style="color:var(--cyan); font-family:var(--font-mono); font-size:11px; display:flex; align-items:center; gap:4px; margin-top:2px;">
+            <span>${pay.account_number}</span>
+            <button class="copy-btn" onclick="event.stopPropagation(); copyText('${pay.account_number}')"><i class="fas fa-copy"></i> Copy</button>
+          </div>
         </div>
+        ${pay.qr_url ? `<button class="qr-view-btn" onclick="event.stopPropagation(); viewQR('${pay.qr_url}', '${pay.name}')"><i class="fas fa-qrcode"></i> QR</button>` : ''}
       `;
       payGrid.appendChild(item);
     });
@@ -279,7 +306,7 @@
     }
   };
 
-  // 1. Submit Payment Order Handler (Via Vercel API)
+  // 1. Submit Payment Order
   document.getElementById('submitOrderBtn').onclick = async function() {
     const tgUser = document.getElementById('tgUser').value.trim();
     const deviceId = document.getElementById('deviceId').value.trim();
@@ -300,10 +327,7 @@
     formData.append('photo', receiptFile);
 
     try {
-      const res = await fetch(API_URL, {
-        method: 'POST',
-        body: formData
-      });
+      const res = await fetch(API_URL, { method: 'POST', body: formData });
       const data = await res.json();
 
       this.disabled = false;
@@ -315,7 +339,7 @@
         localStorage.setItem('xoni_orders', JSON.stringify(orders));
 
         closeModal('modalOverlay');
-        alert("Order အောင်မြင်စွာ ပို့ဆောင်ပြီးပါပြီ! Admin မှ စစ်ဆေးပြီး Key ပို့ပေးပါမည်။");
+        alert("Order အောင်မြင်စွာ ပို့ဆောင်ပြီးပါပြီ!");
       } else {
         alert("Order ပို့ဆောင်၍ မရပါ: " + (data.description || data.error));
       }
@@ -326,7 +350,7 @@
     }
   };
 
-  // 2. Custom Payment Request Handler (Via Vercel API)
+  // 2. Custom Payment Request
   document.getElementById('submitReqBtn').onclick = async function() {
     const deviceId = document.getElementById('reqDeviceId').value.trim();
     const tgUser = document.getElementById('reqTgUser').value.trim();
@@ -344,10 +368,7 @@
     formData.append('payName', payName);
 
     try {
-      const res = await fetch(API_URL, {
-        method: 'POST',
-        body: formData
-      });
+      const res = await fetch(API_URL, { method: 'POST', body: formData });
       const data = await res.json();
 
       this.disabled = false;
@@ -359,7 +380,7 @@
 
         closeModal('reqModal');
         checkRequestStatus();
-        alert("Payment Request ပို့ဆောင်ပြီးပါပြီ! Admin ဘက်မှ QR ထည့်သွင်းပေးချိန်တွင် Status ပေါ်လာပါမည်။");
+        alert("Payment Request ပို့ဆောင်ပြီးပါပြီ!");
       } else {
         alert("Request ပို့၍ မရပါ: " + (data.description || data.error));
       }
