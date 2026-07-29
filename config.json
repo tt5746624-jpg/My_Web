@@ -10,6 +10,9 @@
     "icon_url": "https://i.ibb.co/zhwqtXv6/f6346c4e7a8b.jpg",
     "download_url": "https://t.me/xiotools/1504"
   },
+  "admin_config": {
+    "admin_username": "https://t.me/xoni_l"
+  },
   "screenshots": [
     "https://i.ibb.co/6JD6LNgJ/c304e6805da0.jpg",
     "https://i.ibb.co/Tx1YBJRR/179dd829436e.jpg",
@@ -43,33 +46,9 @@
     }
   ],
   "premium_plans": [
-    {
-      "id": "7d",
-      "label": "7 days",
-      "price": "5,000",
-      "currency": "MMK",
-      "usd": "100 THB / $10"
-    },
-    {
-      "id": "15d",
-      "label": "15 days",
-      "price": "15,000",
-      "currency": "MMK",
-      "usd": "250 THB / $11"
-    },
-    {
-      "id": "30d",
-      "label": "30 days",
-      "price": "25,000",
-      "currency": "MMK",
-      "usd": "400 THB / $12"
-    },
-    {
-      "id": "lifetime",
-      "label": "Lifetime",
-      "price": "35,000",
-      "currency": "MMK",
-      "usd": "550 THB / $12"
-    }
+    { "id": "7d", "label": "7 days", "price": "5,000", "currency": "MMK", "usd": "100 THB / $10" },
+    { "id": "15d", "label": "15 days", "price": "15,000", "currency": "MMK", "usd": "250 THB / $11" },
+    { "id": "30d", "label": "30 days", "price": "25,000", "currency": "MMK", "usd": "400 THB / $12" },
+    { "id": "lifetime", "label": "Lifetime", "price": "35,000", "currency": "MMK", "usd": "550 THB / $12" }
   ]
 }
