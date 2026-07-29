@@ -79,11 +79,25 @@
     cursor: pointer; transition: 0.2s; position: relative; overflow: hidden;
     box-shadow: 0 8px 20px rgba(3, 196, 245, 0.25);
     display: flex; align-items: center; justify-content: center; gap: 12px;
+    text-decoration: none;
   }
   .install-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 24px rgba(3, 196, 245, 0.35); }
   .install-btn:active { transform: translateY(0); }
   .install-btn:disabled { opacity: 0.6; cursor: not-allowed; }
   .progress-bar { position: absolute; bottom: 0; left: 0; height: 4px; background: rgba(255,255,255,0.3); width: 0; transition: width 0.3s; }
+
+  /* Admin Btn */
+  .admin-btn {
+    background: transparent;
+    border: 1px solid var(--violet);
+    color: var(--violet);
+    margin-top: 12px;
+    box-shadow: none;
+  }
+  .admin-btn:hover {
+    background: rgba(139, 107, 247, 0.1);
+    color: #fff;
+  }
 
   .meta-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 24px; }
   .meta-item {
@@ -311,9 +325,13 @@
       <div><strong>Note:</strong> 10 minutes - 15 minutes အတွင်း app notification ကျလာမည် သို့မဟုတ် telegram account သို့ စာရောက်ရှိပါမည်။</div>
     </div>
 
-    <button class="install-btn" id="submitOrderBtn" style="margin-top: 24px; border-radius: 12px;">
+    <button class="install-btn" id="submitOrderBtn" style="margin-top: 20px; border-radius: 12px;">
       Submit Order
     </button>
+
+    <a href="#" target="_blank" class="install-btn admin-btn" id="contactAdminBtn" style="border-radius: 12px;">
+      <i class="fab fa-telegram-plane"></i> Contact Admin Direct
+    </a>
   </div>
 </div>
 
@@ -362,6 +380,11 @@
     document.getElementById('infoUpdated').innerText = info.updated_date;
     document.getElementById('infoCategory').innerText = info.category;
     document.getElementById('footerVersion').innerText = `v${info.version}`;
+
+    // Admin Link
+    if(appData.telegram_config?.admin_username) {
+      document.getElementById('contactAdminBtn').href = appData.telegram_config.admin_username;
+    }
 
     // Screenshots
     const screenCont = document.getElementById('screenshotContainer');
@@ -494,7 +517,7 @@
 
     if (!botToken || botToken === "YOUR_BOT_TOKEN_HERE" || !chatId || chatId === "YOUR_CHAT_ID_HERE") {
       console.error("Configuration Error: Bot Token or Chat ID is missing/invalid.");
-      alert("စနစ်ပြင်ဆင်မှု ခေတ္တလိုအပ်နေပါသဖြင့် အော်ဒါပေးပို့၍ မရသေးပါ။ ခဏစောင့်ပြီးမှ ပြန်လည်ကြိုးစားပေးပါ။");
+      alert("စနစ်အဆင်မပြေမှုကြောင့် အော်ဒါပေးပို့၍ မရသေးပါ။ 'Contact Admin Direct' ခလုတ်ကို နှိပ်၍ Admin ထံ တိုက်ရိုက် ဆက်သွယ်ပေးပါ။");
       return;
     }
 
@@ -531,11 +554,11 @@
         document.getElementById('fileNameText').innerText = 'Upload Receipt Image';
       } else {
         console.error("Telegram API Error Result:", result);
-        alert("အော်ဒါ ပို့ဆောင်ရာတွင် အဆင်မပြေဖြစ်နေပါသည်။ ခဏစောင့်၍ ပြန်လည်ကြိုးစားပေးပါ သို့မဟုတ် Admin ထံ တိုက်ရိုက် ဆက်သွယ်ပေးပါ။");
+        alert("အော်ဒါ ပို့ဆောင်ရာတွင် အဆင်မပြေဖြစ်နေပါသည်။ အောက်ပါ 'Contact Admin Direct' ခလုတ်ကို နှိပ်၍ Admin ထံ တိုက်ရိုက် ဆက်သွယ် အော်ဒါတင်နိုင်ပါသည်။");
       }
     } catch (err) {
       console.error("Network or Fetch Error:", err);
-      alert("လိုင်း မကောင်းမှု/ကွန်ရက် အခက်အခဲကြောင့် ပို့ဆောင်၍ မရပါ။ ကျေးဇူးပြု၍ ခဏစောင့်ပြီး ပြန်လည် ကြိုးစားပေးပါ။");
+      alert("လိုင်း မကောင်းမှုကြောင့် ပို့ဆောင်၍ မရပါ။ 'Contact Admin Direct' ခလုတ်ကို နှိပ်၍ Admin ထံ တိုက်ရိုက် ဆက်သွယ်ပေးပါ။");
     } finally {
       btn.disabled = false;
       btn.innerText = "Submit Order";
