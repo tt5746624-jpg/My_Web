@@ -2,13 +2,13 @@
   "app_info": {
     "name": "Xoni Tools",
     "subtitle": "MLBB Injector & Customizer",
-    "version": "2.24",
+    "version": "2.27",
     "size": "20.39 MB",
     "updated_date": "July 17, 2026",
     "android_version": "6.0+",
     "category": "Tools",
     "icon_url": "https://i.ibb.co/zhwqtXv6/f6346c4e7a8b.jpg",
-    "download_url": "#"
+    "download_url": "https://t.me/xiotools/1504"
   },
   "telegram_config": {
     "bot_token": "8856946915:AAGA0lFTdFUzEt3qgi5dBe6N2r1cgWX16HM",
@@ -26,41 +26,25 @@
       "id": "kpay",
       "name": "KPay",
       "icon_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663480007387/jSkZbTLVXTWayEUr.webp",
-      "account_number": "09 123 456 789",
-      "account_name": "Daw Mya Mya",
+      "account_number": "09661776881",
+      "account_name": "Tin Koko",
       "qr_url": "https://i.ibb.co/zhwqtXv6/f6346c4e7a8b.jpg"
     },
     {
       "id": "wavepay",
       "name": "Wave Pay",
       "icon_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663480007387/DqqDJcJUMFcjvJut.jpg",
-      "account_number": "09 987 654 321",
-      "account_name": "U Kyaw Kyaw",
-      "qr_url": "https://i.ibb.co/zhwqtXv6/f6346c4e7a8b.jpg"
-    },
-    {
-      "id": "truemoney",
-      "name": "TrueMoney Wallet",
-      "icon_url": "https://upload.wikimedia.org/wikipedia/commons/d/d0/TrueMoney_Wallet_logo.png",
-      "account_number": "081 234 5678",
-      "account_name": "Xoni Official",
-      "qr_url": "https://i.ibb.co/zhwqtXv6/f6346c4e7a8b.jpg"
-    },
-    {
-      "id": "promptpay",
-      "name": "PromptPay / Thai Bank",
-      "icon_url": "https://upload.wikimedia.org/wikipedia/commons/c/c5/PromptPay-logo.png",
-      "account_number": "081 234 5678",
-      "account_name": "Kasikorn Bank / PromptPay",
-      "qr_url": "https://i.ibb.co/zhwqtXv6/f6346c4e7a8b.jpg"
+      "account_number": "09448616514",
+      "account_name": "Nan Kham Yone",
+      "qr_url": "https://i.ibb.co/27SSz2ZQ/f1c5ae11f508.jpg"
     },
     {
       "id": "binance",
       "name": "Binance",
       "icon_url": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663480007387/FkKaCTwDWtXOFmub.png",
-      "account_number": "12345678",
-      "account_name": "Xoni Official",
-      "qr_url": "https://i.ibb.co/zhwqtXv6/f6346c4e7a8b.jpg"
+      "account_number": "917174338",
+      "account_name": "User-c3fbe",
+      "qr_url": "https://i.ibb.co/spJNM6Hd/7049eafab0c5.jpg"
     }
   ],
   "premium_plans": [
