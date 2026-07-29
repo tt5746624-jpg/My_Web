@@ -121,29 +121,39 @@
       ]
     },
     {
-      "id": "pay_1785315047785",
+      "id": "truemoney",
       "name": "True Money",
+      "icon_url": "https://i.ibb.co/Z1fzJXBp/9cb50e620e5f.jpg",
       "account_number": "0661488935",
       "account_name": "ZIN MYINT MYAT",
-      "icon_url": "https://i.ibb.co/Z1fzJXBp/9cb50e620e5f.jpg",
       "qr_url": "https://i.ibb.co/4R4Fcd7w/ca78d1814e5b.jpg",
       "plans": [
         {
-          "label": "15days",
+          "id": "7d",
+          "label": "7 days",
+          "price": "100B",
+          "currency": ""
+        },
+        {
+          "id": "15d",
+          "label": "15 days",
           "price": "150B",
           "currency": ""
         },
         {
-          "label": "1 Month",
+          "id": "30d",
+          "label": "30 days",
           "price": "250B",
           "currency": ""
         },
         {
+          "id": "lifetime",
           "label": "Lifetime",
           "price": "450B",
           "currency": ""
         }
       ]
     }
-  ]
+  ],
+  "custom_qr_requests": []
 }
