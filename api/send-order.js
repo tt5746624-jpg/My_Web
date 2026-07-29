@@ -2,6 +2,7 @@ import formidable from 'formidable';
 import fs from 'fs';
 import FormData from 'form-data';
 import fetch from 'node-fetch';
+import { createClient } from '@supabase/supabase-js';
 
 export const config = {
   api: {
@@ -30,11 +31,14 @@ export default async function handler(req, res) {
 
   const BOT_TOKEN = process.env.BOT_TOKEN;
   const CHAT_ID = process.env.CHAT_ID;
+  const SUPABASE_URL = process.env.SUPABASE_URL;
+  const SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
-  if (!BOT_TOKEN || !CHAT_ID) {
-    return res.status(500).json({ error: 'Server Environment Variables (BOT_TOKEN / CHAT_ID) Missing' });
+  if (!BOT_TOKEN || !CHAT_ID || !SUPABASE_URL || !SUPABASE_KEY) {
+    return res.status(500).json({ error: 'Server Environment Variables Missing' });
   }
 
+  const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
   const form = formidable({ keepExtensions: true });
 
   form.parse(req, async (err, fields, files) => {
@@ -55,28 +59,42 @@ export default async function handler(req, res) {
       const safeTgUser = (tgUser || '').replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
       const safeDeviceId = (deviceId || '').replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
-      // A. Custom Payment Request ဖြစ်လျှင်
+      // 1. Custom Payment Request
       if (type === 'custom_request') {
         const safePayName = (payName || 'N/A').replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+        // Save to Supabase DB
+        const { error: dbError } = await supabase
+          .from('payment_requests')
+          .upsert({ 
+            device_id: safeDeviceId, 
+            tg_user: safeTgUser, 
+            pay_name: safePayName, 
+            status: 'pending' 
+          }, { onConflict: 'device_id' });
+
+        if (dbError) {
+          console.error("Supabase DB Error:", dbError);
+          return res.status(500).json({ error: 'Database save failed' });
+        }
+
+        // Notify Telegram Admin
         const caption = `⚠️ <b>CUSTOM PAYMENT REQUEST</b>\n\n` +
                         `💳 <b>Requested Payment:</b> ${safePayName}\n` +
                         `👤 <b>Telegram:</b> ${safeTgUser}\n` +
                         `📱 <b>Device ID:</b> <code>${safeDeviceId}</code>\n\n` +
-                        `👉 <i>Admin Panel တွင် Device ID အတွက် QR Link ထည့်သွင်းပေးပါ။</i>`;
+                        `👉 <i>Admin Panel မှ Device ID <code>${safeDeviceId}</code> အတွက် QR Link ထည့်သွင်းပေးပါ။</i>`;
 
-        const tgRes = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+        await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ chat_id: CHAT_ID, text: caption, parse_mode: 'HTML' }),
         });
 
-        const tgData = await tgRes.json();
-        return tgData.ok 
-          ? res.status(200).json({ ok: true }) 
-          : res.status(400).json({ ok: false, description: tgData.description });
+        return res.status(200).json({ ok: true });
       }
 
-      // B. Normal Order Submit ဖြစ်လျှင်
+      // 2. Normal Order Submit (Receipt Photo)
       if (!photoFile) {
         return res.status(400).json({ error: 'Receipt photo is required' });
       }
