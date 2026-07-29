@@ -52,7 +52,6 @@
 
   .page { position: relative; z-index: 1; max-width: 640px; margin: 0 auto; padding-bottom: 60px; }
 
-  /* Header */
   .header { padding: 40px 20px 24px; display: flex; align-items: center; gap: 24px; }
   .icon-wrap {
     position: relative; width: 96px; height: 96px; flex-shrink: 0;
@@ -70,7 +69,6 @@
     padding: 4px 10px; border-radius: 8px;
   }
 
-  /* Main Action */
   .action-area { padding: 0 20px 28px; }
   .install-btn {
     width: 100%; padding: 18px; border-radius: 16px; border: none;
@@ -79,23 +77,8 @@
     cursor: pointer; transition: 0.2s; position: relative; overflow: hidden;
     box-shadow: 0 8px 20px rgba(3, 196, 245, 0.25);
     display: flex; align-items: center; justify-content: center; gap: 12px;
-    text-decoration: none;
   }
   .install-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 24px rgba(3, 196, 245, 0.35); }
-  .install-btn:active { transform: translateY(0); }
-  .install-btn:disabled { opacity: 0.6; cursor: not-allowed; }
-
-  .admin-btn {
-    background: transparent;
-    border: 1px solid var(--violet);
-    color: var(--violet);
-    margin-top: 12px;
-    box-shadow: none;
-  }
-  .admin-btn:hover {
-    background: rgba(139, 107, 247, 0.1);
-    color: #fff;
-  }
 
   .meta-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 24px; }
   .meta-item {
@@ -105,7 +88,6 @@
   .meta-item .value { display: block; font-family: var(--mono-font); font-size: 16px; font-weight: 600; color: var(--text); }
   .meta-item .label { display: block; font-size: 11px; color: var(--muted); text-transform: uppercase; margin-top: 4px; letter-spacing: 0.5px; }
 
-  /* Section */
   .section { padding: 0 20px 32px; }
   .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
   .section-title { font-family: var(--display-font); font-size: 16px; font-weight: 700; text-transform: uppercase; color: var(--muted); letter-spacing: 1px; }
@@ -123,9 +105,7 @@
   .premium-text p { font-size: 13px; color: var(--muted); }
 
   .screenshots { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 8px; scroll-snap-type: x mandatory; }
-  .screenshots::-webkit-scrollbar { height: 4px; }
-  .screenshots::-webkit-scrollbar-thumb { background: var(--line); border-radius: 2px; }
-  .screenshots img { width: 180px; border-radius: 16px; border: 1px solid var(--line); scroll-snap-align: start; cursor: zoom-in; }
+  .screenshots img { width: 180px; border-radius: 16px; border: 1px solid var(--line); scroll-snap-align: start; }
 
   .info-list { background: var(--surface); border-radius: 20px; border: 1px solid var(--line); overflow: hidden; }
   .info-row { display: flex; justify-content: space-between; padding: 16px 20px; border-bottom: 1px solid var(--line); font-size: 14px; }
@@ -153,101 +133,60 @@
   }
   .plan-card.active { border-color: var(--cyan); background: rgba(3, 196, 245, 0.05); }
   .plan-card .price { display: block; font-size: 20px; font-weight: 700; color: var(--cyan); margin: 4px 0; }
-  .plan-card .duration { font-size: 14px; font-weight: 600; }
-  .plan-card .usd { font-size: 11px; color: var(--muted-2); }
 
-  .payment-section { margin-top: 24px; }
   .pay-grid { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 16px; }
   .pay-item {
     background: var(--surface-2); border: 1px solid var(--line); border-radius: 20px;
-    padding: 16px; display: flex; align-items: center; gap: 12px; position: relative;
+    padding: 16px; display: flex; align-items: center; gap: 12px;
   }
   .pay-method-icon { width: 44px; height: 44px; border-radius: 10px; object-fit: contain; background: white; padding: 4px; }
   .pay-details { flex: 1; }
-  .pay-name { font-weight: 600; font-size: 15px; }
-  .pay-acc { font-family: var(--mono-font); font-size: 13px; color: var(--cyan); margin-top: 2px; }
-  
-  .pay-btn-group { display: flex; align-items: center; gap: 8px; }
-  .action-btn { background: var(--surface); border: 1px solid var(--line); color: var(--text); padding: 8px 12px; border-radius: 10px; font-size: 12px; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: 0.2s; }
-  .action-btn:hover { border-color: var(--cyan); color: var(--cyan); }
+  .pay-actions { display: flex; gap: 6px; }
+  .btn-action { background: var(--surface); border: 1px solid var(--line); color: var(--text); padding: 6px 10px; border-radius: 8px; font-size: 11px; cursor: pointer; display: flex; align-items: center; gap: 4px; }
 
   .input-group { margin-bottom: 16px; }
   .input-group label { display: block; font-size: 12px; color: var(--muted); margin-bottom: 6px; font-weight: 600; }
   .input-group input { width: 100%; background: var(--bg); border: 1px solid var(--line); border-radius: 12px; padding: 12px 16px; color: var(--text); outline: none; }
-  .input-group input:focus { border-color: var(--cyan); }
+
   .file-input { display: none; }
   .file-label {
     display: flex; align-items: center; justify-content: center; gap: 10px;
     background: var(--bg); border: 1px dashed var(--line); border-radius: 12px;
     padding: 14px; color: var(--muted); cursor: pointer; font-size: 13px;
-    transition: 0.2s;
-  }
-  .file-label:hover { border-color: var(--cyan); color: var(--cyan); }
-
-  .note-box {
-    background: rgba(255, 183, 77, 0.08);
-    border: 1px solid rgba(255, 183, 77, 0.2);
-    border-radius: 12px;
-    padding: 12px 14px;
-    margin-top: 20px;
-    font-size: 12px;
-    color: var(--amber);
-    display: flex;
-    align-items: flex-start;
-    gap: 8px;
-    line-height: 1.4;
   }
 
-  /* QR Modal Specific */
-  .qr-modal-body { text-align: center; }
-  .qr-img { width: 220px; height: 220px; border-radius: 16px; margin: 16px auto; border: 2px solid var(--cyan); padding: 8px; background: white; object-fit: contain; }
-
-  .footer { text-align: center; padding: 40px 20px; color: var(--muted-2); font-size: 12px; font-family: var(--mono-font); }
-
-  /* Toast */
   .toast {
     position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px);
     background: var(--surface-2); border: 1px solid var(--line); padding: 12px 24px;
-    border-radius: 100px; color: var(--text); font-size: 14px; transition: 0.4s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+    border-radius: 100px; color: var(--text); font-size: 14px; transition: 0.4s;
     z-index: 2000; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
   }
   .toast.active { transform: translateX(-50%) translateY(0); }
+
+  .qr-modal { text-align: center; }
+  .qr-modal img { width: 220px; height: 220px; border-radius: 16px; border: 1px solid var(--line); margin: 16px 0; }
+
+  .footer { text-align: center; padding: 40px 20px; color: var(--muted-2); font-size: 12px; font-family: var(--mono-font); }
 </style>
 </head>
 <body>
 
 <div class="page">
   <header class="header">
-    <div class="icon-wrap">
-      <img src="" alt="App Icon" id="appIcon" class="app-icon">
-    </div>
+    <div class="icon-wrap"><img src="" alt="App Icon" id="appIcon" class="app-icon"></div>
     <div class="app-info">
       <h1 id="appName">Loading...</h1>
       <p class="sub" id="appSub">...</p>
-      <div class="badge-unofficial">
-        <i class="fas fa-shield-alt"></i> Unofficial · Not affiliated with Moonton
-      </div>
+      <div class="badge-unofficial"><i class="fas fa-shield-alt"></i> Unofficial · Not affiliated with Moonton</div>
     </div>
   </header>
 
   <div class="action-area">
-    <button class="install-btn" id="dlBtn">
-      <i class="fas fa-download"></i>
-      <span id="dlLabel">Download APK</span>
-    </button>
+    <button class="install-btn" id="dlBtn"><i class="fas fa-download"></i> <span id="dlLabel">Download APK</span></button>
     <div class="meta-grid">
-      <div class="meta-item">
-        <span class="value" id="appSize">--</span>
-        <span class="label">Size</span>
-      </div>
-      <div class="meta-item">
-        <span class="value" id="appVersion">--</span>
-        <span class="label">Version</span>
-      </div>
-      <div class="meta-item">
-        <span class="value">Android</span>
-        <span class="label" id="appAndroid">--</span>
-      </div>
+      <div class="meta-item"><span class="value" id="appSize">--</span><span class="label">Size</span></div>
+      <div class="meta-item"><span class="value" id="appVersion">--</span><span class="label">Version</span></div>
+      <div class="meta-item"><span class="value">Android</span><span class="label" id="appAndroid">--</span></div>
     </div>
   </div>
 
@@ -255,26 +194,19 @@
     <div class="premium-card" id="openPremium">
       <div class="premium-info">
         <div class="premium-icon"><i class="fas fa-crown"></i></div>
-        <div class="premium-text">
-          <h3>Premium Access</h3>
-          <p>Unlock all exclusive features</p>
-        </div>
+        <div class="premium-text"><h3>Premium Access</h3><p>Unlock all exclusive features</p></div>
       </div>
       <i class="fas fa-chevron-right" style="color: var(--muted-2)"></i>
     </div>
   </section>
 
   <section class="section">
-    <div class="section-header">
-      <h2 class="section-title">Screenshots</h2>
-    </div>
+    <div class="section-header"><h2 class="section-title">Screenshots</h2></div>
     <div class="screenshots" id="screenshotContainer"></div>
   </section>
 
   <section class="section">
-    <div class="section-header">
-      <h2 class="section-title">Information</h2>
-    </div>
+    <div class="section-header"><h2 class="section-title">Information</h2></div>
     <div class="info-list">
       <div class="info-row"><span class="key">Updated</span><span class="val" id="infoUpdated">--</span></div>
       <div class="info-row"><span class="key">Category</span><span class="val" id="infoCategory">--</span></div>
@@ -282,21 +214,19 @@
     </div>
   </section>
 
-  <footer class="footer">
-    &copy; 2026 XONI TOOLS · <span id="footerVersion">v0.0</span>
-  </footer>
+  <footer class="footer">&copy; 2026 XONI TOOLS · <span id="footerVersion">v0.0</span></footer>
 </div>
 
 <div class="modal-overlay" id="modalOverlay">
   <div class="modal">
     <button class="modal-close" id="closeModal"><i class="fas fa-times"></i></button>
     <h2 style="font-family: var(--display-font); font-size: 24px;">Premium Plans</h2>
-    <p style="color: var(--muted); font-size: 14px; margin-bottom: 20px;">Choose a plan to upgrade your account</p>
+    <p style="color: var(--muted); font-size: 14px; margin-bottom: 20px;">Choose a plan to upgrade</p>
     
     <div class="plan-grid" id="planGrid"></div>
 
     <div class="input-group">
-      <label>Telegram Username</label>
+      <label>Telegram Username / ID</label>
       <input type="text" id="tgUser" placeholder="@username or ID">
     </div>
     <div class="input-group">
@@ -307,7 +237,7 @@
     <div class="input-group">
       <label>Payment Receipt (ပြေစာပုံ)</label>
       <input type="file" id="receiptFile" accept="image/*" class="file-input">
-      <label for="receiptFile" class="file-label" id="fileLabel">
+      <label for="receiptFile" class="file-label">
         <i class="fas fa-upload"></i> <span id="fileNameText">Upload Receipt Image</span>
       </label>
     </div>
@@ -317,28 +247,16 @@
       <div class="pay-grid" id="payGrid"></div>
     </div>
 
-    <div class="note-box">
-      <i class="fas fa-info-circle" style="margin-top: 2px;"></i>
-      <div><strong>Note:</strong> 10 minutes - 15 minutes အတွင်း app notification ကျလာမည် သို့မဟုတ် telegram account သို့ စာရောက်ရှိပါမည်။</div>
-    </div>
-
-    <button class="install-btn" id="submitOrderBtn" style="margin-top: 20px; border-radius: 12px;">
-      Submit Order
-    </button>
-
-    <a href="#" target="_blank" class="install-btn admin-btn" id="contactAdminBtn" style="border-radius: 12px;">
-      <i class="fab fa-telegram-plane"></i> Contact Admin Direct
-    </a>
+    <button class="install-btn" id="submitOrderBtn" style="margin-top: 24px; border-radius: 12px;">Submit Order</button>
   </div>
 </div>
 
-<div class="modal-overlay" id="qrModalOverlay">
-  <div class="modal qr-modal-body">
+<div class="modal-overlay" id="qrOverlay">
+  <div class="modal qr-modal">
     <button class="modal-close" id="closeQrModal"><i class="fas fa-times"></i></button>
-    <h3 id="qrModalTitle" style="font-family: var(--display-font); font-size: 22px;">Scan QR Code</h3>
-    <img src="" id="qrModalImg" class="qr-img" alt="QR Code">
-    <p id="qrModalAcc" style="font-family: var(--mono-font); color: var(--cyan); font-size: 16px; font-weight: 600;"></p>
-    <p id="qrModalName" style="color: var(--muted); font-size: 13px; margin-top: 4px;"></p>
+    <h3 id="qrTitle">Payment QR</h3>
+    <img src="" id="qrImg" alt="Payment QR">
+    <p style="color:var(--muted); font-size:12px;">Scan with Payment App to Pay</p>
   </div>
 </div>
 
@@ -354,15 +272,8 @@
       appData = await response.json();
       renderApp();
     } catch (e) {
-      console.error("Failed to load config", e);
+      console.error("Config Error", e);
     }
-  }
-
-  function showToast(text) {
-    const toast = document.getElementById('toast');
-    toast.innerText = text;
-    toast.classList.add('active');
-    setTimeout(() => toast.classList.remove('active'), 3000);
   }
 
   function renderApp() {
@@ -378,12 +289,6 @@
     document.getElementById('infoCategory').innerText = info.category;
     document.getElementById('footerVersion').innerText = `v${info.version}`;
 
-    // Admin Link
-    if(appData.telegram_config?.admin_username) {
-      document.getElementById('contactAdminBtn').href = appData.telegram_config.admin_username;
-    }
-
-    // Screenshots
     const screenCont = document.getElementById('screenshotContainer');
     appData.screenshots.forEach(src => {
       const img = document.createElement('img');
@@ -391,20 +296,12 @@
       screenCont.appendChild(img);
     });
 
-    // Plans
     const planGrid = document.getElementById('planGrid');
-    if (appData.premium_plans && appData.premium_plans.length > 0) {
-      selectedPlan = appData.premium_plans[0];
-    }
+    if(appData.premium_plans?.length) selectedPlan = appData.premium_plans[0];
     appData.premium_plans.forEach((plan, idx) => {
       const card = document.createElement('div');
       card.className = `plan-card ${idx === 0 ? 'active' : ''}`;
-      card.innerHTML = `
-        <span class="duration">${plan.label}</span>
-        <span class="price">${plan.price}</span>
-        <span style="font-size: 10px; color: var(--muted)">${plan.currency}</span>
-        <div class="usd">${plan.usd}</div>
-      `;
+      card.innerHTML = `<span class="duration">${plan.label}</span><span class="price">${plan.price} ${plan.currency}</span>`;
       card.onclick = () => {
         document.querySelectorAll('.plan-card').forEach(c => c.classList.remove('active'));
         card.classList.add('active');
@@ -413,21 +310,20 @@
       planGrid.appendChild(card);
     });
 
-    // Payments
     const payGrid = document.getElementById('payGrid');
     appData.payment_methods.forEach(pay => {
       const item = document.createElement('div');
       item.className = 'pay-item';
       item.innerHTML = `
-        <img src="${pay.icon_url}" class="pay-method-icon" alt="${pay.name}">
+        <img src="${pay.icon_url}" class="pay-method-icon">
         <div class="pay-details">
-          <div class="pay-name">${pay.name}</div>
-          <div class="pay-acc">${pay.account_number}</div>
-          <div style="font-size: 10px; color: var(--muted-2)">${pay.account_name}</div>
+          <div style="font-weight:600">${pay.name}</div>
+          <div style="color:var(--cyan); font-family:var(--mono-font); font-size:13px">${pay.account_number}</div>
+          <div style="font-size:10px; color:var(--muted-2)">${pay.account_name}</div>
         </div>
-        <div class="pay-btn-group">
-          ${pay.qr_url ? `<button class="action-btn" onclick="openQrModal('${pay.name}', '${pay.qr_url}', '${pay.account_number}', '${pay.account_name}')"><i class="fas fa-qrcode"></i> QR</button>` : ''}
-          <button class="action-btn" onclick="copyText('${pay.account_number}')"><i class="fas fa-copy"></i> Copy</button>
+        <div class="pay-actions">
+          ${pay.qr_url ? `<button class="btn-action" onclick="showQR('${pay.name}', '${pay.qr_url}')"><i class="fas fa-qrcode"></i> QR</button>` : ''}
+          <button class="btn-action" onclick="copyText('${pay.account_number}')"><i class="fas fa-copy"></i> Copy</button>
         </div>
       `;
       payGrid.appendChild(item);
@@ -436,129 +332,72 @@
 
   function copyText(text) {
     navigator.clipboard.writeText(text);
-    showToast('Copied to clipboard!');
+    const toast = document.getElementById('toast');
+    toast.classList.add('active');
+    setTimeout(() => toast.classList.remove('active'), 2000);
   }
 
-  // Download Link Logic (Raw direct down, non-raw opens URL)
+  function showQR(name, url) {
+    document.getElementById('qrTitle').innerText = `${name} QR Code`;
+    document.getElementById('qrImg').src = url;
+    document.getElementById('qrOverlay').classList.add('active');
+  }
+
+  document.getElementById('closeQrModal').onclick = () => {
+    document.getElementById('qrOverlay').classList.remove('active');
+  };
+
   document.getElementById('dlBtn').onclick = function() {
     const url = appData.app_info?.download_url;
-    if (!url || url === "#") {
-      alert("Download link မရှိသေးပါ။ ခဏစောင့်ပေးပါ။");
-      return;
-    }
+    if(url && url !== '#') window.open(url, '_blank');
+  };
 
-    // စစ်ဆေးခြင်း: APK / Raw file link ဖြစ်ပါက တိုက်ရိုက် Down မည်၊ မဟုတ်ပါက URL အတိုင်း သွားမည်
-    if (url.endsWith('.apk') || url.includes('raw=1') || url.includes('download=1')) {
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = '';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-    } else {
-      window.open(url, '_blank');
+  document.getElementById('receiptFile').onchange = function(e) {
+    if(e.target.files.length > 0) {
+      document.getElementById('fileNameText').innerText = e.target.files[0].name;
     }
   };
 
-  // QR Modal Logic
-  const qrModal = document.getElementById('qrModalOverlay');
-  function openQrModal(name, qrUrl, accNum, accName) {
-    document.getElementById('qrModalTitle').innerText = `${name} QR Code`;
-    document.getElementById('qrModalImg').src = qrUrl;
-    document.getElementById('qrModalAcc').innerText = accNum;
-    document.getElementById('qrModalName').innerText = accName;
-    qrModal.classList.add('active');
-  }
-  document.getElementById('closeQrModal').onclick = () => qrModal.classList.remove('active');
-  qrModal.onclick = (e) => { if(e.target === qrModal) qrModal.classList.remove('active'); };
-
-  // Receipt File Label Update
-  document.getElementById('receiptFile').addEventListener('change', function(e) {
-    const fileName = e.target.files[0] ? e.target.files[0].name : 'Upload Receipt Image';
-    document.getElementById('fileNameText').innerText = fileName;
-  });
-
-  // Main Premium Modal logic
   const modal = document.getElementById('modalOverlay');
   document.getElementById('openPremium').onclick = () => modal.classList.add('active');
   document.getElementById('closeModal').onclick = () => modal.classList.remove('active');
-  modal.onclick = (e) => { if(e.target === modal) modal.classList.remove('active'); };
 
-  // Send Order to Telegram Bot
+  // Serverless Proxy API သို့ Order ပို့ခြင်း (Token မပေါက်ကြားပါ)
   document.getElementById('submitOrderBtn').onclick = async function() {
     const tgUser = document.getElementById('tgUser').value.trim();
     const deviceId = document.getElementById('deviceId').value.trim();
     const receiptInput = document.getElementById('receiptFile');
     const btn = this;
 
-    if (!tgUser) {
-      alert("ကျေးဇူးပြု၍ Telegram Username သို့မဟုတ် Telegram ID ထည့်သွင်းပေးပါ။");
+    if (!tgUser || !deviceId || !receiptInput.files.length) {
+      alert("အချက်အလက်များနှင့် ပြေစာပုံ အားလုံး ထည့်သွင်းပေးပါ။");
       return;
     }
-    if (!deviceId) {
-      alert("ကျေးဇူးပြု၍ Device ID ထည့်သွင်းပေးပါ။");
-      return;
-    }
-    if (!receiptInput.files || receiptInput.files.length === 0) {
-      alert("ကျေးဇူးပြု၍ ငွေလွှဲပြေစာပုံ (Receipt) Upload တင်ပေးပါ။");
-      return;
-    }
-
-    let botToken = "";
-    if (appData.telegram_config?.encrypted_token) {
-      try {
-        botToken = atob(appData.telegram_config.encrypted_token);
-      } catch (e) {
-        console.error("Token Decryption Error:", e);
-      }
-    }
-
-    const chatId = appData.telegram_config?.chat_id;
-
-    if (!botToken || !chatId) {
-      console.error("Configuration Error: Missing Token or Chat ID.");
-      alert("စနစ်အဆင်မပြေမှုကြောင့် အော်ဒါပေးပို့၍ မရသေးပါ။ 'Contact Admin Direct' ခလုတ်ကို နှိပ်၍ Admin ထံ တိုက်ရိုက် ဆက်သွယ်ပေးပါ။");
-      return;
-    }
-
-    const planText = selectedPlan ? `${selectedPlan.label} (${selectedPlan.price} ${selectedPlan.currency} / ${selectedPlan.usd})` : 'Unspecified';
-    const caption = `🛒 *New Order Received!*\n\n` +
-                    `👤 *Telegram:* ${tgUser}\n` +
-                    `📱 *Device ID:* \`${deviceId}\`\n` +
-                    `💎 *Plan:* ${planText}\n` +
-                    `🕒 *Time:* ${new Date().toLocaleString()}`;
 
     const formData = new FormData();
-    formData.append('chat_id', chatId);
-    formData.append('caption', caption);
-    formData.append('parse_mode', 'Markdown');
+    formData.append('tgUser', tgUser);
+    formData.append('deviceId', deviceId);
+    formData.append('plan', selectedPlan ? `${selectedPlan.label} (${selectedPlan.price} ${selectedPlan.currency})` : 'N/A');
     formData.append('photo', receiptInput.files[0]);
 
     btn.disabled = true;
     btn.innerText = "Submitting Order...";
 
     try {
-      const response = await fetch(`https://api.telegram.org/bot${botToken}/sendPhoto`, {
+      const res = await fetch('/api/send-order', {
         method: 'POST',
         body: formData
       });
+      const data = await res.json();
 
-      const result = await response.json();
-
-      if (result.ok) {
-        alert("အော်ဒါ အောင်မြင်စွာ ပို့ဆောင်ပြီးပါပြီ! 10 မိနစ် - 15 မိနစ်အတွင်း အကြောင်းကြားပေးပါမည်။");
+      if (res.ok && data.ok) {
+        alert("အော်ဒါ အောင်မြင်စွာ ပို့ဆောင်ပြီးပါပြီ!");
         modal.classList.remove('active');
-        document.getElementById('tgUser').value = '';
-        document.getElementById('deviceId').value = '';
-        document.getElementById('receiptFile').value = '';
-        document.getElementById('fileNameText').innerText = 'Upload Receipt Image';
       } else {
-        console.error("Telegram API Error Result:", result);
-        alert("အော်ဒါ ပို့ဆောင်ရာတွင် အဆင်မပြေဖြစ်နေပါသည်။ အောက်ပါ 'Contact Admin Direct' ခလုတ်ကို နှိပ်၍ Admin ထံ တိုက်ရိုက် ဆက်သွယ် အော်ဒါတင်နိုင်ပါသည်။");
+        alert("Error: " + (data.description || data.error || "Order ပို့၍မရပါ"));
       }
     } catch (err) {
-      console.error("Network or Fetch Error:", err);
-      alert("လိုင်း မကောင်းမှုကြောင့် ပို့ဆောင်၍ မရပါ။ 'Contact Admin Direct' ခလုတ်ကို နှိပ်၍ Admin ထံ တိုက်ရိုက် ဆက်သွယ်ပေးပါ။");
+      alert("Network Error ဖြစ်နေပါသည် (VPN သို့မဟုတ် လိုင်း ပြန်စစ်ပေးပါ)။");
     } finally {
       btn.disabled = false;
       btn.innerText = "Submit Order";
@@ -567,6 +406,5 @@
 
   loadConfig();
 </script>
-
 </body>
 </html>
