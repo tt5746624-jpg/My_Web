@@ -7,7 +7,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
   :root {
@@ -24,7 +23,6 @@
     --muted-2: #64748b;
     --amber: #fbbf24;
     --green: #22c55e;
-    --red: #ef4444;
     --font-main: 'Plus Jakarta Sans', sans-serif;
     --font-mono: 'JetBrains Mono', monospace;
   }
@@ -93,8 +91,7 @@
   .input-group input:focus { border-color: var(--cyan); }
 
   .file-label { display: flex; align-items: center; justify-content: center; gap: 8px; background: var(--bg); border: 1px dashed var(--line); border-radius: 10px; padding: 12px; color: var(--muted); cursor: pointer; font-size: 12px; }
-  
-  .reset-btn { background: transparent; border: none; color: var(--muted-2); font-size: 11px; cursor: pointer; text-decoration: underline; margin-top: 8px; }
+  .reset-link { color: var(--muted-2); font-size: 11px; cursor: pointer; text-decoration: underline; margin-top: 8px; display: inline-block; }
 </style>
 </head>
 <body>
@@ -209,11 +206,6 @@
 
 <script>
   const API_URL = '/api/send-order'; 
-
-  // Supabase Configuration
-  const SUPABASE_URL = "https://ygaiynlhkkduwtcayeyna.supabase.co";
-  const SUPABASE_ANON_KEY = "sb_publishable_3rjPh6MR2ZRMfJt67_5dzg_ugAsNgu-";
-  const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
   let appData = {};
   let selectedPayment = null;
@@ -384,7 +376,7 @@
       this.innerText = "Send Request to Admin";
 
       if (data.ok) {
-        const reqData = { deviceId, tgUser, payName, date: new Date().toLocaleDateString() };
+        const reqData = { deviceId, tgUser, payName, status: 'pending', date: new Date().toLocaleDateString() };
         localStorage.setItem('xoni_pay_req', JSON.stringify(reqData));
 
         closeModal('reqModal');
@@ -400,84 +392,49 @@
     }
   };
 
-  // Reset Request Data Clear
-  function resetCustomRequest() {
+  function resetRequest() {
     localStorage.removeItem('xoni_pay_req');
     checkRequestStatus();
   }
 
-  // Request Status မူလ Button ပြန်ပေါ်အောင် ပိုမိုခိုင်မာစွာ စစ်ဆေးသည့် Function
-  async function checkRequestStatus() {
+  // Request Status UI
+  function checkRequestStatus() {
     const container = document.getElementById('requestProgressSection');
-    if(!container) return;
-
-    const defaultBtnHTML = `
-      <button class="req-btn-trigger" onclick="openModal('reqModal')">
-        <i class="fas fa-plus-circle"></i> Request Custom Payment Method
-      </button>`;
+    if (!container) return;
 
     const savedReq = JSON.parse(localStorage.getItem('xoni_pay_req') || 'null');
 
-    // 1. Storage မှာ Data မရှိသေးပါက Request Button တိုက်ရိုက် ပြမည်
-    if(!savedReq || !savedReq.deviceId) {
-      container.innerHTML = defaultBtnHTML;
+    if(!savedReq) {
+      container.innerHTML = `
+        <button class="req-btn-trigger" onclick="openModal('reqModal')">
+          <i class="fas fa-plus-circle"></i> Request Custom Payment Method
+        </button>`;
       return;
     }
 
-    try {
-      // Supabase မှ Data ရှာခြင်း
-      const { data, error } = await supabaseClient
-        .from('payment_requests')
-        .select('*')
-        .eq('device_id', savedReq.deviceId.trim())
-        .maybeSingle();
-
-      // Database ထဲမှ Data မတွေ့ပါက/Error ရှိပါက Request Button ပြန်ပြမည်
-      if (error || !data) {
-        container.innerHTML = `
-          <div class="req-status-box">
-            <div style="display:flex; justify-content:space-between; align-items:center;">
-              <span style="font-weight:700; font-size:14px;">${savedReq.payName || 'Custom'} Request</span>
-              <span style="background:rgba(251,191,36,0.15); color:var(--amber); border:1px solid var(--amber); padding:2px 8px; border-radius:20px; font-size:10px; font-weight:700;"><i class="fas fa-spinner fa-spin"></i> Pending Admin QR</span>
-            </div>
-            <p style="font-size:11px; color:var(--muted); margin-top:6px;">Admin သို့ Request ရောက်ရှိသွားပါပြီ။ Admin မှ QR ထည့်ပေးလျှင် ဤနေရာတွင် ပေါ်လာပါမည်။</p>
-            <button class="reset-btn" onclick="resetCustomRequest()">Cancel / New Request</button>
-          </div>`;
-        return;
-      }
-
-      // Admin Approve ပြုလုပ်ပြီး QR Link ရှိပါက Approved QR တိုက်ရိုက်ပြမည်
-      if (data.status === 'approved' && data.qr_url) {
-        container.innerHTML = `
-          <div class="req-status-box">
-            <div style="display:flex; justify-content:space-between; align-items:center;">
-              <span style="font-weight:700; color:var(--cyan); font-size:14px;">${data.pay_name || savedReq.payName} QR Ready</span>
-              <span style="background:rgba(34,197,94,0.15); color:var(--green); border:1px solid var(--green); padding:2px 8px; border-radius:20px; font-size:10px; font-weight:700;">Approved</span>
-            </div>
-            <p style="font-size:11px; color:var(--muted); margin-top:6px;">Admin မှ QR Link ထည့်ပေးပြီးပါပြီ။ ငွေချေရန် Scan ဖတ်ပါ။</p>
-            <div style="text-align:center; margin-top:10px;">
-              <img src="${data.qr_url}" style="width:160px; height:160px; border-radius:12px; border:1px solid var(--line); object-fit:cover;">
-            </div>
-            <div style="text-align:center;">
-              <button class="reset-btn" onclick="resetCustomRequest()">Make Another Request</button>
-            </div>
-          </div>`;
-      } 
-      // Admin လက်မခံရသေးဘဲ Pending ဖြစ်နေလျှင်
-      else {
-        container.innerHTML = `
-          <div class="req-status-box">
-            <div style="display:flex; justify-content:space-between; align-items:center;">
-              <span style="font-weight:700; font-size:14px;">${savedReq.payName} Request</span>
-              <span style="background:rgba(251,191,36,0.15); color:var(--amber); border:1px solid var(--amber); padding:2px 8px; border-radius:20px; font-size:10px; font-weight:700;"><i class="fas fa-spinner fa-spin"></i> Pending Admin QR</span>
-            </div>
-            <p style="font-size:11px; color:var(--muted); margin-top:6px;">Admin သို့ Request ရောက်ရှိသွားပါပြီ။ Admin မှ QR ထည့်ပေးလျှင် ဤနေရာတွင် ပေါ်လာပါမည်။</p>
-            <button class="reset-btn" onclick="resetCustomRequest()">Cancel / New Request</button>
-          </div>`;
-      }
-    } catch (err) {
-      console.error("Status Check Error:", err);
-      container.innerHTML = defaultBtnHTML;
+    if (savedReq.qr_url) {
+      container.innerHTML = `
+        <div class="req-status-box">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span style="font-weight:700; color:var(--cyan); font-size:14px;">${savedReq.payName} QR Ready</span>
+            <span style="background:rgba(34,197,94,0.15); color:var(--green); border:1px solid var(--green); padding:2px 8px; border-radius:20px; font-size:10px; font-weight:700;">Approved</span>
+          </div>
+          <p style="font-size:11px; color:var(--muted); margin-top:6px;">Admin မှ QR Link ထည့်ပေးပြီးပါပြီ။ ငွေချေရန် Scan ဖတ်ပါ။</p>
+          <div style="text-align:center; margin-top:10px;">
+            <img src="${savedReq.qr_url}" style="width:150px; height:150px; border-radius:12px; border:1px solid var(--line); object-fit:cover;">
+          </div>
+          <div style="text-align:center;"><span class="reset-link" onclick="resetRequest()">Request အသစ် ပြန်လုပ်မည်</span></div>
+        </div>`;
+    } else {
+      container.innerHTML = `
+        <div class="req-status-box">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span style="font-weight:700; font-size:14px;">${savedReq.payName} Request</span>
+            <span style="background:rgba(251,191,36,0.15); color:var(--amber); border:1px solid var(--amber); padding:2px 8px; border-radius:20px; font-size:10px; font-weight:700;"><i class="fas fa-spinner fa-spin"></i> Pending Admin QR</span>
+          </div>
+          <p style="font-size:11px; color:var(--muted); margin-top:6px;">Admin သို့ Request ရောက်ရှိသွားပါပြီ။ Admin မှ QR ထည့်ပေးလျှင် ဤနေရာတွင် ပေါ်လာပါမည်။</p>
+          <div style="text-align:center;"><span class="reset-link" onclick="resetRequest()">Request ပယ်ဖျက်မည်</span></div>
+        </div>`;
     }
   }
 
@@ -504,9 +461,6 @@
   function closeModal(id) { document.getElementById(id).classList.remove('active'); }
 
   loadConfig();
-  
-  // ၃ စက္ကန့်တစ်ကြိမ် Auto စစ်ဆေးပေးမည်
-  setInterval(checkRequestStatus, 3000);
 </script>
 </body>
 </html>
