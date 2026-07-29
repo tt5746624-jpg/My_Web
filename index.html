@@ -80,6 +80,15 @@
   }
   .install-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 24px rgba(3, 196, 245, 0.35); }
 
+  .admin-btn {
+    width: 100%; margin-top: 12px; padding: 14px; border-radius: 14px;
+    border: 1px solid var(--line); background: var(--surface);
+    color: var(--text); font-family: var(--body-font); font-weight: 600; font-size: 15px;
+    cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 10px;
+    text-decoration: none;
+  }
+  .admin-btn:hover { background: var(--surface-2); border-color: var(--cyan); }
+
   .meta-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 24px; }
   .meta-item {
     background: var(--surface); border: 1px solid var(--line); border-radius: 16px;
@@ -183,6 +192,8 @@
 
   <div class="action-area">
     <button class="install-btn" id="dlBtn"><i class="fas fa-download"></i> <span id="dlLabel">Download APK</span></button>
+    <a href="#" id="adminBtn" target="_blank" class="admin-btn"><i class="fab fa-telegram"></i> Connect Admin</a>
+    
     <div class="meta-grid">
       <div class="meta-item"><span class="value" id="appSize">--</span><span class="label">Size</span></div>
       <div class="meta-item"><span class="value" id="appVersion">--</span><span class="label">Version</span></div>
@@ -289,6 +300,11 @@
     document.getElementById('infoCategory').innerText = info.category;
     document.getElementById('footerVersion').innerText = `v${info.version}`;
 
+    // Admin Telegram Link
+    if(appData.admin_url) {
+      document.getElementById('adminBtn').href = appData.admin_url;
+    }
+
     const screenCont = document.getElementById('screenshotContainer');
     appData.screenshots.forEach(src => {
       const img = document.createElement('img');
@@ -362,7 +378,7 @@
   document.getElementById('openPremium').onclick = () => modal.classList.add('active');
   document.getElementById('closeModal').onclick = () => modal.classList.remove('active');
 
-  // Serverless Proxy API သို့ Order ပို့ခြင်း (Token မပေါက်ကြားပါ)
+  // Submit Order Logic
   document.getElementById('submitOrderBtn').onclick = async function() {
     const tgUser = document.getElementById('tgUser').value.trim();
     const deviceId = document.getElementById('deviceId').value.trim();
