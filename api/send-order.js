@@ -11,6 +11,7 @@ export const config = {
 };
 
 export default async function handler(req, res) {
+  // CORS Headers
   res.setHeader('Access-Control-Allow-Credentials', true);
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
@@ -30,11 +31,17 @@ export default async function handler(req, res) {
 
   const BOT_TOKEN = process.env.BOT_TOKEN;
   const CHAT_ID = process.env.CHAT_ID;
-  const SUPABASE_URL = process.env.SUPABASE_URL;
+  let SUPABASE_URL = process.env.SUPABASE_URL;
   const SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
   if (!BOT_TOKEN || !CHAT_ID || !SUPABASE_URL || !SUPABASE_KEY) {
-    return res.status(500).json({ error: 'Server Environment Variables Missing' });
+    return res.status(500).json({ error: 'Server Environment Variables Missing. Check SUPABASE_URL & SUPABASE_SERVICE_ROLE_KEY' });
+  }
+
+  // URL ထဲတွင် https:// မပါပါက Auto ထည့်သွင်းပေးခြင်း
+  SUPABASE_URL = SUPABASE_URL.trim();
+  if (!SUPABASE_URL.startsWith('http://') && !SUPABASE_URL.startsWith('https://')) {
+    SUPABASE_URL = `https://${SUPABASE_URL}`;
   }
 
   const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -62,7 +69,7 @@ export default async function handler(req, res) {
       if (type === 'custom_request') {
         const safePayName = (payName || 'N/A').replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
-        // Supabase DB သို့ သိမ်းဆည်းခြင်း
+        // Supabase DB
         const { error: dbError } = await supabase
           .from('payment_requests')
           .upsert({ 
@@ -73,16 +80,16 @@ export default async function handler(req, res) {
           }, { onConflict: 'device_id' });
 
         if (dbError) {
-          console.error("Supabase Detailed Error:", dbError);
+          console.error("Supabase Error:", dbError);
           return res.status(500).json({ error: `Database save failed: ${dbError.message}` });
         }
 
-        // Telegram သို့ အကြောင်းကြားစာ ပို့ခြင်း
+        // Send Telegram Notification
         const caption = `⚠️ <b>CUSTOM PAYMENT REQUEST</b>\n\n` +
                         `💳 <b>Requested Payment:</b> ${safePayName}\n` +
                         `👤 <b>Telegram:</b> ${safeTgUser}\n` +
                         `📱 <b>Device ID:</b> <code>${safeDeviceId}</code>\n\n` +
-                        `👉 <i>Admin Panel တွင် Device ID <code>${safeDeviceId}</code> အတွက် QR Link ထည့်သွင်းပေးပါ။</i>`;
+                        `👉 <i>Admin Panel မှ Device ID <code>${safeDeviceId}</code> အတွက် QR Link ထည့်သွင်းပေးပါ။</i>`;
 
         await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
           method: 'POST',
