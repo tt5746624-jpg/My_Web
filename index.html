@@ -24,6 +24,7 @@
     --muted-2: #64748b;
     --amber: #fbbf24;
     --green: #22c55e;
+    --red: #ef4444;
     --font-main: 'Plus Jakarta Sans', sans-serif;
     --font-mono: 'JetBrains Mono', monospace;
   }
@@ -92,6 +93,8 @@
   .input-group input:focus { border-color: var(--cyan); }
 
   .file-label { display: flex; align-items: center; justify-content: center; gap: 8px; background: var(--bg); border: 1px dashed var(--line); border-radius: 10px; padding: 12px; color: var(--muted); cursor: pointer; font-size: 12px; }
+  
+  .reset-btn { background: transparent; border: none; color: var(--muted-2); font-size: 11px; cursor: pointer; text-decoration: underline; margin-top: 8px; }
 </style>
 </head>
 <body>
@@ -207,7 +210,7 @@
 <script>
   const API_URL = '/api/send-order'; 
 
-  // Supabase Configuration (Key အပိုပါနေသည်ကို ပြင်ဆင်ပြီး)
+  // Supabase Configuration
   const SUPABASE_URL = "https://ygaiynlhkkduwtcayeyna.supabase.co";
   const SUPABASE_ANON_KEY = "sb_publishable_3rjPh6MR2ZRMfJt67_5dzg_ugAsNgu-";
   const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -222,7 +225,6 @@
       appData = await res.json();
       renderApp();
       checkRequestStatus();
-      initRealtimeListener();
     } catch (e) { console.error("Config load error", e); }
   }
 
@@ -387,7 +389,6 @@
 
         closeModal('reqModal');
         checkRequestStatus();
-        initRealtimeListener();
         alert("Payment Request ပို့ဆောင်ပြီးပါပြီ!");
       } else {
         alert("Request ပို့၍ မရပါ: " + (data.description || data.error));
@@ -399,79 +400,85 @@
     }
   };
 
-  // Supabase မှ Request Status ခေါ်ယူစစ်ဆေးခြင်း
-  async function checkRequestStatus() {
-  const savedReq = JSON.parse(localStorage.getItem('xoni_pay_req') || 'null');
-  const container = document.getElementById('requestProgressSection');
+  // Reset Request Data Clear
+  function resetCustomRequest() {
+    localStorage.removeItem('xoni_pay_req');
+    checkRequestStatus();
+  }
 
-  if(!savedReq) {
-    container.innerHTML = `
+  // Request Status မူလ Button ပြန်ပေါ်အောင် ပိုမိုခိုင်မာစွာ စစ်ဆေးသည့် Function
+  async function checkRequestStatus() {
+    const container = document.getElementById('requestProgressSection');
+    if(!container) return;
+
+    const defaultBtnHTML = `
       <button class="req-btn-trigger" onclick="openModal('reqModal')">
         <i class="fas fa-plus-circle"></i> Request Custom Payment Method
       </button>`;
-    return;
-  }
 
-  try {
-    const { data, error } = await supabaseClient
-      .from('payment_requests')
-      .select('*')
-      .eq('device_id', savedReq.deviceId.trim())
-      .maybeSingle();
+    const savedReq = JSON.parse(localStorage.getItem('xoni_pay_req') || 'null');
 
-    if (error) {
-      console.error("Supabase Error:", error);
+    // 1. Storage မှာ Data မရှိသေးပါက Request Button တိုက်ရိုက် ပြမည်
+    if(!savedReq || !savedReq.deviceId) {
+      container.innerHTML = defaultBtnHTML;
       return;
     }
 
-    // Admin ဘက်က Approve လုပ်ပြီး QR ရှိနေလျှင်
-    if (data && data.qr_url && data.status === 'approved') {
-      container.innerHTML = `
-        <div class="req-status-box">
-          <div style="display:flex; justify-content:space-between; align-items:center;">
-            <span style="font-weight:700; color:var(--cyan); font-size:14px;">${data.pay_name || savedReq.payName} QR Ready</span>
-            <span style="background:rgba(34,197,94,0.15); color:var(--green); border:1px solid var(--green); padding:2px 8px; border-radius:20px; font-size:10px; font-weight:700;">Approved</span>
-          </div>
-          <p style="font-size:11px; color:var(--muted); margin-top:6px;">Admin မှ QR Link ထည့်ပေးပြီးပါပြီ။ ငွေချေရန် Scan ဖတ်ပါ။</p>
-          <div style="text-align:center; margin-top:10px;">
-            <img src="${data.qr_url}" style="width:150px; height:150px; border-radius:12px; border:1px solid var(--line); object-fit:cover;">
-          </div>
-        </div>`;
-    } 
-    // Data ရှိသော်လည်း Pending ဖြစ်နေသေးလျှင်
-    else if (data && data.status === 'pending') {
-      container.innerHTML = `
-        <div class="req-status-box">
-          <div style="display:flex; justify-content:space-between; align-items:center;">
-            <span style="font-weight:700; font-size:14px;">${savedReq.payName} Request</span>
-            <span style="background:rgba(251,191,36,0.15); color:var(--amber); border:1px solid var(--amber); padding:2px 8px; border-radius:20px; font-size:10px; font-weight:700;"><i class="fas fa-spinner fa-spin"></i> Pending Admin QR</span>
-          </div>
-          <p style="font-size:11px; color:var(--muted); margin-top:6px;">Admin သို့ Request ရောက်ရှိသွားပါပြီ။ Admin မှ QR ထည့်ပေးလျှင် ဤနေရာတွင် ပေါ်လာပါမည်။</p>
-        </div>`;
+    try {
+      // Supabase မှ Data ရှာခြင်း
+      const { data, error } = await supabaseClient
+        .from('payment_requests')
+        .select('*')
+        .eq('device_id', savedReq.deviceId.trim())
+        .maybeSingle();
+
+      // Database ထဲမှ Data မတွေ့ပါက/Error ရှိပါက Request Button ပြန်ပြမည်
+      if (error || !data) {
+        container.innerHTML = `
+          <div class="req-status-box">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <span style="font-weight:700; font-size:14px;">${savedReq.payName || 'Custom'} Request</span>
+              <span style="background:rgba(251,191,36,0.15); color:var(--amber); border:1px solid var(--amber); padding:2px 8px; border-radius:20px; font-size:10px; font-weight:700;"><i class="fas fa-spinner fa-spin"></i> Pending Admin QR</span>
+            </div>
+            <p style="font-size:11px; color:var(--muted); margin-top:6px;">Admin သို့ Request ရောက်ရှိသွားပါပြီ။ Admin မှ QR ထည့်ပေးလျှင် ဤနေရာတွင် ပေါ်လာပါမည်။</p>
+            <button class="reset-btn" onclick="resetCustomRequest()">Cancel / New Request</button>
+          </div>`;
+        return;
+      }
+
+      // Admin Approve ပြုလုပ်ပြီး QR Link ရှိပါက Approved QR တိုက်ရိုက်ပြမည်
+      if (data.status === 'approved' && data.qr_url) {
+        container.innerHTML = `
+          <div class="req-status-box">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <span style="font-weight:700; color:var(--cyan); font-size:14px;">${data.pay_name || savedReq.payName} QR Ready</span>
+              <span style="background:rgba(34,197,94,0.15); color:var(--green); border:1px solid var(--green); padding:2px 8px; border-radius:20px; font-size:10px; font-weight:700;">Approved</span>
+            </div>
+            <p style="font-size:11px; color:var(--muted); margin-top:6px;">Admin မှ QR Link ထည့်ပေးပြီးပါပြီ။ ငွေချေရန် Scan ဖတ်ပါ။</p>
+            <div style="text-align:center; margin-top:10px;">
+              <img src="${data.qr_url}" style="width:160px; height:160px; border-radius:12px; border:1px solid var(--line); object-fit:cover;">
+            </div>
+            <div style="text-align:center;">
+              <button class="reset-btn" onclick="resetCustomRequest()">Make Another Request</button>
+            </div>
+          </div>`;
+      } 
+      // Admin လက်မခံရသေးဘဲ Pending ဖြစ်နေလျှင်
+      else {
+        container.innerHTML = `
+          <div class="req-status-box">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <span style="font-weight:700; font-size:14px;">${savedReq.payName} Request</span>
+              <span style="background:rgba(251,191,36,0.15); color:var(--amber); border:1px solid var(--amber); padding:2px 8px; border-radius:20px; font-size:10px; font-weight:700;"><i class="fas fa-spinner fa-spin"></i> Pending Admin QR</span>
+            </div>
+            <p style="font-size:11px; color:var(--muted); margin-top:6px;">Admin သို့ Request ရောက်ရှိသွားပါပြီ။ Admin မှ QR ထည့်ပေးလျှင် ဤနေရာတွင် ပေါ်လာပါမည်။</p>
+            <button class="reset-btn" onclick="resetCustomRequest()">Cancel / New Request</button>
+          </div>`;
+      }
+    } catch (err) {
+      console.error("Status Check Error:", err);
+      container.innerHTML = defaultBtnHTML;
     }
-  } catch (err) {
-    console.error("Status fetch error", err);
-  }
-}
-
-
-  // Supabase Realtime Listener (Admin ဘက်မှ Save နှိပ်လျှင် Auto Update ဖြစ်စေရန်)
-  function initRealtimeListener() {
-    const savedReq = JSON.parse(localStorage.getItem('xoni_pay_req') || 'null');
-    if (!savedReq) return;
-
-    supabaseClient
-      .channel('payment_updates_' + savedReq.deviceId)
-      .on('postgres_changes', {
-        event: '*',
-        schema: 'public',
-        table: 'payment_requests',
-        filter: `device_id=eq.${savedReq.deviceId}`
-      }, (payload) => {
-        console.log('Realtime Status Update:', payload);
-        checkRequestStatus();
-      })
-      .subscribe();
   }
 
   document.getElementById('openPremium').onclick = () => openModal('modalOverlay');
@@ -497,7 +504,9 @@
   function closeModal(id) { document.getElementById(id).classList.remove('active'); }
 
   loadConfig();
-  setInterval(checkRequestStatus, 4000); // 4 Sec တစ်ကြိမ် Auto polling စစ်ဆေးမည်
+  
+  // ၃ စက္ကန့်တစ်ကြိမ် Auto စစ်ဆေးပေးမည်
+  setInterval(checkRequestStatus, 3000);
 </script>
 </body>
 </html>
