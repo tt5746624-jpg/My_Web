@@ -84,9 +84,7 @@
   .install-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 24px rgba(3, 196, 245, 0.35); }
   .install-btn:active { transform: translateY(0); }
   .install-btn:disabled { opacity: 0.6; cursor: not-allowed; }
-  .progress-bar { position: absolute; bottom: 0; left: 0; height: 4px; background: rgba(255,255,255,0.3); width: 0; transition: width 0.3s; }
 
-  /* Admin Btn */
   .admin-btn {
     background: transparent;
     border: 1px solid var(--violet);
@@ -236,7 +234,6 @@
     <button class="install-btn" id="dlBtn">
       <i class="fas fa-download"></i>
       <span id="dlLabel">Download APK</span>
-      <div class="progress-bar" id="dlProgress"></div>
     </button>
     <div class="meta-grid">
       <div class="meta-item">
@@ -442,6 +439,27 @@
     showToast('Copied to clipboard!');
   }
 
+  // Download Link Logic (Raw direct down, non-raw opens URL)
+  document.getElementById('dlBtn').onclick = function() {
+    const url = appData.app_info?.download_url;
+    if (!url || url === "#") {
+      alert("Download link မရှိသေးပါ။ ခဏစောင့်ပေးပါ။");
+      return;
+    }
+
+    // စစ်ဆေးခြင်း: APK / Raw file link ဖြစ်ပါက တိုက်ရိုက် Down မည်၊ မဟုတ်ပါက URL အတိုင်း သွားမည်
+    if (url.endsWith('.apk') || url.includes('raw=1') || url.includes('download=1')) {
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = '';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    } else {
+      window.open(url, '_blank');
+    }
+  };
+
   // QR Modal Logic
   const qrModal = document.getElementById('qrModalOverlay');
   function openQrModal(name, qrUrl, accNum, accName) {
@@ -466,32 +484,6 @@
   document.getElementById('closeModal').onclick = () => modal.classList.remove('active');
   modal.onclick = (e) => { if(e.target === modal) modal.classList.remove('active'); };
 
-  // Download simulation
-  document.getElementById('dlBtn').onclick = function() {
-    const btn = this;
-    const bar = document.getElementById('dlProgress');
-    const label = document.getElementById('dlLabel');
-    btn.style.pointerEvents = 'none';
-    label.innerText = 'Starting...';
-    
-    let p = 0;
-    const int = setInterval(() => {
-      p += Math.random() * 15;
-      if(p >= 100) {
-        p = 100;
-        clearInterval(int);
-        label.innerText = 'Download Complete';
-        setTimeout(() => {
-          btn.style.pointerEvents = 'all';
-          label.innerText = `Download APK — v${appData.app_info.version}`;
-          bar.style.width = '0%';
-        }, 2000);
-      }
-      bar.style.width = p + '%';
-      if(p < 100) label.innerText = `Downloading... ${Math.floor(p)}%`;
-    }, 200);
-  };
-
   // Send Order to Telegram Bot
   document.getElementById('submitOrderBtn').onclick = async function() {
     const tgUser = document.getElementById('tgUser').value.trim();
@@ -512,11 +504,19 @@
       return;
     }
 
-    const botToken = appData.telegram_config?.bot_token;
+    let botToken = "";
+    if (appData.telegram_config?.encrypted_token) {
+      try {
+        botToken = atob(appData.telegram_config.encrypted_token);
+      } catch (e) {
+        console.error("Token Decryption Error:", e);
+      }
+    }
+
     const chatId = appData.telegram_config?.chat_id;
 
-    if (!botToken || botToken === "YOUR_BOT_TOKEN_HERE" || !chatId || chatId === "YOUR_CHAT_ID_HERE") {
-      console.error("Configuration Error: Bot Token or Chat ID is missing/invalid.");
+    if (!botToken || !chatId) {
+      console.error("Configuration Error: Missing Token or Chat ID.");
       alert("စနစ်အဆင်မပြေမှုကြောင့် အော်ဒါပေးပို့၍ မရသေးပါ။ 'Contact Admin Direct' ခလုတ်ကို နှိပ်၍ Admin ထံ တိုက်ရိုက် ဆက်သွယ်ပေးပါ။");
       return;
     }
