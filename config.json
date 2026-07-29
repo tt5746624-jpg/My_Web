@@ -2,7 +2,7 @@
   "app_info": {
     "name": "Xoni Tools",
     "subtitle": "MLBB Injector & Customizer",
-    "version": "2.28",
+    "version": "2.24",
     "size": "20.39 MB",
     "updated_date": "July 17, 2026",
     "android_version": "6.0+",
@@ -11,8 +11,9 @@
     "download_url": "#"
   },
   "telegram_config": {
-    "bot_token": "8856946915:AAGA0lFTdFUzEt3qgi5dBe6N2r1cgWX16HM",
-    "chat_id": "6912974998"
+    "bot_token": "YOUR_BOT_TOKEN_HERE",
+    "chat_id": "YOUR_CHAT_ID_HERE",
+    "admin_username": "https://t.me/your_admin_username"
   },
   "screenshots": [
     "https://i.ibb.co/6JD6LNgJ/c304e6805da0.jpg",
