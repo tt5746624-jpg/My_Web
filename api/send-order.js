@@ -11,7 +11,6 @@ export const config = {
 };
 
 export default async function handler(req, res) {
-  // CORS Headers
   res.setHeader('Access-Control-Allow-Credentials', true);
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
@@ -63,7 +62,7 @@ export default async function handler(req, res) {
       if (type === 'custom_request') {
         const safePayName = (payName || 'N/A').replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
-        // Save to Supabase DB
+        // Supabase DB သို့ သိမ်းဆည်းခြင်း
         const { error: dbError } = await supabase
           .from('payment_requests')
           .upsert({ 
@@ -74,16 +73,16 @@ export default async function handler(req, res) {
           }, { onConflict: 'device_id' });
 
         if (dbError) {
-          console.error("Supabase DB Error:", dbError);
-          return res.status(500).json({ error: 'Database save failed' });
+          console.error("Supabase Detailed Error:", dbError);
+          return res.status(500).json({ error: `Database save failed: ${dbError.message}` });
         }
 
-        // Notify Telegram Admin
+        // Telegram သို့ အကြောင်းကြားစာ ပို့ခြင်း
         const caption = `⚠️ <b>CUSTOM PAYMENT REQUEST</b>\n\n` +
                         `💳 <b>Requested Payment:</b> ${safePayName}\n` +
                         `👤 <b>Telegram:</b> ${safeTgUser}\n` +
                         `📱 <b>Device ID:</b> <code>${safeDeviceId}</code>\n\n` +
-                        `👉 <i>Admin Panel မှ Device ID <code>${safeDeviceId}</code> အတွက် QR Link ထည့်သွင်းပေးပါ။</i>`;
+                        `👉 <i>Admin Panel တွင် Device ID <code>${safeDeviceId}</code> အတွက် QR Link ထည့်သွင်းပေးပါ။</i>`;
 
         await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
           method: 'POST',
@@ -94,7 +93,7 @@ export default async function handler(req, res) {
         return res.status(200).json({ ok: true });
       }
 
-      // 2. Normal Order Submit (Receipt Photo)
+      // 2. Normal Order Submit ( Receipt Photo )
       if (!photoFile) {
         return res.status(400).json({ error: 'Receipt photo is required' });
       }
