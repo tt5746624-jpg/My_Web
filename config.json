@@ -155,5 +155,12 @@
       ]
     }
   ],
-  "custom_qr_requests": []
+  "custom_qr_requests": [
+    {
+      "deviceId": "I8w81iwj2ia",
+      "tgUser": "@xoni_l",
+      "payName": "PayPal",
+      "qr_url": "Test"
+    }
+  ]
 }
