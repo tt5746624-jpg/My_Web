@@ -1,22 +1,19 @@
 {
     "appName": "XoniTools Pro",
     "version": "3.1.0",
-    "downloadLink": "https://yourserver.com/xonitools-v3.1.0.apk",
+    "downloadLink": "https://yourserver.com/app.apk",
     "whatsNew": [
-        "Complete UI redesign with Material You",
+        "Complete UI redesign",
         "Added 15 new developer tools",
-        "Performance optimized - 60% faster",
-        "Fixed crash on Android 14 devices",
-        "New cloud backup feature"
+        "Performance optimized by 60%",
+        "Bug fixes and stability improvements"
     ],
-    "screenshots": [
-        "https://your-cdn.com/screen1.jpg",
-        "https://your-cdn.com/screen2.jpg",
-        "https://your-cdn.com/screen3.jpg"
-    ],
-    "appIcon": "https://your-cdn.com/app-icon.png",
+    "appIcon": "https://your-cdn.com/icon.png",
     "isAvailable": true,
     "fileSize": "18.4 MB",
     "updatedDate": "2026-08-01",
-    "requires": "Android 8.0+"
+    "requires": "Android 8.0+",
+    "telegramChannel": "https://t.me/xonitools",
+    "telegramGroup": "https://t.me/xonitoolschat",
+    "connectMe": "https://t.me/yourusername"
 }
