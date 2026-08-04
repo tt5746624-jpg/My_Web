@@ -64,9 +64,6 @@ function generateDroneXML($zoomLevel, $base1x, $base20x, $comments) {
         $t = 1.0 + ($zoomLevel - 20) * 0.05;
     }
 
-    $lines[] = "<!-- MLBB Drone View {$zoomLevel}x -->";
-    $lines[] = "";
-
     for ($cid = 1; $cid <= 10; $cid++) {
         $v1 = $base1x[$cid];
         $v20 = $base20x[$cid];
@@ -90,14 +87,16 @@ function generateDroneXML($zoomLevel, $base1x, $base20x, $comments) {
 
         $comment = isset($comments[$cid]) ? $comments[$cid] : '';
 
+        // First line (iId=1) has NO leading spaces, rest have 6 spaces
+        $indent = ($cid == 1) ? '' : '      ';
+
         $line = sprintf(
-            '      <SCameraCamp iId="%d" fPosX="%.2f" fPosY="%.2f" fPosZ="%.2f" fRotX="%.2f" fRotY="%.1f" fRotZ="%.2f" fFov="%.1f" fScreenPtCastDis="%.1f"/>%s',
-            $cid, $x, $y, $z, $rx, $v1['ry'], $v1['rz'], $fov, $dis, $comment
+            '%s<SCameraCamp iId="%d" fPosX="%.2f" fPosY="%.2f" fPosZ="%.2f" fRotX="%.2f" fRotY="%.1f" fRotZ="%.2f" fFov="%.1f" fScreenPtCastDis="%.1f"/>%s',
+            $indent, $cid, $x, $y, $z, $rx, $v1['ry'], $v1['rz'], $fov, $dis, $comment
         );
         $lines[] = $line;
     }
 
-    $lines[] = "";
     return implode("\n", $lines);
 }
 
@@ -130,7 +129,7 @@ if (isset($_GET['zoom'])) {
         for ($z = 1; $z <= $zoomLevel; $z++) {
             $batchLines[] = generateDroneXML($z, $BASE_1X, $BASE_20X, $COMMENTS);
         }
-        $xml = implode("\n", $batchLines);
+        $xml = implode("\n\n", $batchLines);
 
         if (isset($_GET['raw'])) {
             header("Content-Type: text/plain; charset=UTF-8");
@@ -203,7 +202,7 @@ if (isset($_POST['batch']) && is_numeric($_POST['batch_max'] ?? '')) {
     for ($z = 1; $z <= $batchMax; $z++) {
         $batchLines[] = generateDroneXML($z, $BASE_1X, $BASE_20X, $COMMENTS);
     }
-    $batchXml = implode("\n", $batchLines);
+    $batchXml = implode("\n\n", $batchLines);
 }
 ?>
 <!DOCTYPE html>
