@@ -1,0 +1,26 @@
+[
+  {
+    "name": "Xoni Cleaner",
+    "icon": "./cleaner.png",
+    "link": "https://example.com/cleaner.apk",
+    "available": true
+  },
+  {
+    "name": "Xoni Secure",
+    "icon": "./secure.png",
+    "link": "https://example.com/secure.apk",
+    "available": true
+  },
+  {
+    "name": "Xoni Cloud",
+    "icon": "./cloud.png",
+    "link": "",
+    "available": false
+  },
+  {
+    "name": "Xoni VPN",
+    "icon": "./vpn.png",
+    "link": "https://example.com/vpn.apk",
+    "available": true
+  }
+]
