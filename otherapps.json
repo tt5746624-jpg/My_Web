@@ -1,26 +1,8 @@
 [
   {
-    "name": "Xoni Cleaner",
-    "icon": "./cleaner.png",
-    "link": "https://example.com/cleaner.apk",
-    "available": true
-  },
-  {
-    "name": "Xoni Secure",
-    "icon": "./secure.png",
-    "link": "https://example.com/secure.apk",
-    "available": true
-  },
-  {
-    "name": "Xoni Cloud",
-    "icon": "./cloud.png",
-    "link": "",
-    "available": false
-  },
-  {
-    "name": "Xoni VPN",
-    "icon": "./vpn.png",
-    "link": "https://example.com/vpn.apk",
+    "name": "DevVault",
+    "icon": "./devvault.png",
+    "link": "YOUR_DOWNLOAD_LINK",
     "available": true
   }
 ]
