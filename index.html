@@ -3,7 +3,41 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#0c0b09">
-  <title>XoniTool · Download</title>  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&family=Padauk:wght@400;700&display=swap" rel="stylesheet">  <style>
+  <meta name="description" content="Download XoniTools, a fast and modern Android utility app with a clean interface, secure access, and regular updates.">
+  <meta name="keywords" content="XoniTools, Xoni Tool, Android tools, Android app download, Myanmar app">
+  <meta name="author" content="XoniTools">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://xonitool.vercel.app/">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://xonitool.vercel.app/">
+  <meta property="og:title" content="XoniTools · Android Utility App">
+  <meta property="og:description" content="Download the latest XoniTools Android utility app and explore its features.">
+  <meta property="og:image" content="https://xonitool.vercel.app/1001200654.png">
+  <meta property="og:site_name" content="XoniTools">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="XoniTools · Android Utility App">
+  <meta name="twitter:description" content="Download the latest XoniTools Android utility app.">
+  <meta name="twitter:image" content="https://xonitool.vercel.app/1001200654.png">
+  <title>XoniTools · Android Utility App Download</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&family=Padauk:wght@400;700&display=swap" rel="stylesheet">
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"MobileApplication",
+    "name":"XoniTools",
+    "operatingSystem":"Android",
+    "applicationCategory":"UtilitiesApplication",
+    "softwareVersion":"2.31",
+    "fileSize":"19.4MB",
+    "description":"A fast and modern Android utility app from XoniTools.",
+    "image":"https://xonitool.vercel.app/1001200562.png",
+    "url":"https://xonitool.vercel.app/",
+    "downloadUrl":"https://www.dropbox.com/scl/fi/i8en1ncatgv92ppkbk451/XoniTools-v2.31.apk?rlkey=px5hb4k924e9nudusd0twt1oc&st=kf62fkjv&dl=1"
+  }
+  </script>
+  <style>
     *{
       margin:0;
       padding:0;
@@ -97,7 +131,7 @@
     }
 
     .app-wrapper{
-      max-width:680px;
+      max-width:760px;
       min-height:100vh;
       margin:0 auto;
       position:relative;
@@ -177,6 +211,14 @@
       justify-content:center;
       cursor:pointer;
       transition:.2s;
+    }
+
+    .m3-icon-btn:focus-visible,
+    .m3-download-btn:focus-visible,
+    .other-app-download:focus-visible,
+    .drawer-nav-item:focus-visible{
+      outline:3px solid var(--m3-primary);
+      outline-offset:3px;
     }
 
     .m3-icon-btn:active{
@@ -587,6 +629,15 @@
     }
 
     @media(max-width:480px){
+      .app-wrapper{
+        padding-left:12px;
+        padding-right:12px;
+      }
+
+      .top-app-bar{
+        top:6px;
+        margin-top:6px;
+      }
       .app-info-header{
         gap:14px;
       }
@@ -607,6 +658,15 @@
 
       .cover-image-container{
         height:250px;
+      }
+    }
+
+    @media(prefers-reduced-motion:reduce){
+      *,*::before,*::after{
+        scroll-behavior:auto !important;
+        animation-duration:.01ms !important;
+        animation-iteration-count:1 !important;
+        transition-duration:.01ms !important;
       }
     }
 
@@ -697,7 +757,17 @@
   </button>
 </div>
 
-  </header>  <main class="main-content" id="mainContent"></main>  <section id="otherAppsContainer" class="other-apps-section" hidden></section>  <footer class="footer" data-i18n="footerText">
+  </header>
+  <main class="main-content" id="mainContent" aria-live="polite">
+    <noscript>
+      <div class="app-info-card glass-panel">
+        <h1 class="app-title">XoniTools Android Utility App</h1>
+        <p>Enable JavaScript to view the latest app details and download link.</p>
+      </div>
+    </noscript>
+  </main>
+  <section id="otherAppsContainer" class="other-apps-section" hidden></section>
+  <footer class="footer" data-i18n="footerText">
     © 2026 XoniTools. All rights reserved.
   </footer></div><script>
 const appData = {
@@ -959,6 +1029,7 @@ function renderMainApp(lang) {
       <a
         href="${buttonLink}"
         class="${btnClass}"
+        aria-label="${escapeHTML(btnText + ' ' + data.appName)}"
         ${isAvailable ? 'target="_blank" rel="noopener noreferrer"' : ""}
       >
         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="20">
@@ -1020,6 +1091,7 @@ function renderOtherApps(apps, lang) {
       <div class="other-app-card glass-panel">
 
         <img
+          loading="lazy"
           src="${icon}"
           alt="${name}"
           class="other-app-icon"
