@@ -73,6 +73,18 @@
       --m3-surface:rgba(240,238,232,.82);
     }
 
+    [data-theme="dark"]{
+      --m3-bg:#080807;
+      --m3-on-bg:#f6efdf;
+      --m3-glass:rgba(25,24,18,.64);
+      --m3-glass-raised:rgba(46,43,33,.78);
+      --m3-glass-border:rgba(255,236,131,.14);
+      --m3-primary:#f2dc45;
+      --m3-on-primary:#2e2900;
+      --m3-outline:#bdb49b;
+      --m3-surface:rgba(17,16,13,.82);
+    }
+
     html{
       scroll-behavior:smooth;
     }
@@ -105,6 +117,17 @@
       border-radius:50%;
       filter:blur(80px);
       opacity:.45;
+      will-change:transform;
+    }
+
+    .ambient-bg::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+      background-size:48px 48px;
+      mask-image:linear-gradient(to bottom,rgba(0,0,0,.42),transparent 72%);
+      opacity:.22;
     }
 
     .orb-1{
@@ -113,6 +136,7 @@
       background:rgba(217,201,59,.18);
       top:-15%;
       left:-20%;
+      animation:orbFloat 14s ease-in-out infinite alternate;
     }
 
     .orb-2{
@@ -121,6 +145,7 @@
       background:rgba(217,201,59,.10);
       bottom:-20%;
       right:-20%;
+      animation:orbFloat 18s ease-in-out -4s infinite alternate-reverse;
     }
 
     .glass-panel{
@@ -128,6 +153,12 @@
       backdrop-filter:blur(16px);
       -webkit-backdrop-filter:blur(16px);
       border:1px solid var(--m3-glass-border);
+      box-shadow:0 18px 50px rgba(0,0,0,.18),inset 0 1px 0 rgba(255,255,255,.035);
+      transition:background .35s ease,border-color .35s ease,box-shadow .35s ease;
+    }
+
+    [data-theme="dark"] .glass-panel{
+      box-shadow:0 22px 60px rgba(0,0,0,.34),inset 0 1px 0 rgba(255,240,155,.055);
     }
 
     .app-wrapper{
@@ -168,6 +199,8 @@
       height:100%;
       object-fit:cover;
       display:block;
+      animation:coverDrift 18s ease-in-out infinite alternate;
+      transform-origin:center;
     }
 
     .top-app-bar{
@@ -183,6 +216,8 @@
       -webkit-backdrop-filter:blur(14px);
       border-radius:40px;
       margin:8px 0 12px;
+      box-shadow:0 8px 26px rgba(0,0,0,.22);
+      animation:barEnter .7s cubic-bezier(.2,.8,.2,1) both;
     }
 
     .app-bar-title{
@@ -191,6 +226,12 @@
       color:#fff;
       text-shadow:0 2px 6px rgba(0,0,0,.6);
       letter-spacing:.3px;
+      background:linear-gradient(110deg,#fff7b0 0%,#f2dc45 46%,#ffffff 55%,#f2dc45 72%);
+      background-size:220% auto;
+      -webkit-background-clip:text;
+      background-clip:text;
+      -webkit-text-fill-color:transparent;
+      animation:titleShimmer 5s ease-in-out infinite;
     }
 
     .icon-actions{
@@ -226,7 +267,9 @@
     }
 
     .m3-icon-btn:hover{
-      background:rgba(255,255,255,.2);
+      background:rgba(255,236,131,.18);
+      box-shadow:0 0 0 5px rgba(242,220,69,.08),0 0 22px rgba(242,220,69,.18);
+      transform:translateY(-2px) rotate(3deg);
     }
 
     .m3-icon-btn svg{
@@ -258,7 +301,9 @@
       padding:24px 22px;
       box-shadow:0 16px 40px rgba(0,0,0,.35);
       margin-bottom:28px;
-      animation:slideUp .5s ease;
+      animation:cardEnter .75s cubic-bezier(.2,.8,.2,1) both;
+      position:relative;
+      overflow:hidden;
     }
 
     .app-info-header{
@@ -340,11 +385,26 @@
       box-shadow:0 8px 20px rgba(217,201,59,.25);
       border:none;
       cursor:pointer;
+      position:relative;
+      overflow:hidden;
+      isolation:isolate;
+    }
+
+    .m3-download-btn::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:linear-gradient(110deg,transparent 25%,rgba(255,255,255,.48) 48%,transparent 70%);
+      transform:translateX(-130%);
+      animation:buttonShine 4.8s ease-in-out infinite;
+      pointer-events:none;
+      z-index:-1;
     }
 
     .m3-download-btn:hover{
       filter:brightness(1.08);
-      transform:translateY(-2px);
+      transform:translateY(-3px) scale(1.01);
+      box-shadow:0 12px 30px rgba(217,201,59,.34);
     }
 
     .m3-download-btn:active{
@@ -361,7 +421,7 @@
     .features-card{
       border-radius:28px;
       padding:22px 20px;
-      animation:slideUp .6s ease;
+      animation:cardEnter .8s .12s cubic-bezier(.2,.8,.2,1) both;
     }
 
     .features-header{
@@ -393,6 +453,8 @@
 
     .feature-item:hover{
       border-color:var(--m3-primary);
+      transform:translateY(-3px);
+      box-shadow:0 10px 24px rgba(0,0,0,.16);
     }
 
     .feature-icon{
@@ -421,7 +483,7 @@
 
     .other-apps-section{
       margin:8px 0 24px;
-      animation:slideUp .7s ease;
+      animation:cardEnter .85s .24s cubic-bezier(.2,.8,.2,1) both;
     }
 
     .other-apps-header{
@@ -462,7 +524,7 @@
     }
 
     .other-app-card:hover{
-      transform:translateY(-4px);
+      transform:translateY(-6px) scale(1.015);
       border-color:var(--m3-primary);
       box-shadow:0 12px 28px rgba(0,0,0,.25);
     }
@@ -618,6 +680,36 @@
       border-radius:18px;
     }
 
+    @keyframes orbFloat{
+      0%{transform:translate3d(-10px,-8px,0) scale(1)}
+      100%{transform:translate3d(34px,24px,0) scale(1.12)}
+    }
+
+    @keyframes coverDrift{
+      0%{transform:scale(1.02) translate3d(0,0,0)}
+      100%{transform:scale(1.08) translate3d(0,-8px,0)}
+    }
+
+    @keyframes barEnter{
+      from{opacity:0;transform:translateY(-16px) scale(.98)}
+      to{opacity:1;transform:translateY(0) scale(1)}
+    }
+
+    @keyframes cardEnter{
+      from{opacity:0;transform:translateY(26px) scale(.985)}
+      to{opacity:1;transform:translateY(0) scale(1)}
+    }
+
+    @keyframes titleShimmer{
+      0%,70%,100%{background-position:220% center}
+      85%{background-position:-20% center}
+    }
+
+    @keyframes buttonShine{
+      0%,65%{transform:translateX(-130%)}
+      82%,100%{transform:translateX(130%)}
+    }
+
     @keyframes shimmer{
       0%{background-position:200% 0}
       100%{background-position:-200% 0}
@@ -667,6 +759,9 @@
         animation-duration:.01ms !important;
         animation-iteration-count:1 !important;
         transition-duration:.01ms !important;
+      }
+      .orb,.cover-image,.app-bar-title,.m3-download-btn::after{
+        animation:none !important;
       }
     }
 
