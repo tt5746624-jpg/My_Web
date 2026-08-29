@@ -3,8 +3,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#0c0b09">
-  <meta name="description" content="Download XoniTools, a fast and modern Android utility app with a clean interface, secure access, and regular updates.">
-  <meta name="keywords" content="XoniTools, Xoni Tool, Android tools, Android app download, Myanmar app">
+  <meta name="description" content="XoniTools is an Android Utility Tools platform with a clean interface, useful tools, regular updates, and official download information.">
+  <meta name="keywords" content="XoniTools, Android Utility Tools, Android tools, utility app, Myanmar app">
   <meta name="author" content="XoniTools">
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
   <meta name="googlebot" content="index, follow, max-image-preview:large">
@@ -14,17 +14,17 @@
   <link rel="icon" type="image/png" href="https://xonitool.vercel.app/1001200562.png">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://xonitool.vercel.app/">
-  <meta property="og:title" content="XoniTools · Android Utility App">
-  <meta property="og:description" content="Download the latest XoniTools Android utility app and explore its features.">
+  <meta property="og:title" content="XoniTools · Android Utility Tools">
+  <meta property="og:description" content="Explore XoniTools Android Utility Tools, product updates, screenshots, FAQ, and official download information.">
   <meta property="og:image" content="https://xonitool.vercel.app/1001200654.png">
-  <meta property="og:image:alt" content="XoniTools Android utility app banner">
+  <meta property="og:image:alt" content="XoniTools Android Utility Tools banner">
   <meta property="og:locale" content="en_US">
   <meta property="og:site_name" content="XoniTools">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="XoniTools · Android Utility App">
-  <meta name="twitter:description" content="Download the latest XoniTools Android utility app.">
+  <meta name="twitter:title" content="XoniTools · Android Utility Tools">
+  <meta name="twitter:description" content="Discover XoniTools Android Utility Tools and the latest product updates.">
   <meta name="twitter:image" content="https://xonitool.vercel.app/1001200654.png">
-  <title>XoniTools · Android Utility App Download</title>
+  <title>XoniTools · Android Utility Tools</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&family=Padauk:wght@400;700&display=swap" rel="stylesheet">
@@ -46,7 +46,7 @@
     "name":"XoniTools",
     "alternateName":"Xoni Tools",
     "url":"https://xonitool.vercel.app/",
-    "description":"The official XoniTools Android utility app download website."
+    "description":"The official XoniTools Android Utility Tools website."
   }
   </script>
   <style>
@@ -347,6 +347,13 @@
       line-height:1.2;
       letter-spacing:-.2px;
       word-break:break-word;
+    }
+
+    .app-subtitle{
+      color:var(--m3-outline);
+      font-size:14px;
+      margin:4px 0 9px;
+      font-weight:500;
     }
 
     .chip-group{
@@ -966,6 +973,7 @@
   </footer></div><script>
 const appData = {
   appName: "XoniTools",
+  subtitle: "Android Utility Tools",
   version: "2.31",
   downloadLink: "https://www.dropbox.com/scl/fi/i8en1ncatgv92ppkbk451/XoniTools-v2.31.apk?rlkey=px5hb4k924e9nudusd0twt1oc&st=kf62fkjv&dl=1",
   appIcon: "./1001200562.png",
@@ -1238,9 +1246,10 @@ function renderMainApp(lang) {
         >
 
         <div class="app-meta-text">
-          <h1 class="app-title">${escapeHTML(data.appName)}</h1>
+            <h1 class="app-title">${escapeHTML(data.appName)}</h1>
+            <p class="app-subtitle">${escapeHTML(data.subtitle)}</p>
 
-          <div class="chip-group">
+            <div class="chip-group">
             <span class="m3-chip">v${escapeHTML(data.version)}</span>
 
             <span class="m3-chip ${statusClass}">
