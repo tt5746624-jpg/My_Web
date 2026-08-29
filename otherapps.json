@@ -1,8 +1,23 @@
 [
   {
     "name": "DevVault",
+    "slug": "devvault",
     "icon": "./devvault.png",
     "link": "https://t.me/devault_mm/8",
-    "available": true
+    "available": true,
+    "version": "Latest",
+    "category": "Android Utility Tools",
+    "description": "Explore DevVault, view its app information, and open the official download source.",
+    "descriptionMM": "DevVault ၏ app information ကိုကြည့်ရှုပြီး official download source သို့ ဝင်ရောက်နိုင်ပါသည်။",
+    "features": [
+      "Official download source",
+      "Simple and focused experience",
+      "Regular information updates"
+    ],
+    "featuresMM": [
+      "Official download source",
+      "ရိုးရှင်းပြီး အသုံးပြုရလွယ်ကူသော experience",
+      "အချက်အလက် update များ"
+    ]
   }
 ]

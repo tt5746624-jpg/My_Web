@@ -548,6 +548,100 @@
       box-shadow:0 12px 28px rgba(0,0,0,.25);
     }
 
+    .app-detail-page{
+      display:grid;
+      gap:18px;
+      animation:cardEnter .55s cubic-bezier(.2,.8,.2,1) both;
+    }
+
+    .app-detail-hero{
+      padding:24px;
+      display:flex;
+      align-items:center;
+      gap:18px;
+    }
+
+    .app-detail-icon{
+      width:88px;
+      height:88px;
+      border-radius:24px;
+      object-fit:cover;
+      background:#2d2a20;
+      box-shadow:0 10px 24px rgba(0,0,0,.28);
+      flex-shrink:0;
+    }
+
+    .app-detail-title{
+      font-size:clamp(26px,5vw,38px);
+      line-height:1.1;
+      margin-bottom:7px;
+    }
+
+    .app-detail-category{
+      color:var(--m3-primary);
+      font-size:14px;
+      font-weight:700;
+    }
+
+    .app-detail-review{
+      padding:22px;
+    }
+
+    .app-detail-review h2,
+    .app-detail-review h3{
+      margin-bottom:9px;
+    }
+
+    .app-detail-review p{
+      color:var(--m3-outline);
+      line-height:1.7;
+    }
+
+    .app-detail-features{
+      display:grid;
+      gap:10px;
+      margin-top:16px;
+    }
+
+    .app-detail-feature{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      color:var(--m3-on-bg);
+    }
+
+    .app-detail-feature::before{
+      content:"✓";
+      color:var(--m3-primary);
+      font-weight:800;
+    }
+
+    .app-detail-actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:18px;
+    }
+
+    .app-detail-back{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-height:44px;
+      padding:0 18px;
+      border:1px solid var(--m3-glass-border);
+      border-radius:999px;
+      color:var(--m3-on-bg);
+      text-decoration:none;
+      font-weight:700;
+      background:var(--m3-glass);
+    }
+
+    .app-detail-back:hover{
+      border-color:var(--m3-primary);
+      color:var(--m3-primary);
+    }
+
     .other-app-icon{
       width:70px;
       height:70px;
@@ -787,6 +881,11 @@
     @media(max-width:380px){
       .other-apps-grid{
         grid-template-columns:1fr;
+      }
+
+      .app-detail-hero{
+        align-items:flex-start;
+        flex-direction:column;
       }
 
       .app-info-card{
@@ -1041,6 +1140,9 @@ const i18n = {
     footerText: "© 2026 XoniTools. All rights reserved.",
     otherAppsTitle: "Other Apps",
     otherDownload: "Download",
+    reviewDownload: "Review & Download",
+    backHome: "Back to Home",
+    appReviewTitle: "App Review",
     otherUnavailable: "Unavailable",
     explore: "Explore",
     screenshotsNav: "Screenshots",
@@ -1069,6 +1171,9 @@ const i18n = {
     footerText: "© 2026 XoniTools။ မူပိုင်ခွင့်များရယူထားပါသည်။",
     otherAppsTitle: "အခြားအက်ပ်များ",
     otherDownload: "ဒေါင်းလုဒ်",
+    reviewDownload: "Review နှင့် Download",
+    backHome: "ပင်မစာမျက်နှာသို့ ပြန်သွားရန်",
+    appReviewTitle: "App Review",
     otherUnavailable: "မရနိုင်ပါ",
     explore: "လေ့လာရန်",
     screenshotsNav: "Screenshots",
@@ -1105,6 +1210,15 @@ function safeUrl(url) {
   } catch {
     return "#";
   }
+}
+
+function appSlug(app) {
+  const raw = String(app.slug || app.name || "app").toLowerCase().trim();
+  return raw.replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "") || "app";
+}
+
+function appRoute(app) {
+  return "/" + appSlug(app);
 }
 
 function getLang() {
@@ -1392,6 +1506,53 @@ function setupExtraSectionEvents() {
 
 /* ---------- Other Apps ---------- */
 
+function renderAppDetail(app, lang) {
+  const main = document.getElementById("mainContent");
+  const container = document.getElementById("otherAppsContainer");
+  const dict = i18n[lang];
+  const name = escapeHTML(app.name || "App");
+  const icon = escapeHTML(app.icon || "");
+  const externalLink = safeUrl(app.link || "");
+  const description = lang === "en" ? (app.description || "Explore this app and open its official download source.") : (app.descriptionMM || app.description || "App information နှင့် official download source ကိုကြည့်ရှုနိုင်ပါသည်။");
+  const featureList = (lang === "en" ? app.features : app.featuresMM) || app.features || [];
+  const version = escapeHTML(app.version || "Latest");
+  const category = escapeHTML(app.category || "Android Utility Tools");
+
+  document.title = `${app.name || "App"} · XoniTools`;
+  container.hidden = true;
+  container.innerHTML = "";
+  ["screenshots", "updates", "faq"].forEach(id => {
+    document.getElementById(id).hidden = true;
+  });
+
+  main.innerHTML = `
+    <div class="app-detail-page">
+      <a class="app-detail-back" href="/">← ${escapeHTML(dict.backHome || "Back to Home")}</a>
+      <section class="app-detail-hero glass-panel">
+        <img class="app-detail-icon" src="${icon}" alt="${name}" onerror="this.style.display='none'">
+        <div>
+          <div class="app-detail-category">${category}</div>
+          <h1 class="app-detail-title">${name}</h1>
+          <div class="chip-group">
+            <span class="m3-chip">v${version}</span>
+            <span class="m3-chip status-online"><span class="status-dot"></span>${escapeHTML(dict.statusAvail)}</span>
+          </div>
+        </div>
+      </section>
+      <section class="app-detail-review glass-panel">
+        <h2>${escapeHTML(dict.appReviewTitle || "App Review")}</h2>
+        <p>${escapeHTML(description)}</p>
+        ${featureList.length ? `<div class="app-detail-features">${featureList.map(item => `<div class="app-detail-feature">${escapeHTML(item)}</div>`).join("")}</div>` : ""}
+        <div class="app-detail-actions">
+          <a class="m3-download-btn" href="${externalLink}" target="_blank" rel="noopener noreferrer">
+            ${escapeHTML(dict.reviewDownload || "Review & Download")}
+          </a>
+        </div>
+      </section>
+    </div>
+  `;
+}
+
 function renderOtherApps(apps, lang) {
   const container = document.getElementById("otherAppsContainer");
   const dict = i18n[lang];
@@ -1406,9 +1567,9 @@ function renderOtherApps(apps, lang) {
     const available = app.available !== false;
     const name = escapeHTML(app.name || "App");
     const icon = escapeHTML(app.icon || "");
-    const link = safeUrl(app.link || "");
+    const link = available ? appRoute(app) : "#";
     const text = available
-      ? dict.otherDownload
+      ? (dict.reviewDownload || dict.otherDownload)
       : dict.otherUnavailable;
 
     return `
@@ -1427,7 +1588,7 @@ function renderOtherApps(apps, lang) {
         <a
           href="${available ? link : "#"}"
           class="other-app-download ${available ? "" : "disabled"}"
-          ${available && link !== "#" ? 'target="_blank" rel="noopener noreferrer"' : ""}
+          ${available && link !== "#" ? "" : ""}
         >
           <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="14">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -1477,7 +1638,16 @@ async function loadOtherApps(lang) {
         ? data.apps
         : [];
 
-    renderOtherApps(apps, lang);
+    const requestedSlug = window.location.pathname.replace(/^\/+|\/+$/g, "").toLowerCase();
+    const detailApp = requestedSlug && requestedSlug !== "index.html"
+      ? apps.find(app => appSlug(app) === requestedSlug)
+      : null;
+
+    if (detailApp) {
+      renderAppDetail(detailApp, lang);
+    } else {
+      renderOtherApps(apps, lang);
+    }
 
   } catch (error) {
     console.warn("otherapps.json could not be loaded:", error);
