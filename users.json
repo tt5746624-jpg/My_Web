@@ -1,0 +1,33 @@
+{
+  "users": [
+    {
+      "username": "admin",
+      "password": "admin",
+      "devices": [
+        "7b9ee6e4e27bc303",
+        "1d928aaf321ac908"
+      ]
+    },
+    {
+      "username": "SCHARYS",
+      "password": "Metinmert3031+",
+      "devices": [
+        "8f85381cb78b6a7f"
+      ]
+    },
+    {
+      "username": "lmods",
+      "password": "zxcv.1234",
+      "devices": [
+        "35d24241723f0f68"
+      ]
+    },
+    {
+      "username": "charles",
+      "password": "zxcv.1234",
+      "devices": [
+        "609a2524cffb9031"
+      ]
+    }
+  ]
+}
