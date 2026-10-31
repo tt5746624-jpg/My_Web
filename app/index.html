@@ -14,14 +14,13 @@
 
         body {
             font-family: 'Roboto', system-ui, -apple-system, sans-serif;
-            background-color: #141218; /* M3 Dark Surface */
-            color: #E6E0E9; /* M3 On Surface */
+            background-color: #141218;
+            color: #E6E0E9;
             height: auto;
             overflow-x: hidden;
             padding: 24px 20px 20px 20px;
         }
 
-        /* Top Header (Leaves space on the right for the native ✕ button) */
         .header {
             padding-right: 42px;
             margin-bottom: 18px;
@@ -30,8 +29,8 @@
         .chip {
             display: inline-flex;
             align-items: center;
-            background-color: #4F378B; /* M3 Primary Container */
-            color: #EADDFF; /* M3 On Primary Container */
+            background-color: #4F378B;
+            color: #EADDFF;
             font-size: 11px;
             font-weight: 600;
             padding: 5px 12px;
@@ -51,12 +50,11 @@
 
         .header p {
             font-size: 13.5px;
-            color: #CAC4D0; /* M3 On Surface Variant */
+            color: #CAC4D0;
         }
 
-        /* Material 3 Surface Container Card */
         .surface-card {
-            background-color: #211F26; /* M3 Surface Container */
+            background-color: #211F26;
             border: 1px solid #36343B;
             border-radius: 16px;
             padding: 16px;
@@ -66,7 +64,7 @@
         .card-title {
             font-size: 14px;
             font-weight: 600;
-            color: #D0BCFF; /* M3 Primary */
+            color: #D0BCFF;
             margin-bottom: 10px;
             display: flex;
             align-items: center;
@@ -100,7 +98,6 @@
             line-height: 1.2;
         }
 
-        /* Material 3 Pill Buttons */
         .actions {
             display: flex;
             flex-direction: column;
@@ -112,8 +109,8 @@
             align-items: center;
             justify-content: center;
             width: 100%;
-            background-color: #D0BCFF; /* M3 Primary */
-            color: #381E72; /* M3 On Primary */
+            background-color: #D0BCFF;
+            color: #381E72;
             text-decoration: none;
             font-size: 14px;
             font-weight: 600;
@@ -127,8 +124,8 @@
             align-items: center;
             justify-content: center;
             width: 100%;
-            background-color: #332D41; /* M3 Secondary Container */
-            color: #E8DEF8; /* M3 On Secondary Container */
+            background-color: #332D41;
+            color: #E8DEF8;
             text-decoration: none;
             font-size: 14px;
             font-weight: 600;
@@ -142,10 +139,66 @@
             opacity: 0.8;
         }
 
+        /* Premium Section - Added */
+        .premium-card {
+            background: linear-gradient(145deg, #30264A, #211F26);
+            border: 1px solid #8065B5;
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 20px;
+        }
+
+        .premium-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: #EADDFF;
+            margin-bottom: 8px;
+        }
+
+        .premium-description {
+            font-size: 13px;
+            line-height: 1.6;
+            color: #CAC4D0;
+            margin-bottom: 14px;
+        }
+
+        .premium-list {
+            list-style: none;
+            font-size: 13px;
+            color: #E8DEF8;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .premium-list li::before {
+            content: "✓ ";
+            color: #D0BCFF;
+            font-weight: bold;
+        }
+
+        .btn-premium {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            background-color: #D0BCFF;
+            color: #381E72;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 700;
+            padding: 14px 20px;
+            border-radius: 100px;
+            transition: opacity 0.2s;
+        }
+
+        .btn-premium:active {
+            opacity: 0.8;
+        }
+
         .footer {
             text-align: center;
             font-size: 11px;
-            color: #938F99; /* M3 Outline */
+            color: #938F99;
             margin-top: 16px;
             letter-spacing: 0.3px;
         }
@@ -168,16 +221,37 @@
         </ul>
     </div>
 
+    <!-- Premium Section -->
+    <div class="premium-card">
+        <div class="premium-title">✦ XoniTools Premium</div>
+
+        <p class="premium-description">
+            Upgrade to XoniTools Premium and enjoy an ad-free experience.
+            Support our development and get uninterrupted access to your tools.
+        </p>
+
+        <ul class="premium-list">
+            <li>Remove Ads from XoniTools</li>
+            <li>Enjoy a cleaner user experience</li>
+            <li>Support future updates and development</li>
+            <li>Enjoy uninterrupted tool usage</li>
+        </ul>
+
+        <a href="https://t.me/xoni_l" class="btn-premium">
+            ✦ Buy Premium - Remove Ads
+        </a>
+    </div>
+
     <div class="actions">
         <a href="https://t.me/xiotool" class="btn-filled">
             Join Telegram (@xiotool)
         </a>
+
         <a href="https://xonitool.vercel.app/app/index.html" class="btn-tonal">
             Open Official Website
         </a>
     </div>
 
-    <!-- Change Notice number (#01, #02, etc.) whenever you want the dialog to pop up again -->
     <div class="footer">
         XoniTools • Notice #01
     </div>
