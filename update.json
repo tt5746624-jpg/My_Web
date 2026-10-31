@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "maintenance": {
+    "enabled": false,
+    "title": "Scheduled maintenance",
+    "title_my": "ပြုပြင်ထိန်းသိမ်းနေသည်",
+    "message": "Service work is in progress. Please try again later.",
+    "message_my": "ဝန်ဆောင်မှု ပြုပြင်ထိန်းသိမ်းနေပါသည်။ ခဏအကြာတွင် ထပ်မံစမ်းကြည့်ပါ။"
+  },
+  "update": {
+    "enabled": false,
+    "latest_version_code": 75,
+    "latest_version_name": "1.5.1",
+    "title": "Update available",
+    "title_my": "အပ်ဒိတ်အသစ် ရရှိနိုင်ပါပြီ",
+    "message": "A newer version of Xoni Ping Booster is ready.",
+    "message_my": "Xoni Ping Booster ဗားရှင်းအသစ် ရရှိနိုင်ပါပြီ။",
+    "download_url": ""
+  }
+}
