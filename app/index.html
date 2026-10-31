@@ -1,1 +1,177 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>XoniTools Notice</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
 
+        body {
+            font-family: system-ui, -apple-system, 'Pyidaungsu', sans-serif;
+            background-color: #ffffff;
+            color: #1e293b;
+            height: auto;
+            overflow-x: hidden;
+        }
+
+        /* အပေါ်ပိုင်း Header နှင့် ✕ ခလုတ်အတွက် နေရာချန်ထားခြင်း */
+        .header {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            padding: 24px 20px 20px 20px;
+            color: #ffffff;
+            position: relative;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 50px;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        .header h1 {
+            font-size: 20px;
+            font-weight: 800;
+            margin-bottom: 4px;
+            padding-right: 36px; /* ညာဘက်အပေါ်က ✕ ခလုတ်နဲ့ မထပ်စေရန် */
+        }
+
+        .header p {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        /* အလယ်ပိုင်း အကြောင်းအရာများ */
+        .content {
+            padding: 20px;
+        }
+
+        .message-box {
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 14px;
+            margin-bottom: 16px;
+        }
+
+        .message-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 8px;
+        }
+
+        .feature-list {
+            list-style: none;
+            font-size: 13.5px;
+            line-height: 1.6;
+            color: #475569;
+        }
+
+        .feature-list li {
+            position: relative;
+            padding-left: 20px;
+            margin-bottom: 6px;
+        }
+
+        .feature-list li::before {
+            content: "✦";
+            position: absolute;
+            left: 0;
+            color: #6366f1;
+            font-weight: bold;
+        }
+
+        /* ခလုတ်များ (နှိပ်လျှင် ပြင်ပ Browser/App ဖြင့် ပွင့်မည်) */
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .btn-primary {
+            display: block;
+            width: 100%;
+            text-align: center;
+            background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%);
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 12px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
+        }
+
+        .btn-secondary {
+            display: block;
+            width: 100%;
+            text-align: center;
+            background-color: #f1f5f9;
+            color: #334155;
+            text-decoration: none;
+            font-size: 13.5px;
+            font-weight: 600;
+            padding: 11px;
+            border-radius: 10px;
+        }
+
+        .footer-note {
+            text-align: center;
+            font-size: 11px;
+            color: #94a3b8;
+            margin-top: 14px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Notice ID: v1.0 (Dialog အသစ်ပြန်ပေါ်စေချင်တိုင်း ဒီဂဏန်းကို ပြောင်းပေးပါ) -->
+
+    <div class="header">
+        <span class="badge">XoniTools Update</span>
+        <h1>XoniTools မှ ကြိုဆိုပါတယ်!</h1>
+        <p>ဗားရှင်းအသစ်နှင့် သတင်းအချက်အလက်များ</p>
+    </div>
+
+    <div class="content">
+        <div class="message-box">
+            <div class="message-title">🔥 ဘာတွေအသစ်ပါလာလဲ?</div>
+            <ul class="feature-list">
+                <li>Tools များအားလုံးကို ပိုမိုမြန်ဆန်အောင် မြှင့်တင်ထားပါတယ်။</li>
+                <li>Server အသစ်ချိတ်ဆက်ထားပြီး Error များကို ပြင်ဆင်ပြီးပါပြီ။</li>
+                <li>အသုံးပြုနည်းနှင့် Update များကို Telegram တွင် ဝင်ရောက်ကြည့်ရှုနိုင်ပါတယ်။</li>
+            </ul>
+        </div>
+
+        <div class="btn-group">
+            <!-- Telegram သို့မဟုတ် Website Link ထည့်ရန် -->
+            <a href="https://t.me/xiotool" class="btn-primary">
+                📢 Telegram Channel သို့ ဝင်ရန်
+            </a>
+
+            <!-- ဒုတိယခလုတ် မလိုအပ်ပါက ဖျက်ထားနိုင်ပါသည် -->
+            <a href="https://xonitool.vercel.app/" class="btn-secondary">
+                ⬇️ ဗားရှင်းအသစ် ဒေါင်းလုဒ်ဆွဲရန်
+            </a>
+        </div>
+
+        <div class="footer-note">
+            XoniTools Official • Notice #01
+        </div>
+    </div>
+
+</body>
+</html>
