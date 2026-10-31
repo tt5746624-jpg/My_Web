@@ -1,7 +1,7 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "maintenance": {
-    "enabled": false,
+    "enabled": true,
     "title": "Scheduled maintenance",
     "title_my": "ပြုပြင်ထိန်းသိမ်းနေသည်",
     "message": "Service work is in progress. Please try again later.",
