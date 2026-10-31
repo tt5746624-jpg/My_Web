@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="my">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>XoniTools Notice</title>
+    <title>XoniTools</title>
     <style>
         * {
             box-sizing: border-box;
@@ -13,164 +13,173 @@
         }
 
         body {
-            font-family: system-ui, -apple-system, 'Pyidaungsu', sans-serif;
-            background-color: #ffffff;
-            color: #1e293b;
+            font-family: 'Roboto', system-ui, -apple-system, sans-serif;
+            background-color: #141218; /* M3 Dark Surface */
+            color: #E6E0E9; /* M3 On Surface */
             height: auto;
             overflow-x: hidden;
-        }
-
-        /* အပေါ်ပိုင်း Header နှင့် ✕ ခလုတ်အတွက် နေရာချန်ထားခြင်း */
-        .header {
-            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
             padding: 24px 20px 20px 20px;
-            color: #ffffff;
-            position: relative;
         }
 
-        .badge {
-            display: inline-block;
-            background: rgba(255, 255, 255, 0.2);
-            color: #ffffff;
+        /* Top Header (Leaves space on the right for the native ✕ button) */
+        .header {
+            padding-right: 42px;
+            margin-bottom: 18px;
+        }
+
+        .chip {
+            display: inline-flex;
+            align-items: center;
+            background-color: #4F378B; /* M3 Primary Container */
+            color: #EADDFF; /* M3 On Primary Container */
             font-size: 11px;
-            font-weight: 700;
-            padding: 4px 10px;
-            border-radius: 50px;
-            letter-spacing: 0.5px;
-            margin-bottom: 8px;
+            font-weight: 600;
+            padding: 5px 12px;
+            border-radius: 8px;
+            letter-spacing: 0.6px;
+            margin-bottom: 12px;
             text-transform: uppercase;
         }
 
         .header h1 {
-            font-size: 20px;
-            font-weight: 800;
+            font-size: 22px;
+            font-weight: 600;
+            color: #E6E0E9;
+            letter-spacing: -0.2px;
             margin-bottom: 4px;
-            padding-right: 36px; /* ညာဘက်အပေါ်က ✕ ခလုတ်နဲ့ မထပ်စေရန် */
         }
 
         .header p {
-            font-size: 13px;
-            color: rgba(255, 255, 255, 0.85);
+            font-size: 13.5px;
+            color: #CAC4D0; /* M3 On Surface Variant */
         }
 
-        /* အလယ်ပိုင်း အကြောင်းအရာများ */
-        .content {
-            padding: 20px;
+        /* Material 3 Surface Container Card */
+        .surface-card {
+            background-color: #211F26; /* M3 Surface Container */
+            border: 1px solid #36343B;
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 20px;
         }
 
-        .message-box {
-            background-color: #f8fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 12px;
-            padding: 14px;
-            margin-bottom: 16px;
-        }
-
-        .message-title {
+        .card-title {
             font-size: 14px;
-            font-weight: 700;
-            color: #0f172a;
-            margin-bottom: 8px;
+            font-weight: 600;
+            color: #D0BCFF; /* M3 Primary */
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
         .feature-list {
             list-style: none;
             font-size: 13.5px;
-            line-height: 1.6;
-            color: #475569;
+            line-height: 1.5;
+            color: #CAC4D0;
         }
 
         .feature-list li {
             position: relative;
-            padding-left: 20px;
-            margin-bottom: 6px;
+            padding-left: 18px;
+            margin-bottom: 8px;
+        }
+
+        .feature-list li:last-child {
+            margin-bottom: 0;
         }
 
         .feature-list li::before {
-            content: "✦";
+            content: "•";
             position: absolute;
-            left: 0;
-            color: #6366f1;
+            left: 2px;
+            color: #D0BCFF;
             font-weight: bold;
+            font-size: 16px;
+            line-height: 1.2;
         }
 
-        /* ခလုတ်များ (နှိပ်လျှင် ပြင်ပ Browser/App ဖြင့် ပွင့်မည်) */
-        .btn-group {
+        /* Material 3 Pill Buttons */
+        .actions {
             display: flex;
             flex-direction: column;
             gap: 10px;
         }
 
-        .btn-primary {
-            display: block;
+        .btn-filled {
+            display: flex;
+            align-items: center;
+            justify-content: center;
             width: 100%;
-            text-align: center;
-            background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%);
-            color: #ffffff;
+            background-color: #D0BCFF; /* M3 Primary */
+            color: #381E72; /* M3 On Primary */
             text-decoration: none;
             font-size: 14px;
             font-weight: 600;
-            padding: 12px;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
+            padding: 13px 20px;
+            border-radius: 100px;
+            transition: opacity 0.2s;
         }
 
-        .btn-secondary {
-            display: block;
+        .btn-tonal {
+            display: flex;
+            align-items: center;
+            justify-content: center;
             width: 100%;
-            text-align: center;
-            background-color: #f1f5f9;
-            color: #334155;
+            background-color: #332D41; /* M3 Secondary Container */
+            color: #E8DEF8; /* M3 On Secondary Container */
             text-decoration: none;
-            font-size: 13.5px;
+            font-size: 14px;
             font-weight: 600;
-            padding: 11px;
-            border-radius: 10px;
+            padding: 13px 20px;
+            border-radius: 100px;
+            border: 1px solid #49454F;
+            transition: opacity 0.2s;
         }
 
-        .footer-note {
+        .btn-filled:active, .btn-tonal:active {
+            opacity: 0.8;
+        }
+
+        .footer {
             text-align: center;
             font-size: 11px;
-            color: #94a3b8;
-            margin-top: 14px;
+            color: #938F99; /* M3 Outline */
+            margin-top: 16px;
+            letter-spacing: 0.3px;
         }
     </style>
 </head>
 <body>
 
-    <!-- Notice ID: v1.0 (Dialog အသစ်ပြန်ပေါ်စေချင်တိုင်း ဒီဂဏန်းကို ပြောင်းပေးပါ) -->
-
     <div class="header">
-        <span class="badge">XoniTools Update</span>
-        <h1>XoniTools မှ ကြိုဆိုပါတယ်!</h1>
-        <p>ဗားရှင်းအသစ်နှင့် သတင်းအချက်အလက်များ</p>
+        <span class="chip">New Release</span>
+        <h1>XoniTools Update</h1>
+        <p>Latest announcements & resources</p>
     </div>
 
-    <div class="content">
-        <div class="message-box">
-            <div class="message-title">🔥 ဘာတွေအသစ်ပါလာလဲ?</div>
-            <ul class="feature-list">
-                <li>Tools များအားလုံးကို ပိုမိုမြန်ဆန်အောင် မြှင့်တင်ထားပါတယ်။</li>
-                <li>Server အသစ်ချိတ်ဆက်ထားပြီး Error များကို ပြင်ဆင်ပြီးပါပြီ။</li>
-                <li>အသုံးပြုနည်းနှင့် Update များကို Telegram တွင် ဝင်ရောက်ကြည့်ရှုနိုင်ပါတယ်။</li>
-            </ul>
-        </div>
+    <div class="surface-card">
+        <div class="card-title">✦ What's New</div>
+        <ul class="feature-list">
+            <li>Enhanced performance and faster tool execution.</li>
+            <li>Improved server stability with major bug fixes.</li>
+            <li>Join our official Telegram channel for latest updates.</li>
+        </ul>
+    </div>
 
-        <div class="btn-group">
-            <!-- Telegram သို့မဟုတ် Website Link ထည့်ရန် -->
-            <a href="https://t.me/xiotool" class="btn-primary">
-                📢 Telegram Channel သို့ ဝင်ရန်
-            </a>
+    <div class="actions">
+        <a href="https://t.me/xiotool" class="btn-filled">
+            Join Telegram (@xiotool)
+        </a>
+        <a href="https://xonitool.vercel.app/app/index.html" class="btn-tonal">
+            Open Official Website
+        </a>
+    </div>
 
-            <!-- ဒုတိယခလုတ် မလိုအပ်ပါက ဖျက်ထားနိုင်ပါသည် -->
-            <a href="https://xonitool.vercel.app/" class="btn-secondary">
-                ⬇️ ဗားရှင်းအသစ် ဒေါင်းလုဒ်ဆွဲရန်
-            </a>
-        </div>
-
-        <div class="footer-note">
-            XoniTools Official • Notice #01
-        </div>
+    <!-- Change Notice number (#01, #02, etc.) whenever you want the dialog to pop up again -->
+    <div class="footer">
+        XoniTools • Notice #01
     </div>
 
 </body>
