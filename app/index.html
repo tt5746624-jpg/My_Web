@@ -1,260 +1,274 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>XoniTools</title>
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            -webkit-tap-highlight-color: transparent;
-        }
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f3f0e6">
+  <title>XoniTools — Release Notes 01</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --paper: #f3f0e6;
+      --ink: #171917;
+      --blue: #2e52e3;
+      --coral: #ff6d48;
+      --line: rgba(23, 25, 23, .24);
+      --muted: #555850;
+      --mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      --sans: "Arial Nova", "Helvetica Neue", Arial, sans-serif;
+    }
 
-        body {
-            font-family: 'Roboto', system-ui, -apple-system, sans-serif;
-            background-color: #edf5f4;
-            color: #132d35;
-            height: auto;
-            overflow-x: hidden;
-            padding: 24px 20px 20px 20px;
-        }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--sans);
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; }
+    a:focus-visible {
+      outline: 3px solid var(--coral);
+      outline-offset: 5px;
+    }
+    .page { width: min(100% - 64px, 1440px); margin-inline: auto; }
+    .topline {
+      min-height: 68px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--ink);
+      font: 700 11px/1.2 var(--mono);
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+    .wordmark { text-decoration: none; letter-spacing: -.06em; font: 900 19px/1 var(--sans); }
+    .topline-meta { display: flex; align-items: center; gap: 20px; }
+    .live-mark { display: inline-flex; align-items: center; gap: 8px; }
+    .live-mark::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--coral); }
+    .hero {
+      min-height: 540px;
+      padding: clamp(54px, 9vw, 128px) 0 54px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(220px, .6fr);
+      gap: 36px;
+      align-items: end;
+      border-bottom: 1px solid var(--ink);
+    }
+    .eyebrow, .section-kicker, .micro-label {
+      font: 700 11px/1.4 var(--mono);
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    .eyebrow { display: flex; align-items: center; gap: 12px; margin-bottom: 28px; }
+    .eyebrow::before { content: ""; height: 2px; width: 34px; background: var(--coral); }
+    h1 {
+      max-width: 900px;
+      margin: 0;
+      font-size: clamp(72px, 13.3vw, 190px);
+      line-height: .78;
+      letter-spacing: -.095em;
+      font-weight: 900;
+    }
+    h1 span { display: block; color: var(--blue); }
+    .hero-bottom { margin-top: 42px; display: flex; align-items: baseline; gap: 24px; }
+    .hero-bottom p { max-width: 320px; margin: 0; font-size: 17px; line-height: 1.4; }
+    .issue { font: 700 11px/1 var(--mono); letter-spacing: .08em; white-space: nowrap; }
+    .cover-art {
+      min-height: 270px;
+      aspect-ratio: 1 / 1.1;
+      position: relative;
+      overflow: hidden;
+      background: var(--blue);
+      color: var(--paper);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transform: translateY(-4px);
+    }
+    .cover-art::before, .cover-art::after { content: ""; position: absolute; border: 1px solid rgba(243,240,230,.55); border-radius: 50%; width: 76%; aspect-ratio: 1; left: 12%; top: 17%; }
+    .cover-art::after { width: 52%; left: 24%; top: 29%; }
+    .cover-art .micro-label { z-index: 1; }
+    .art-glyph { position: absolute; inset: 0; display: grid; place-items: center; font-size: clamp(82px, 12vw, 160px); line-height: 1; font-weight: 900; letter-spacing: -.1em; color: var(--coral); text-shadow: 7px 7px 0 var(--ink); transform: rotate(-12deg); }
+    .cover-art .micro-label:last-child { align-self: flex-end; text-align: right; }
+    .release-grid {
+      display: grid;
+      grid-template-columns: minmax(170px, .65fr) minmax(0, 1.35fr);
+      border-bottom: 1px solid var(--ink);
+    }
+    .section-index { padding: 34px 22px 34px 0; border-right: 1px solid var(--ink); }
+    .section-kicker { color: var(--blue); margin-bottom: 18px; }
+    .index-number { font-size: clamp(68px, 10vw, 132px); line-height: .8; letter-spacing: -.09em; font-weight: 900; }
+    .section-heading { font-size: 13px; margin-top: 22px; font-weight: 700; }
+    .release-copy { padding: 34px 0 40px clamp(26px, 5vw, 72px); }
+    .release-copy h2 { max-width: 690px; margin: 0 0 28px; font-size: clamp(32px, 5vw, 62px); line-height: .98; letter-spacing: -.065em; font-weight: 800; }
+    .feature-list { list-style: none; padding: 0; margin: 0; counter-reset: updates; }
+    .feature-list li {
+      counter-increment: updates;
+      display: grid;
+      grid-template-columns: 42px 1fr;
+      gap: 12px;
+      border-top: 1px solid var(--line);
+      padding: 16px 0;
+      font-size: clamp(15px, 1.8vw, 19px);
+      line-height: 1.45;
+    }
+    .feature-list li::before { content: "0" counter(updates); color: var(--blue); font: 700 11px/1.6 var(--mono); }
+    .premium {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(220px, .7fr);
+      gap: 42px;
+      margin: 64px 0;
+      padding: clamp(26px, 5vw, 64px);
+      background: var(--ink);
+      color: var(--paper);
+      overflow: hidden;
+    }
+    .premium::after { content: "+"; position: absolute; right: 24px; top: -48px; color: rgba(243,240,230,.08); font-size: 270px; line-height: 1; font-weight: 300; pointer-events: none; }
+    .premium .section-kicker { color: var(--coral); }
+    .premium h2 { position: relative; z-index: 1; max-width: 560px; margin: 0 0 20px; font-size: clamp(34px, 5.5vw, 72px); line-height: .9; letter-spacing: -.07em; }
+    .premium-description { max-width: 560px; margin: 0; color: #d1d1c8; font-size: 16px; line-height: 1.65; }
+    .premium-detail { position: relative; z-index: 1; align-self: end; }
+    .premium-list { padding: 0; margin: 0 0 26px; list-style: none; }
+    .premium-list li { padding: 10px 0; border-bottom: 1px solid rgba(243,240,230,.25); font-size: 14px; line-height: 1.4; }
+    .premium-list li::before { content: "+"; color: var(--coral); margin-right: 12px; font: 700 14px var(--mono); }
+    .button {
+      min-height: 54px;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      border: 1px solid transparent;
+      background: var(--blue);
+      color: white;
+      text-decoration: none;
+      font: 700 12px/1.25 var(--mono);
+      letter-spacing: .025em;
+      transition: background-color .18s ease, color .18s ease, transform .18s ease;
+    }
+    .button::after { content: "↗"; font: 700 18px/1 var(--sans); }
+    .button:hover { background: var(--coral); color: var(--ink); transform: translateY(-2px); }
+    .premium .button { background: var(--coral); color: var(--ink); }
+    .premium .button:hover { background: var(--paper); }
+    .outro { display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: end; padding: 0 0 32px; }
+    .outro h2 { max-width: 500px; margin: 0; font-size: clamp(28px, 4.2vw, 54px); line-height: .95; letter-spacing: -.06em; }
+    .outro-links { display: flex; gap: 10px; flex-wrap: wrap; }
+    .outro-links .button { min-width: 220px; }
+    footer { display: flex; justify-content: space-between; gap: 18px; border-top: 1px solid var(--ink); padding: 18px 0 24px; font: 700 10px/1.4 var(--mono); letter-spacing: .09em; text-transform: uppercase; }
 
-        .header {
-            padding-right: 42px;
-            margin-bottom: 18px;
-        }
-
-        .chip {
-            display: inline-flex;
-            align-items: center;
-            background-color: #087f8c;
-            color: #ffffff;
-            font-size: 11px;
-            font-weight: 600;
-            padding: 5px 12px;
-            border-radius: 8px;
-            letter-spacing: 0.6px;
-            margin-bottom: 12px;
-            text-transform: uppercase;
-        }
-
-        .header h1 {
-            font-size: 22px;
-            font-weight: 600;
-            color: #132d35;
-            letter-spacing: -0.2px;
-            margin-bottom: 4px;
-        }
-
-        .header p {
-            font-size: 13.5px;
-            color: #526d71;
-        }
-
-        .surface-card {
-            background-color: #ffffff;
-            border: 1px solid #cadbd8;
-            border-radius: 16px;
-            padding: 16px;
-            margin-bottom: 20px;
-        }
-
-        .card-title {
-            font-size: 14px;
-            font-weight: 600;
-            color: #087f8c;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .feature-list {
-            list-style: none;
-            font-size: 13.5px;
-            line-height: 1.5;
-            color: #526d71;
-        }
-
-        .feature-list li {
-            position: relative;
-            padding-left: 18px;
-            margin-bottom: 8px;
-        }
-
-        .feature-list li:last-child {
-            margin-bottom: 0;
-        }
-
-        .feature-list li::before {
-            content: "•";
-            position: absolute;
-            left: 2px;
-            color: #087f8c;
-            font-weight: bold;
-            font-size: 16px;
-            line-height: 1.2;
-        }
-
-        .actions {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .btn-filled {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            background-color: #087f8c;
-            color: #ffffff;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 600;
-            padding: 13px 20px;
-            border-radius: 100px;
-            transition: opacity 0.2s;
-        }
-
-        .btn-tonal {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            background-color: #e0f0ee;
-            color: #173b42;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 600;
-            padding: 13px 20px;
-            border-radius: 100px;
-            border: 1px solid #b9d5d1;
-            transition: opacity 0.2s;
-        }
-
-        .btn-filled:active, .btn-tonal:active {
-            opacity: 0.8;
-        }
-
-        /* Premium Section - Added */
-        .premium-card {
-            background: linear-gradient(145deg, #d8f0ed, #ffffff);
-            border: 1px solid #70bdb4;
-            border-radius: 16px;
-            padding: 16px;
-            margin-bottom: 20px;
-        }
-
-        .premium-title {
-            font-size: 15px;
-            font-weight: 700;
-            color: #132d35;
-            margin-bottom: 8px;
-        }
-
-        .premium-description {
-            font-size: 13px;
-            line-height: 1.6;
-            color: #526d71;
-            margin-bottom: 14px;
-        }
-
-        .premium-list {
-            list-style: none;
-            font-size: 13px;
-            color: #173b42;
-            line-height: 1.8;
-            margin-bottom: 15px;
-        }
-
-        .premium-list li::before {
-            content: "✓ ";
-            color: #087f8c;
-            font-weight: bold;
-        }
-
-        .btn-premium {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            background-color: #087f8c;
-            color: #ffffff;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 700;
-            padding: 14px 20px;
-            border-radius: 100px;
-            transition: opacity 0.2s;
-        }
-
-        .btn-premium:active {
-            opacity: 0.8;
-        }
-
-        .footer {
-            text-align: center;
-            font-size: 11px;
-            color: #637d80;
-            margin-top: 16px;
-            letter-spacing: 0.3px;
-        }
-    </style>
+    @media (min-width: 1100px) {
+      .hero { min-height: 620px; }
+      .release-copy { padding-right: 7%; }
+    }
+    @media (max-width: 700px) {
+      .page { width: min(100% - 36px, 600px); }
+      .topline { min-height: 58px; }
+      .topline-meta { gap: 10px; font-size: 9px; }
+      .hero { min-height: auto; padding: 66px 0 34px; grid-template-columns: 1fr; gap: 36px; }
+      .eyebrow { margin-bottom: 22px; }
+      h1 { font-size: clamp(68px, 18vw, 122px); }
+      .hero-bottom { margin-top: 28px; justify-content: space-between; gap: 12px; }
+      .hero-bottom p { font-size: 15px; max-width: 230px; }
+      .cover-art { width: min(72%, 290px); min-height: 220px; justify-self: end; aspect-ratio: 1.12; }
+      .release-grid { grid-template-columns: 1fr; }
+      .section-index { padding: 28px 0 18px; border-right: 0; border-bottom: 1px solid var(--ink); display: flex; align-items: end; gap: 20px; }
+      .section-index .section-kicker { margin: 0 auto 4px 0; }
+      .index-number { font-size: 76px; }
+      .section-heading { margin: 0 0 8px; }
+      .release-copy { padding: 28px 0 34px; }
+      .premium { grid-template-columns: 1fr; gap: 30px; margin: 42px 0; padding: 28px 22px; }
+      .premium::after { right: 0; top: 10px; font-size: 160px; }
+      .premium-detail { max-width: 440px; }
+      .outro { grid-template-columns: 1fr; }
+      .outro-links { display: grid; grid-template-columns: 1fr; }
+      .outro-links .button { min-width: 0; }
+    }
+    @media (max-width: 380px) {
+      .page { width: calc(100% - 28px); }
+      .topline-meta .live-mark { display: none; }
+      .hero-bottom { align-items: flex-start; flex-direction: column; }
+      .issue { order: -1; }
+      .cover-art { width: 80%; }
+      footer { flex-direction: column; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
+    }
+  </style>
 </head>
 <body>
+  <div class="page">
+    <header class="topline" aria-label="XoniTools release notes">
+      <a class="wordmark" href="https://xonitool.vercel.app/app/index.html" aria-label="XoniTools official website">XONI<span style="color: var(--blue)">TOOLS</span></a>
+      <div class="topline-meta"><span class="live-mark">New Release</span><span>Release notes / 01</span></div>
+    </header>
 
-    <div class="header">
-        <span class="chip">New Release</span>
-        <h1>XoniTools Update</h1>
-        <p>Latest announcements & resources</p>
-    </div>
+    <main>
+      <section class="hero" aria-labelledby="page-title">
+        <div>
+          <p class="eyebrow">Latest announcements &amp; resources</p>
+          <h1 id="page-title">XoniTools <span>Update</span></h1>
+          <div class="hero-bottom">
+            <p>Tools, tuned for what’s next.</p>
+            <span class="issue">NOTICE&nbsp; #01</span>
+          </div>
+        </div>
+        <div class="cover-art" aria-hidden="true">
+          <span class="micro-label">Field notes<br> / Product update</span>
+          <span class="art-glyph">X</span>
+          <span class="micro-label">Issue 01<br>New release</span>
+        </div>
+      </section>
 
-    <div class="surface-card">
-        <div class="card-title">✦ What's New</div>
-        <ul class="feature-list">
+      <section class="release-grid" aria-labelledby="whats-new">
+        <div class="section-index">
+          <p class="section-kicker">Release / 01</p>
+          <span class="index-number" aria-hidden="true">01</span>
+          <span class="section-heading">What changed</span>
+        </div>
+        <div class="release-copy">
+          <h2 id="whats-new">✦ What's New</h2>
+          <ul class="feature-list">
             <li>Enhanced performance and faster tool execution.</li>
             <li>Improved server stability with major bug fixes.</li>
             <li>Join our official Telegram channel for latest updates.</li>
-        </ul>
-    </div>
+          </ul>
+        </div>
+      </section>
 
-    <!-- Premium Section -->
-    <div class="premium-card">
-        <div class="premium-title">✦ XoniTools Premium</div>
-
-        <p class="premium-description">
-            Upgrade to XoniTools Premium and enjoy an ad-free experience.
-            Support our development and get uninterrupted access to your tools.
-        </p>
-
-        <ul class="premium-list">
+      <section class="premium" aria-labelledby="premium-title">
+        <div>
+          <p class="section-kicker">Support the work / Go uninterrupted</p>
+          <h2 id="premium-title">✦ XoniTools Premium</h2>
+          <p class="premium-description">Upgrade to XoniTools Premium and enjoy an ad-free experience.
+            Support our development and get uninterrupted access to your tools.</p>
+        </div>
+        <div class="premium-detail">
+          <ul class="premium-list">
             <li>Remove Ads from XoniTools</li>
             <li>Enjoy a cleaner user experience</li>
             <li>Support future updates and development</li>
             <li>Enjoy uninterrupted tool usage</li>
-        </ul>
+          </ul>
+          <a href="https://t.me/xoni_l" class="button">✦ Buy Premium - Remove Ads</a>
+        </div>
+      </section>
 
-        <a href="https://t.me/xoni_l" class="btn-premium">
-            ✦ Buy Premium - Remove Ads
-        </a>
-    </div>
+      <section class="outro" aria-labelledby="follow-title">
+        <h2 id="follow-title">Keep up with what’s<br>happening at XoniTools.</h2>
+        <nav class="outro-links" aria-label="XoniTools links">
+          <a href="https://t.me/xiotool" class="button">Join Telegram (@xiotool)</a>
+          <a href="https://xonitool.vercel.app/app/index.html" class="button">Open Official Website</a>
+        </nav>
+      </section>
+    </main>
 
-    <div class="actions">
-        <a href="https://t.me/xiotool" class="btn-filled">
-            Join Telegram (@xiotool)
-        </a>
-
-        <a href="https://xonitool.vercel.app/app/index.html" class="btn-tonal">
-            Open Official Website
-        </a>
-    </div>
-
-    <div class="footer">
-        XoniTools • Notice #01
-    </div>
-
+    <footer><span>XoniTools • Notice #01</span><span>Release notes / End</span></footer>
+  </div>
 </body>
 </html>
