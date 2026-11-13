@@ -1,8 +1,8 @@
-<!DOCTYPE html><html lang="en" data-theme="dark">
+<!DOCTYPE html><html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#0c0b09">
+  <meta name="theme-color" content="#edf5f4">
   <meta name="description" content="XoniTools is an Android Utility Tools platform with a clean interface, useful tools, regular updates, and official download information.">
   <meta name="keywords" content="XoniTools, Android Utility Tools, Android tools, utility app, Myanmar app">
   <meta name="author" content="XoniTools">
@@ -58,43 +58,45 @@
     }
 
     :root{
-      --m3-bg:#0c0b09;
-      --m3-on-bg:#EAE2D3;
-      --m3-glass:rgba(30,28,22,.58);
-      --m3-glass-raised:rgba(43,40,34,.72);
-      --m3-glass-border:rgba(255,255,255,.08);
-      --m3-primary:#D9C93B;
-      --m3-on-primary:#373100;
-      --m3-outline:#AAA392;
-      --m3-error:#FFB4AB;
-      --m3-success:#6DD58C;
-      --m3-surface:rgba(20,18,14,.75);
+      --m3-bg:#edf5f4;
+      --m3-on-bg:#132d35;
+      --m3-glass:rgba(255,255,255,.72);
+      --m3-glass-raised:rgba(255,255,255,.90);
+      --m3-glass-border:rgba(18,75,82,.11);
+      --m3-primary:#087f8c;
+      --m3-on-primary:#ffffff;
+      --m3-outline:#526d71;
+      --m3-error:#b6404b;
+      --m3-success:#16835d;
+      --m3-surface:rgba(245,251,250,.88);
     }
 
     [data-theme="light"]{
-      --m3-bg:#f4f2ec;
-      --m3-on-bg:#1D1B16;
-      --m3-glass:rgba(255,255,255,.68);
-      --m3-glass-raised:rgba(255,255,255,.88);
-      --m3-glass-border:rgba(0,0,0,.07);
-      --m3-primary:#6A5F00;
-      --m3-on-primary:#fff;
-      --m3-outline:#706C60;
-      --m3-error:#BA1A1A;
-      --m3-success:#146C2E;
-      --m3-surface:rgba(240,238,232,.82);
+      --m3-bg:#edf5f4;
+      --m3-on-bg:#132d35;
+      --m3-glass:rgba(255,255,255,.72);
+      --m3-glass-raised:rgba(255,255,255,.90);
+      --m3-glass-border:rgba(18,75,82,.11);
+      --m3-primary:#087f8c;
+      --m3-on-primary:#ffffff;
+      --m3-outline:#526d71;
+      --m3-error:#b6404b;
+      --m3-success:#16835d;
+      --m3-surface:rgba(245,251,250,.88);
     }
 
     [data-theme="dark"]{
-      --m3-bg:#080807;
-      --m3-on-bg:#f6efdf;
-      --m3-glass:rgba(25,24,18,.64);
-      --m3-glass-raised:rgba(46,43,33,.78);
-      --m3-glass-border:rgba(255,236,131,.14);
-      --m3-primary:#f2dc45;
-      --m3-on-primary:#2e2900;
-      --m3-outline:#bdb49b;
-      --m3-surface:rgba(17,16,13,.82);
+      --m3-bg:#07191f;
+      --m3-on-bg:#e6f5f3;
+      --m3-glass:rgba(14,40,47,.76);
+      --m3-glass-raised:rgba(21,58,67,.86);
+      --m3-glass-border:rgba(103,224,210,.16);
+      --m3-primary:#67e0d2;
+      --m3-on-primary:#06282b;
+      --m3-outline:#a7c2c1;
+      --m3-error:#ffb4ab;
+      --m3-success:#79ddb1;
+      --m3-surface:rgba(8,28,34,.90);
     }
 
     html{
@@ -145,7 +147,7 @@
     .orb-1{
       width:400px;
       height:400px;
-      background:rgba(217,201,59,.18);
+      background:rgba(8,127,140,.18);
       top:-15%;
       left:-20%;
       animation:orbFloat 14s ease-in-out infinite alternate;
@@ -154,7 +156,7 @@
     .orb-2{
       width:500px;
       height:500px;
-      background:rgba(217,201,59,.10);
+      background:rgba(49,157,184,.13);
       bottom:-20%;
       right:-20%;
       animation:orbFloat 18s ease-in-out -4s infinite alternate-reverse;
@@ -170,7 +172,7 @@
     }
 
     [data-theme="dark"] .glass-panel{
-      box-shadow:0 22px 60px rgba(0,0,0,.34),inset 0 1px 0 rgba(255,240,155,.055);
+      box-shadow:0 22px 60px rgba(0,0,0,.34),inset 0 1px 0 rgba(122,235,221,.06);
     }
 
     .app-wrapper{
@@ -223,7 +225,7 @@
       position:sticky;
       top:8px;
       z-index:100;
-      background:rgba(0,0,0,.28);
+      background:var(--m3-glass-raised);
       backdrop-filter:blur(14px);
       -webkit-backdrop-filter:blur(14px);
       border-radius:40px;
@@ -235,10 +237,10 @@
     .app-bar-title{
       font-size:20px;
       font-weight:700;
-      color:#fff;
-      text-shadow:0 2px 6px rgba(0,0,0,.6);
+      color:var(--m3-on-bg);
+      text-shadow:0 2px 6px rgba(7,25,31,.12);
       letter-spacing:.3px;
-      background:linear-gradient(110deg,#fff7b0 0%,#f2dc45 46%,#ffffff 55%,#f2dc45 72%);
+      background:linear-gradient(110deg,var(--m3-on-bg) 0%,var(--m3-primary) 46%,var(--m3-on-bg) 55%,var(--m3-primary) 72%);
       background-size:220% auto;
       -webkit-background-clip:text;
       background-clip:text;
@@ -256,9 +258,9 @@
       height:42px;
       border-radius:50%;
       border:none;
-      background:rgba(255,255,255,.09);
+      background:var(--m3-glass);
       backdrop-filter:blur(6px);
-      color:#fff;
+      color:var(--m3-on-bg);
       display:flex;
       align-items:center;
       justify-content:center;
@@ -279,8 +281,8 @@
     }
 
     .m3-icon-btn:hover{
-      background:rgba(255,236,131,.18);
-      box-shadow:0 0 0 5px rgba(242,220,69,.08),0 0 22px rgba(242,220,69,.18);
+      background:rgba(8,127,140,.14);
+      box-shadow:0 0 0 5px rgba(8,127,140,.08),0 0 22px rgba(8,127,140,.16);
       transform:translateY(-2px) rotate(3deg);
     }
 
@@ -332,7 +334,7 @@
       object-fit:cover;
       box-shadow:0 10px 20px rgba(0,0,0,.4);
       flex-shrink:0;
-      background:#2a271f;
+      background:var(--m3-glass-raised);
     }
 
     .app-meta-text{
@@ -401,7 +403,7 @@
       font-weight:700;
       text-decoration:none;
       transition:.25s;
-      box-shadow:0 8px 20px rgba(217,201,59,.25);
+      box-shadow:0 8px 20px rgba(8,127,140,.22);
       border:none;
       cursor:pointer;
       position:relative;
@@ -423,7 +425,7 @@
     .m3-download-btn:hover{
       filter:brightness(1.08);
       transform:translateY(-3px) scale(1.01);
-      box-shadow:0 12px 30px rgba(217,201,59,.34);
+      box-shadow:0 12px 30px rgba(8,127,140,.30);
     }
 
     .m3-download-btn:active{
@@ -480,7 +482,7 @@
       width:38px;
       height:38px;
       border-radius:14px;
-      background:rgba(217,201,59,.12);
+      background:rgba(8,127,140,.12);
       color:var(--m3-primary);
       display:flex;
       align-items:center;
@@ -566,7 +568,7 @@
       height:88px;
       border-radius:24px;
       object-fit:cover;
-      background:#2d2a20;
+      background:var(--m3-glass-raised);
       box-shadow:0 10px 24px rgba(0,0,0,.28);
       flex-shrink:0;
     }
@@ -648,7 +650,7 @@
       border-radius:18px;
       object-fit:cover;
       margin-bottom:12px;
-      background:#2d2a20;
+      background:var(--m3-glass-raised);
       box-shadow:0 4px 12px rgba(0,0,0,.3);
     }
 
@@ -676,7 +678,7 @@
       margin-top:6px;
       border:none;
       cursor:pointer;
-      box-shadow:0 4px 12px rgba(217,201,59,.2);
+      box-shadow:0 4px 12px rgba(8,127,140,.18);
     }
 
     .other-app-download:hover{
@@ -974,7 +976,7 @@
   </style></head><body lang-current="en"><script>
 (function(){
   try{
-    const savedTheme=localStorage.getItem("theme")||"dark";
+    const savedTheme=localStorage.getItem("theme")||"light";
     const savedLang=localStorage.getItem("lang")||"en";
 
     document.documentElement.setAttribute(
@@ -987,7 +989,7 @@
       savedLang==="my"?"my":"en"
     );
   }catch(e){
-    document.documentElement.setAttribute("data-theme","dark");
+    document.documentElement.setAttribute("data-theme","light");
   }
 })();
 </script><div class="ambient-bg">
@@ -1415,7 +1417,7 @@ function renderMainApp(lang) {
 
   icon.onerror = () => {
     icon.onerror = null;
-    icon.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='88' height='88' viewBox='0 0 88 88'%3E%3Crect width='88' height='88' rx='20' fill='%232d2a20'/%3E%3Ctext x='44' y='55' text-anchor='middle' fill='%23D9C93B' font-size='34' font-family='Arial'%3EX%3C/text%3E%3C/svg%3E";
+    icon.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='88' height='88' viewBox='0 0 88 88'%3E%3Crect width='88' height='88' rx='20' fill='%23d9eeeb'/%3E%3Ctext x='44' y='55' text-anchor='middle' fill='%23087f8c' font-size='34' font-family='Arial'%3EX%3C/text%3E%3C/svg%3E";
   };
 }
 
